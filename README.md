@@ -1,6 +1,6 @@
 # Doge Jump
 
-##Proposal
+## Proposal
 
 *Doge Jump* is a platform game where the player progresses through a vertical screen, 
 obtaining power-ups and defeating enemies in their path. The game will include:
