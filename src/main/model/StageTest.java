@@ -17,30 +17,27 @@ public class StageTest {
     void setUp() {
         stage = new Stage();
         stage.addWidePlatform(Stage.WIDTH / 2, Stage.HEIGHT / 2);
-        stage.addScreenWidePlatform(Stage.HEIGHT * 3 / 4);
-        stage.addWidePlatform(Stage.WIDTH / 2, Stage.HEIGHT / 4);
     }
 
     @Test
     void testGetPlatforms() {
+        stage.addScreenWidePlatform(Stage.HEIGHT * 3 / 4);
+        stage.addWidePlatform(Stage.WIDTH / 2, Stage.HEIGHT / 4);
+
         List<Platform> listOfPlatforms = new ArrayList<>();
         listOfPlatforms.add(new Platform(
-                (int) Math.round(Stage.WIDTH * Stage.WIDE_PLATFORM_MULTIPLIER),
-                Stage.PLATFORM_THICKNESS,
-                Stage.WIDTH / 2,
-                Stage.HEIGHT / 2));
+                Stage.WIDE_PLATFORM_WIDTH, Stage.PLATFORM_THICKNESS, Stage.WIDTH / 2, Stage.HEIGHT / 2));
         listOfPlatforms.add(new Platform(
-                Stage.WIDTH,
-                Stage.PLATFORM_THICKNESS,
-                Stage.WIDTH / 2,
-                Stage.HEIGHT * 3 / 4));
+                Stage.WIDTH, Stage.PLATFORM_THICKNESS, Stage.WIDTH / 2, Stage.HEIGHT * 3 / 4));
         listOfPlatforms.add(new Platform(
-                (int) Math.round(Stage.WIDTH * Stage.WIDE_PLATFORM_MULTIPLIER),
-                Stage.PLATFORM_THICKNESS,
-                Stage.WIDTH / 2,
-                Stage.HEIGHT / 4));
+                Stage.WIDE_PLATFORM_WIDTH, Stage.PLATFORM_THICKNESS, Stage.WIDTH / 2, Stage.HEIGHT / 4));
 
-        assertEquals(listOfPlatforms, stage.getPlatforms());
+        List<Platform> stagePlatforms = stage.getPlatforms();
+
+
+        for (int i = 0; i < 3; i++) {
+            assertTrue(listOfPlatforms.get(i).equals(stagePlatforms.get(i)));
+        }
     }
 
     @Test
@@ -66,7 +63,7 @@ public class StageTest {
         player.setCoordY(Stage.HEIGHT / 2 + Stage.PLATFORM_THICKNESS / 2 + 1);
         assertFalse(stage.isPlayerFallingOnAnyPlatform(player));
 
-        player.setCoordY(Stage.HEIGHT / 2 + Stage.PLATFORM_THICKNESS / 2 - 1);
+        player.setCoordY(Stage.HEIGHT / 2 + Stage.PLATFORM_THICKNESS / 2);
         assertTrue(stage.isPlayerFallingOnAnyPlatform(player));
 
         player.setCoordY(Stage.HEIGHT / 2);
@@ -83,12 +80,12 @@ public class StageTest {
         player.setDy(0);
 
         // On left edge of platform
-        player.setCoordX(Stage.WIDTH / 2 - (int) Math.round(Stage.WIDTH * Stage.WIDE_PLATFORM_MULTIPLIER));
+        player.setCoordX(Stage.WIDTH / 2 - Stage.WIDE_PLATFORM_WIDTH / 2);
 
         player.setCoordY(Stage.HEIGHT / 2 + Stage.PLATFORM_THICKNESS / 2 + 1);
         assertFalse(stage.isPlayerFallingOnAnyPlatform(player));
 
-        player.setCoordY(Stage.HEIGHT / 2 + Stage.PLATFORM_THICKNESS / 2 - 1);
+        player.setCoordY(Stage.HEIGHT / 2 + Stage.PLATFORM_THICKNESS / 2);
         assertTrue(stage.isPlayerFallingOnAnyPlatform(player));
 
         player.setCoordY(Stage.HEIGHT / 2);
@@ -98,7 +95,7 @@ public class StageTest {
         assertFalse(stage.isPlayerFallingOnAnyPlatform(player));
 
         // Left of left edge by one pixel
-        player.setCoordX(Stage.WIDTH / 2 - (int) Math.round(Stage.WIDTH * Stage.WIDE_PLATFORM_MULTIPLIER) - 1);
+        player.setCoordX(Stage.WIDTH / 2 - Stage.WIDE_PLATFORM_WIDTH);
         player.setCoordY(Stage.HEIGHT / 2);
         assertFalse(stage.isPlayerFallingOnAnyPlatform(player));
     }
@@ -109,12 +106,12 @@ public class StageTest {
         player.setDy(0);
 
         // On right edge of platform
-        player.setCoordX(Stage.WIDTH / 2 + (int) Math.round(Stage.WIDTH * Stage.WIDE_PLATFORM_MULTIPLIER));
+        player.setCoordX(Stage.WIDTH / 2 + Stage.WIDE_PLATFORM_WIDTH / 2);
 
         player.setCoordY(Stage.HEIGHT / 2 + Stage.PLATFORM_THICKNESS / 2 + 1);
         assertFalse(stage.isPlayerFallingOnAnyPlatform(player));
 
-        player.setCoordY(Stage.HEIGHT / 2 + Stage.PLATFORM_THICKNESS / 2 - 1);
+        player.setCoordY(Stage.HEIGHT / 2 + Stage.PLATFORM_THICKNESS / 2);
         assertTrue(stage.isPlayerFallingOnAnyPlatform(player));
 
         player.setCoordY(Stage.HEIGHT / 2);
@@ -124,7 +121,7 @@ public class StageTest {
         assertFalse(stage.isPlayerFallingOnAnyPlatform(player));
 
         // Right of right edge by one pixel
-        player.setCoordX(Stage.WIDTH / 2 + (int) Math.round(Stage.WIDTH * Stage.WIDE_PLATFORM_MULTIPLIER) + 1);
+        player.setCoordX(Stage.WIDTH / 2 + Stage.WIDE_PLATFORM_WIDTH);
         player.setCoordY(Stage.HEIGHT / 2);
         assertFalse(stage.isPlayerFallingOnAnyPlatform(player));
     }

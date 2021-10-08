@@ -71,6 +71,7 @@ public class Player {
     // MODIFIES: this
     // EFFECTS: Move the player based on its dy and DX
     public void move() {
-
+        this.coordX += DX;
+        this.coordY += dy;
     }
 }

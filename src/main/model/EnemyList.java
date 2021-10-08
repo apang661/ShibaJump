@@ -24,4 +24,15 @@ public class EnemyList {
     public Enemy getEnemy(int i) {
         return listOfEnemies.get(i);
     }
+
+
+    // EFFECTS: Returns true if list of enemies contains e
+    public boolean containsEnemy(Enemy e) {
+        return listOfEnemies.contains(e);
+    }
+
+    // EFFECTS: Returns the number of enemies in the list
+    public int size() {
+        return listOfEnemies.size();
+    }
 }

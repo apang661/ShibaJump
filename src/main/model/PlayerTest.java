@@ -16,7 +16,7 @@ public class PlayerTest {
         player.move();
 
         assertEquals(prevX + Player.DX, player.getCoordX());
-        assertEquals(prevY + player.getDy(), player.getCoordX());
+        assertEquals(prevY + player.getDy(), player.getCoordY());
     }
 
 }

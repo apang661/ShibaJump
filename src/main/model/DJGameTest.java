@@ -1,5 +1,7 @@
 package model;
 
+import model.bossenemies.BossCat;
+import model.regularenemies.RegularCat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,4 +38,18 @@ public class DJGameTest {
         game.setDogePoints(100);
         assertEquals(100, game.getDogePoints());
     }
+
+    @Test
+    void testAddEncounteredEnemy() {
+        Enemy regCat = new RegularCat();
+        Enemy bossCat = new BossCat();
+        game.addEncounteredEnemy(regCat);
+        game.addEncounteredEnemy(bossCat);
+
+        assertEquals(2, game.getEncounteredEnemies().size());
+        assertTrue(game.getEncounteredEnemies().containsEnemy(regCat));
+        assertTrue(game.getEncounteredEnemies().containsEnemy(bossCat));
+    }
+
+    void testGetStage() {}
 }

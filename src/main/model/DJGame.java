@@ -24,13 +24,18 @@ public class DJGame {
         this.player = new Player(CHARACTERS.get(0));
         this.stage = new Stage();
         this.dogePoints = 0;
+        this.encounteredEnemies = new EnemyList();
     }
 
     // REQUIRES: name is contained the names of CHARACTERS
     // MODIFIES: this
     // EFFECTS: Sets player to character with String name
     public void setCharacter(String name) {
-        // stub
+    }
+
+
+    public Player getPlayer() {
+        return player;
     }
 
     public void setUsername(String name) {
@@ -49,7 +54,15 @@ public class DJGame {
         return dogePoints;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Stage getStage() {
+        return stage;
+    }
+
+    public EnemyList getEncounteredEnemies() {
+        return encounteredEnemies;
+    }
+
+    public void addEncounteredEnemy(Enemy enemy) {
+        encounteredEnemies.addEnemy(enemy);
     }
 }
