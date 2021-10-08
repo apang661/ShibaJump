@@ -14,7 +14,7 @@ and I feel that it will be challenging and complex enough for me to become more 
 ## User Stories
 
 Here are four user stories that describe features that should be added in Phase 1:
-- As a user, I want to be able to select different characters to play.
-- As a user, I want to be able to choose my username.
-- As a game designer, I want to be able to create new types of enemies and power-ups.
-- As a game designer, I want to be able to add new characters to the list of playable characters.
+- As a user, I want to be able to enter, change, and view my username.
+- As a user, I want to be able to select and view different characters.
+- As a user, I want to be able to check my amount of DogePoints (User cannot earn DogePoints as of now).
+- As a user, I want to be able to add enemies to the list of enemies encountered.
