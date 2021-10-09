@@ -115,10 +115,12 @@ public class HomeScreenApp {
         int listSize = listOfString.size();
         if (listSize == 1) {
             result = listOfString.get(0);
-        } else if (listSize == 2 && isFirstRecursion) {
-            result = result.concat(listOfString.get(0) + " and " + listOfString.get(1));
         } else if (listSize == 2) {
-            result = result.concat(listOfString.get(0) + ", and " + listOfString.get(1));
+            if (isFirstRecursion) {
+                result = result.concat(listOfString.get(0) + " and " + listOfString.get(1));
+            } else {
+                result = result.concat(listOfString.get(0) + ", and " + listOfString.get(1));
+            }
         } else if (listSize > 2) {
             result = result.concat(listOfString.remove(0) + ", "
                     + placeCommaOrAndInBetweenStrings(listOfString, false));

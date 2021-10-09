@@ -33,11 +33,15 @@ public class Platform {
     //         (touching top surface to middle of platform)
     public boolean isPlayerFallingOnPlatform(Player player) {
         if (player.getDy() <= 0) {
-            int playerCoordX = player.getCoordX();
-            int playerCoordY = player.getCoordY();
-            boolean withinWidth = playerCoordX >= (coordX - width / 2) && playerCoordX <= (coordX + width / 2);
+            int playerLeftX = player.getCoordX() - player.getWidth() / 2;
+            int playerRightX = player.getCoordX() + player.getWidth() / 2;
+            int playerBottomY = player.getCoordY() - player.getHeight() / 2;
+            int platformLeftX = coordX - width / 2;
+            int platformRightX = coordX + width / 2;
+
+            boolean withinWidth = (playerRightX >= platformLeftX) && (playerLeftX <= platformRightX);
             boolean withinTopSurfaceToMiddle =
-                    playerCoordY >= coordY && playerCoordY <= (coordY + height / 2);
+                    playerBottomY >= coordY && playerBottomY <= (coordY + height / 2);
             return (withinWidth && withinTopSurfaceToMiddle);
         }
         return false;

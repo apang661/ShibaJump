@@ -12,11 +12,14 @@ import java.util.List;
  * Represents a game state of Doge Jump
  */
 public class DJGame {
+    // List of every PlayableCharacter
     public static final List<PlayableCharacter> CHARACTERS = Arrays.asList(
-            new PlayableCharacter(5, "Doge", 300, 400),
-            new PlayableCharacter(4, "Walter", 250, 350));
+            new PlayableCharacter(5, "Doge", 100, 100),
+            new PlayableCharacter(4, "Walter", 80, 120));
+    // List of all the subclasses of RegularEnemy
     public static final List<RegularEnemy> REGULAR_ENEMIES = Arrays.asList(
             new RegularCat());
+    // List of all the subclasses of BossEnemy
     public static final List<BossEnemy> BOSS_ENEMIES = Arrays.asList(
             new BossCat());
 

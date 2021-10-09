@@ -89,6 +89,7 @@ public class DJGameTest {
             listOfRegularEnemies.add(enemy.getName());
         }
         assertEquals(listOfRegularEnemies, game.getRegularEnemyNames());
+        assertEquals(DJGame.REGULAR_ENEMIES.size(), game.getBossEnemyNames().size());
     }
 
     @Test
@@ -98,6 +99,7 @@ public class DJGameTest {
             listOfBossEnemies.add(enemy.getName());
         }
         assertEquals(listOfBossEnemies, game.getBossEnemyNames());
+        assertEquals(DJGame.BOSS_ENEMIES.size(), game.getBossEnemyNames().size());
     }
 
     @Test
