@@ -1,7 +1,10 @@
 package model;
 
+import model.bossenemies.*;
+import model.regularenemies.*;
 import model.stages.Stage;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,6 +15,10 @@ public class DJGame {
     public static final List<PlayableCharacter> CHARACTERS = Arrays.asList(
             new PlayableCharacter(5, "Doge", 300, 400),
             new PlayableCharacter(4, "Walter", 250, 350));
+    public static final List<RegularEnemy> REGULAR_ENEMIES = Arrays.asList(
+            new RegularCat());
+    public static final List<BossEnemy> BOSS_ENEMIES = Arrays.asList(
+            new BossCat());
 
     private Player player;
     private String username;
@@ -27,12 +34,15 @@ public class DJGame {
         this.encounteredEnemies = new EnemyList();
     }
 
-    // REQUIRES: name is contained the names of CHARACTERS
     // MODIFIES: this
-    // EFFECTS: Sets player to character with String name
+    // EFFECTS: Sets player to character with String name if found in CHARACTERS; otherwise do nothing
     public void setCharacter(String name) {
+        for (PlayableCharacter character: CHARACTERS) {
+            if (character.getName().equals(name)) {
+                player = new Player(character);
+            }
+        }
     }
-
 
     public Player getPlayer() {
         return player;
@@ -62,7 +72,34 @@ public class DJGame {
         return encounteredEnemies;
     }
 
+    // EFFECTS: Return the list of names of enemies in REGULAR_ENEMIES
+    public List<String> getRegularEnemyNames() {
+        List<String> listOfRegEnemies = new ArrayList<>();
+        for (Enemy enemy: REGULAR_ENEMIES) {
+            listOfRegEnemies.add(enemy.getName());
+        }
+        return listOfRegEnemies;
+    }
+
+    // EFFECTS: Return the list of names of enemies in BOSS_ENEMIES
+    public List<String> getBossEnemyNames() {
+        List<String> listOfBossEnemies = new ArrayList<>();
+        for (Enemy enemy: BOSS_ENEMIES) {
+            listOfBossEnemies.add(enemy.getName());
+        }
+        return listOfBossEnemies;
+    }
+
     public void addEncounteredEnemy(Enemy enemy) {
         encounteredEnemies.addEnemy(enemy);
     }
+
+    // MODIFIES: this
+    // EFFECTS: If the given name is one of the regular or boss enemies in the game AND is not already in this list,
+    //          add that enemy to this list; otherwise do nothing
+    public void addEncounteredEnemy(String name) {
+        encounteredEnemies.addEnemy(name);
+    }
+
+
 }

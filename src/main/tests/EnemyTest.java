@@ -1,5 +1,6 @@
-package model;
+package tests;
 
+import model.Enemy;
 import model.regularenemies.RegularCat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,5 +1,7 @@
-package model;
+package tests;
 
+import model.DJGame;
+import model.Player;
 import model.stages.Stage;
 import org.junit.jupiter.api.Test;
 
