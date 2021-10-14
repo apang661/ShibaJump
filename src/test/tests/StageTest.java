@@ -152,10 +152,32 @@ public class StageTest {
     @Test
     void testSetStage0() {
         stage.setStageNum(0);
+        stage.setBossStage(true);
         stage.setStage();
 
         assertEquals(1, stage.getPlatforms().size());
         assertTrue(stage.containsPlatformAtY(0));
+
+        stage.setBossStage(false);
+        stage.setStage();
+
+        assertEquals(1, stage.getPlatforms().size());
+        assertTrue(stage.containsPlatformAtY(0));
+    }
+
+    @Test
+    void testContainsPlatformAtYEmpty() {
+        stage.getPlatforms().clear();
+        stage.containsPlatformAtY(1);
+    }
+
+    @Test
+    void testContainsPlatformAtYNotEmpty() {
+        stage.addRegularPlatform(0, 0);
+
+        assertTrue(stage.containsPlatformAtY(0));
+        assertTrue(stage.containsPlatformAtY(Stage.HEIGHT / 2));
+        assertFalse(stage.containsPlatformAtY(Stage.HEIGHT / 4));
     }
 
     @Test
