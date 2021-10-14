@@ -61,7 +61,7 @@ public class HomeScreenApp {
 
     }
 
-    // EFFECTS: Allows the user to switch their character
+    // EFFECTS: Allows the user to select a character
     public void changeCharacter() {
         List<String> availableCharacters = new ArrayList<>();
         for (int i = 0; i < DJGame.CHARACTERS.size(); i++) {
