@@ -38,7 +38,8 @@ public class HomeScreenApp {
     // EFFECTS: Allows user to select their next option
     public void selectOption() {
         System.out.println("Please enter one of these options:"
-                + " Change username, View DogePoints, Change character, Check or add encountered enemies, Enter game, Quit game");
+                + " Change username, View DogePoints,"
+                + " Change character, Check or add encountered enemies, Enter game, Quit game");
         String nextLine = input.next();
 
         if (nextLine.equals("Change username")) {
