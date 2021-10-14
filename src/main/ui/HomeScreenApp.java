@@ -28,9 +28,8 @@ public class HomeScreenApp {
         System.out.println("Please enter your username:");
         game.setUsername(input.next());
         while (keepGoing) {
-            System.out.println("Hello " + game.getUsername() + "!");
-            System.out.println("You have selected " + game.getPlayer().getName() + " and you currently own "
-                    + game.getDogePoints() + " DogePoints!");
+            System.out.println("\nHello " + game.getUsername() + "!");
+            System.out.println("You have selected " + game.getPlayer().getName() + ".");
 
             selectOption();
         }
@@ -38,12 +37,14 @@ public class HomeScreenApp {
 
     public void selectOption() {
         System.out.println("Please enter one of these options:"
-                + " Change username, Change character, Check or add encountered enemies, Enter game, Quit game");
+                + " Change username, View DogePoints, Change character, Check or add encountered enemies, Enter game, Quit game");
         String nextLine = input.next();
 
         if (nextLine.equals("Change username")) {
             System.out.println("Enter your new username: ");
             game.setUsername(input.next());
+        } else if (nextLine.equals("View DogePoints")) {
+            System.out.println("You have " + game.getDogePoints() + " DogePoints!");
         } else if (nextLine.equals("Change character")) {
             changeCharacter();
         } else if (nextLine.equals("Check or add encountered enemies")) {
@@ -53,6 +54,8 @@ public class HomeScreenApp {
         } else if (nextLine.equals("Quit game")) {
             System.out.println("Thanks for playing!");
             keepGoing = false;
+        } else {
+            System.out.println("Not available.");
         }
 
     }
@@ -84,7 +87,7 @@ public class HomeScreenApp {
     private void checkAndAddEncounteredEnemies() {
         checkEncounteredEnemies();
 
-        System.out.println("Do you want to add an enemy to the list? (Y/N)");
+        System.out.println("Do you want to add an enemy to the list? (Y for yes, any other key to exit)");
         String wantToAdd = input.next();
 
         while (wantToAdd.equals("Y")) {

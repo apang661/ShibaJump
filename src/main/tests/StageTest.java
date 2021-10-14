@@ -13,6 +13,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StageTest {
+    public static final int NUM_OF_TEST_FOR_RANDOM = 1000;
+
     Stage stage;
 
     @BeforeEach
@@ -55,6 +57,13 @@ public class StageTest {
         stage.setBossStage(false);
         assertFalse(stage.isBossStage());
     }
+
+    @Test
+    void testGetStageNum() {
+        stage.setStageNum(1);
+        assertEquals(1, stage.getStageNum());
+    }
+
 
     @Test
     void testIsPlayerFallingOnAnyPlatformFallingMiddle() {
@@ -140,4 +149,77 @@ public class StageTest {
         assertFalse(stage.isPlayerFallingOnAnyPlatform(player));
     }
 
+    @Test
+    void testSetStage0() {
+        stage.setStageNum(0);
+        stage.setStage();
+
+        assertEquals(1, stage.getPlatforms().size());
+        assertTrue(stage.containsPlatformAtY(0));
+    }
+
+    @Test
+    void testSetStage1Reg() {
+        stage.setStageNum(1);
+        stage.setBossStage(false);
+        stage.setStage();
+
+        assertTrue(stage.getPlatforms().size() > Stage.HEIGHT / Stage.HEIGHT_BETWEEN_PLATFORMS);
+
+        for (int i = 0; i < Stage.HEIGHT / Stage.HEIGHT_BETWEEN_PLATFORMS; i++) {
+            int testHeight = i * Stage.HEIGHT_BETWEEN_PLATFORMS;
+            assertTrue(stage.containsPlatformAtY(testHeight));
+        }
+    }
+
+    @Test
+    void testSetStage1Boss() {
+        stage.setStageNum(1);
+        stage.setBossStage(true);
+        stage.setStage();
+
+        assertEquals(1, stage.getPlatforms().size());
+        assertTrue(stage.containsPlatformAtY(Stage.BOSS_STAGE_HEIGHT / 4));
+    }
+
+    @Test
+    void testAddEasyPlatformConfiguration() {
+        stage.addEasyPlatformConfiguration(0);
+        assertTrue(stage.containsPlatformAtY(0));
+        stage.getPlatforms().clear();
+
+        for (int i = 0; i < NUM_OF_TEST_FOR_RANDOM; i++) {
+            stage.addEasyPlatformConfiguration(0);
+        }
+
+        assertTrue(stage.getPlatforms().size() > 14 * NUM_OF_TEST_FOR_RANDOM / 10);
+        assertTrue(stage.getPlatforms().size() < 2 * NUM_OF_TEST_FOR_RANDOM);
+    }
+
+    @Test
+    void testAddNormalPlatformConfiguration() {
+        stage.addNormalPlatformConfiguration(0);
+        assertTrue(stage.containsPlatformAtY(0));
+        stage.getPlatforms().clear();
+
+        for (int i = 0; i < NUM_OF_TEST_FOR_RANDOM; i++) {
+            stage.addNormalPlatformConfiguration(0);
+        }
+
+        assertTrue(stage.getPlatforms().size() > NUM_OF_TEST_FOR_RANDOM);
+        assertTrue(stage.getPlatforms().size() < 15 * NUM_OF_TEST_FOR_RANDOM / 10);
+    }
+
+    @Test
+    void testAddHardPlatformConfiguration() {
+        stage.addHardPlatformConfiguration(0);
+        assertTrue(stage.containsPlatformAtY(0));
+        stage.getPlatforms().clear();
+
+        for (int i = 0; i < NUM_OF_TEST_FOR_RANDOM; i++) {
+            stage.addHardPlatformConfiguration(0);
+        }
+
+        assertEquals(NUM_OF_TEST_FOR_RANDOM, stage.getPlatforms().size());
+    }
 }

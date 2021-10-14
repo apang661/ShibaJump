@@ -1,12 +1,11 @@
 package model;
 
-import java.util.List;
+import model.stages.Stage;
 
 /*
  * Represents a player
  */
 public class Player {
-    public static final int DX = 5;
 
     private String name;
     private int currentHealth;
@@ -14,7 +13,9 @@ public class Player {
     private int height;
     private int coordX;
     private int coordY;
+    private int dx;
     private int dy;
+    private int dyForJump;
 
     // EFFECTS: Creates a new player with variables corresponding to the parameter character
     public Player(PlayableCharacter character) {
@@ -22,6 +23,9 @@ public class Player {
         this.currentHealth = character.getMaxHealth();
         this.width = character.getWidth();
         this.height = character.getHeight();
+        this.dx = character.getDx();
+        this.dy = character.getDyForJump();
+        this.dyForJump = character.getDyForJump();
     }
 
     // EFFECTS: Returns the name of the player
@@ -60,6 +64,10 @@ public class Player {
         this.coordY = coordY;
     }
 
+    public int getDx() {
+        return dx;
+    }
+
     public int getDy() {
         return dy;
     }
@@ -68,10 +76,15 @@ public class Player {
         this.dy = dy;
     }
 
+    public int getDyForJump() {
+        return dyForJump;
+    }
+
     // MODIFIES: this
-    // EFFECTS: Move the player based on its dy and DX
-    public void move() {
-        this.coordX += DX;
+    // EFFECTS: Updates the player's position and velocity based on dx, dy, Stage.GRAVITY_ACCELERATION
+    public void updatePositionAndVelocity() {
+        this.coordX += dx;
         this.coordY += dy;
+        this.dy += Stage.GRAVITY_ACCELERATION;
     }
 }

@@ -21,6 +21,10 @@ public class Platform {
         this.coordY = coordY;
     }
 
+    public int getCoordY() {
+        return coordY;
+    }
+
     // EFFECTS: Returns true if stageB has the same values as this stage
     public boolean equals(Platform platformB) {
         return (this.width == platformB.width)
