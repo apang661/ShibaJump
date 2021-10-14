@@ -35,6 +35,7 @@ public class HomeScreenApp {
         }
     }
 
+    // EFFECTS: Allows user to select their next option
     public void selectOption() {
         System.out.println("Please enter one of these options:"
                 + " Change username, View DogePoints, Change character, Check or add encountered enemies, Enter game, Quit game");
@@ -60,6 +61,7 @@ public class HomeScreenApp {
 
     }
 
+    // EFFECTS: Allows the user to switch their character
     public void changeCharacter() {
         List<String> availableCharacters = new ArrayList<>();
         for (int i = 0; i < DJGame.CHARACTERS.size(); i++) {
@@ -71,6 +73,7 @@ public class HomeScreenApp {
         game.setCharacter(input.next());
     }
 
+    // EFFECTS: Lists the enemies in the user's list of encountered enemies
     private void checkEncounteredEnemies() {
         EnemyList enemyList = game.getEncounteredEnemies();
         if (enemyList.size() == 0) {
@@ -84,6 +87,7 @@ public class HomeScreenApp {
         }
     }
 
+    // EFFECTS: Allows user to add new enemies to their list of encountered enemies
     private void checkAndAddEncounteredEnemies() {
         checkEncounteredEnemies();
 
@@ -106,6 +110,7 @@ public class HomeScreenApp {
         }
     }
 
+    // EFFECTS: Enter the game (only a message since game is incomplete)
     private void enterGame() {
         System.out.println("The game will be available in Phase 3!");
     }
