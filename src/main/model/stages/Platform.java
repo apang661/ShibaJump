@@ -21,16 +21,20 @@ public class Platform {
         this.coordY = coordY;
     }
 
-    public int getCoordY() {
-        return coordY;
+    public int getWidth() {
+        return width;
     }
 
-    // EFFECTS: Returns true if stageB has the same values as this stage
-    public boolean equals(Platform platformB) {
-        return (this.width == platformB.width)
-                && (this.height == platformB.height)
-                && (this.coordX == platformB.coordX)
-                && (this.coordY == platformB.coordY);
+    public int getHeight() {
+        return height;
+    }
+
+    public int getCoordX() {
+        return coordX;
+    }
+
+    public int getCoordY() {
+        return coordY;
     }
 
     // EFFECTS: Returns true if the player is falling (dy <= 0) on the platform

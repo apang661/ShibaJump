@@ -82,7 +82,7 @@ public class Stage {
         return false;
     }
 
-    // REQUIRES: stageNum must be between 0 and 3
+    // REQUIRES: stageNum must be between 0 and 1
     // MODIFIES: this
     // EFFECTS: Sets the stage according to the current stage number and stage type (reg or boss)
     public void setStage() {

@@ -40,9 +40,13 @@ public class StageTest {
                 Stage.NARROW_PLATFORM_WIDTH, Stage.PLATFORM_THICKNESS, Stage.WIDTH / 2, Stage.HEIGHT / 2));
         List<Platform> stagePlatforms = stage.getPlatforms();
 
-
-        for (int i = 0; i < 4; i++) {
-            assertTrue(listOfPlatforms.get(i).equals(stagePlatforms.get(i)));
+        int i = 0;
+        for (Platform platformA: listOfPlatforms) {
+            assertEquals(platformA.getWidth(), stagePlatforms.get(i).getWidth());
+            assertEquals(platformA.getHeight(), stagePlatforms.get(i).getHeight());
+            assertEquals(platformA.getCoordX(), stagePlatforms.get(i).getCoordX());
+            assertEquals(platformA.getCoordY(), stagePlatforms.get(i).getCoordY());
+            i++;
         }
     }
 
@@ -152,13 +156,6 @@ public class StageTest {
     @Test
     void testSetStage0() {
         stage.setStageNum(0);
-        stage.setBossStage(true);
-        stage.setStage();
-
-        assertEquals(1, stage.getPlatforms().size());
-        assertTrue(stage.containsPlatformAtY(0));
-
-        stage.setBossStage(false);
         stage.setStage();
 
         assertEquals(1, stage.getPlatforms().size());
@@ -202,6 +199,14 @@ public class StageTest {
 
         assertEquals(1, stage.getPlatforms().size());
         assertTrue(stage.containsPlatformAtY(Stage.BOSS_STAGE_HEIGHT / 4));
+    }
+
+    @Test
+    void testSetStage2() {
+        stage.setStageNum(2);
+        stage.setStage();
+
+        assertEquals(0, stage.getPlatforms().size());
     }
 
     @Test
