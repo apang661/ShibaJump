@@ -23,8 +23,8 @@ public class DJGameTest {
 
     @Test
     void testSetCharacter() {
-        PlayableCharacter char0 = DJGame.CHARACTERS.get(1);
-        game.setCharacter(DJGame.CHARACTERS.get(1).getName());
+        PlayableCharacter char0 = PlayableCharacter.values()[0];
+        game.setCharacter(char0.getName());
 
         Player player = game.getPlayer();
         assertEquals(char0.getName(), player.getName());

@@ -12,11 +12,6 @@ import java.util.List;
  * Represents a game state of Doge Jump
  */
 public class DJGame {
-    // List of every PlayableCharacter
-    public static final List<PlayableCharacter> CHARACTERS = Arrays.asList(
-            new PlayableCharacter(5, "Doge", 100, 100, 600, 1.3),
-            new PlayableCharacter(4, "Walter", 80, 110, 800, 1.2),
-            new PlayableCharacter(4, "Cheems", 110, 70, 700, 1.1));
     // List of all the subclasses of RegularEnemy
     public static final List<RegularEnemy> REGULAR_ENEMIES = Arrays.asList(
             new RegularCat(),
@@ -33,7 +28,7 @@ public class DJGame {
 
     // EFFECTS: Creates a new DJGame with the first character ("Doge")
     public DJGame() {
-        this.player = new Player(CHARACTERS.get(0));
+        this.player = new Player(PlayableCharacter.DOGE);
         this.stage = new Stage();
         this.dogePoints = 0;
         this.encounteredEnemies = new EnemyList();
@@ -42,7 +37,7 @@ public class DJGame {
     // MODIFIES: this
     // EFFECTS: Sets player to character with String name if found in CHARACTERS; otherwise do nothing
     public void setCharacter(String name) {
-        for (PlayableCharacter character: CHARACTERS) {
+        for (PlayableCharacter character: PlayableCharacter.values()) {
             if (character.getName().equals(name)) {
                 player = new Player(character);
             }
