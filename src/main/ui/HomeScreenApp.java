@@ -2,6 +2,7 @@ package ui;
 
 import model.DJGame;
 import model.EnemyList;
+import model.PlayableCharacter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +66,8 @@ public class HomeScreenApp {
     // EFFECTS: Allows the user to select a character
     public void changeCharacter() {
         List<String> availableCharacters = new ArrayList<>();
-        for (int i = 0; i < DJGame.CHARACTERS.size(); i++) {
-            availableCharacters.add(DJGame.CHARACTERS.get(i).getName());
+        for (PlayableCharacter p: PlayableCharacter.values()) {
+            availableCharacters.add(p.getName());
         }
         System.out.println("Enter the character name "
                 + "(Character will not change unless entry is in the list below):");
