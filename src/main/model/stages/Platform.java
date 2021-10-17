@@ -49,7 +49,7 @@ public class Platform {
 
             boolean withinWidth = (playerRightX >= platformLeftX) && (playerLeftX <= platformRightX);
             boolean withinTopSurfaceToMiddle =
-                    playerBottomY >= coordY && playerBottomY <= (coordY + height / 2);
+                    (playerBottomY >= coordY) && (playerBottomY <= (coordY + height / 2));
             return (withinWidth && withinTopSurfaceToMiddle);
         }
         return false;

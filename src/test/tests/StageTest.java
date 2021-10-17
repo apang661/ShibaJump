@@ -1,10 +1,10 @@
 package tests;
 
-import model.DJGame;
-import model.Enemy;
 import model.PlayableCharacter;
 import model.Player;
 import model.regularenemies.RegularCat;
+import model.regularenemies.RegularEnemy;
+import model.regularenemies.RegularRat;
 import model.stages.Platform;
 import model.stages.Stage;
 import org.junit.jupiter.api.BeforeEach;
@@ -70,7 +70,6 @@ public class StageTest {
         stage.setStageNum(1);
         assertEquals(1, stage.getStageNum());
     }
-
 
     @Test
     void testIsPlayerFallingOnAnyPlatformFallingMiddle() {
@@ -254,135 +253,19 @@ public class StageTest {
     }
 
     @Test
-    void testIsPlayerTouchingAnyEnemyRight() {
-        Player player = new Player(PlayableCharacter.DOGE);
-        Enemy enemy = new RegularCat();
-        enemy.setCoordX(Stage.WIDTH / 2);
-        enemy.setCoordY(Stage.HEIGHT / 2);
-        stage.addEnemy(enemy);
+    void testRemoveRegularEnemy() {
+        RegularEnemy enemy0 = new RegularCat();
+        RegularEnemy enemy1 = new RegularRat();
 
-        // Top right of enemy
-        player.setCoordY(Stage.HEIGHT / 2 + enemy.getHeight() / 2 + player.getHeight() / 2);
-        player.setCoordX(Stage.WIDTH / 2 + enemy.getWidth() / 2 + player.getWidth() / 2);
-        assertTrue(stage.isPlayerTouchingAnyEnemy(player));
+        stage.addRegularEnemy(enemy0);
+        stage.addRegularEnemy(enemy1);
+        assertEquals(2, stage.getRegularEnemies().size());
 
-        player.setCoordX(Stage.WIDTH / 2 + enemy.getWidth() / 2 + player.getWidth() / 2 + 1);
-        assertFalse(stage.isPlayerTouchingAnyEnemy(player));
+        stage.removeRegularEnemy(enemy0);
+        assertEquals(1, stage.getRegularEnemies().size());
+        assertEquals(stage.getRegularEnemies().get(0), enemy1);
 
-        // Middle right of enemy
-        player.setCoordY(Stage.HEIGHT / 2);
-        player.setCoordX(Stage.WIDTH / 2 + enemy.getWidth() / 2 + player.getWidth() / 2);
-        assertTrue(stage.isPlayerTouchingAnyEnemy(player));
-
-        player.setCoordX(Stage.WIDTH / 2 + enemy.getWidth() / 2 + player.getWidth() / 2 + 1);
-        assertFalse(stage.isPlayerTouchingAnyEnemy(player));
-
-        // Bottom right of enemy
-        player.setCoordY(Stage.HEIGHT / 2 - enemy.getHeight() / 2 - player.getHeight() / 2);
-        player.setCoordX(Stage.WIDTH / 2 + enemy.getWidth() / 2 + player.getWidth() / 2);
-        assertTrue(stage.isPlayerTouchingAnyEnemy(player));
-
-        player.setCoordX(Stage.WIDTH / 2 + enemy.getWidth() / 2 + player.getWidth() / 2 + 1);
-        assertFalse(stage.isPlayerTouchingAnyEnemy(player));
+        stage.removeRegularEnemy(enemy1);
+        assertEquals(0, stage.getRegularEnemies().size());
     }
-
-    @Test
-    void testIsPlayerTouchingAnyEnemyLeft() {
-        Player player = new Player(PlayableCharacter.DOGE);
-        Enemy enemy = new RegularCat();
-        enemy.setCoordX(Stage.WIDTH / 2);
-        enemy.setCoordY(Stage.HEIGHT / 2);
-        stage.addEnemy(enemy);
-
-        // Top left of enemy
-        player.setCoordY(Stage.HEIGHT / 2 + enemy.getHeight() / 2 + player.getHeight() / 2);
-        player.setCoordX(Stage.WIDTH / 2 - enemy.getWidth() / 2 - player.getWidth() / 2);
-        assertTrue(stage.isPlayerTouchingAnyEnemy(player));
-
-        player.setCoordX(Stage.WIDTH / 2 - enemy.getWidth() / 2 - player.getWidth() / 2 - 1);
-        assertFalse(stage.isPlayerTouchingAnyEnemy(player));
-
-        // Middle left of enemy
-        player.setCoordY(Stage.HEIGHT / 2);
-        player.setCoordX(Stage.WIDTH / 2 - enemy.getWidth() / 2 - player.getWidth() / 2);
-        assertTrue(stage.isPlayerTouchingAnyEnemy(player));
-
-        player.setCoordX(Stage.WIDTH / 2 - enemy.getWidth() / 2 - player.getWidth() / 2 - 1);
-        assertFalse(stage.isPlayerTouchingAnyEnemy(player));
-
-        // Bottom left of enemy
-        player.setCoordY(Stage.HEIGHT / 2 - enemy.getHeight() / 2 - player.getHeight() / 2);
-        player.setCoordX(Stage.WIDTH / 2 - enemy.getWidth() / 2 - player.getWidth() / 2);
-        assertTrue(stage.isPlayerTouchingAnyEnemy(player));
-
-        player.setCoordX(Stage.WIDTH / 2 - enemy.getWidth() / 2 - player.getWidth() / 2 - 1);
-        assertFalse(stage.isPlayerTouchingAnyEnemy(player));
-    }
-
-    @Test
-    void testIsPlayerTouchingAnyEnemyTop() {
-        Player player = new Player(PlayableCharacter.DOGE);
-        Enemy enemy = new RegularCat();
-        enemy.setCoordX(Stage.WIDTH / 2);
-        enemy.setCoordY(Stage.HEIGHT / 2);
-        stage.addEnemy(enemy);
-
-        // Top left of enemy
-        player.setCoordX(Stage.WIDTH / 2 - enemy.getWidth() / 2 - player.getWidth() / 2);
-        player.setCoordY(Stage.HEIGHT / 2 + enemy.getHeight() / 2 + player.getHeight() / 2);
-        assertTrue(stage.isPlayerTouchingAnyEnemy(player));
-
-        player.setCoordY(Stage.HEIGHT / 2 + enemy.getHeight() / 2 + player.getHeight() / 2 + 1);
-        assertFalse(stage.isPlayerTouchingAnyEnemy(player));
-
-        // Top middle of enemy
-        player.setCoordX(Stage.WIDTH / 2);
-        player.setCoordY(Stage.HEIGHT / 2 + enemy.getHeight() / 2 + player.getHeight() / 2);
-        assertTrue(stage.isPlayerTouchingAnyEnemy(player));
-
-        player.setCoordY(Stage.HEIGHT / 2 + enemy.getHeight() / 2 + player.getHeight() / 2 + 1);
-        assertFalse(stage.isPlayerTouchingAnyEnemy(player));
-
-        // Top right of enemy
-        player.setCoordX(Stage.WIDTH / 2 + enemy.getWidth() / 2 + player.getWidth() / 2);
-        player.setCoordY(Stage.HEIGHT / 2 + enemy.getHeight() / 2 + player.getHeight() / 2);
-        assertTrue(stage.isPlayerTouchingAnyEnemy(player));
-
-        player.setCoordY(Stage.HEIGHT / 2 + enemy.getHeight() / 2 + player.getHeight() / 2 + 1);
-        assertFalse(stage.isPlayerTouchingAnyEnemy(player));
-    }
-
-    @Test
-    void testIsPlayerTouchingAnyEnemyBottom() {
-        Player player = new Player(PlayableCharacter.DOGE);
-        Enemy enemy = new RegularCat();
-        enemy.setCoordX(Stage.WIDTH / 2);
-        enemy.setCoordY(Stage.HEIGHT / 2);
-        stage.addEnemy(enemy);
-
-        // Bottom left of enemy
-        player.setCoordX(Stage.WIDTH / 2 - enemy.getWidth() / 2 - player.getWidth() / 2);
-        player.setCoordY(Stage.HEIGHT / 2 - enemy.getHeight() / 2 - player.getHeight() / 2);
-        assertTrue(stage.isPlayerTouchingAnyEnemy(player));
-
-        player.setCoordY(Stage.HEIGHT / 2 - enemy.getHeight() / 2 - player.getHeight() / 2 - 1);
-        assertFalse(stage.isPlayerTouchingAnyEnemy(player));
-
-        // Bottom middle of enemy
-        player.setCoordX(Stage.WIDTH / 2);
-        player.setCoordY(Stage.HEIGHT / 2 - enemy.getHeight() / 2 - player.getHeight() / 2);
-        assertTrue(stage.isPlayerTouchingAnyEnemy(player));
-
-        player.setCoordY(Stage.HEIGHT / 2 - enemy.getHeight() / 2 - player.getHeight() / 2 - 1);
-        assertFalse(stage.isPlayerTouchingAnyEnemy(player));
-
-        // Bottom right of enemy
-        player.setCoordX(Stage.WIDTH / 2 + enemy.getWidth() / 2 + player.getWidth() / 2);
-        player.setCoordY(Stage.HEIGHT / 2 - enemy.getHeight() / 2 - player.getHeight() / 2);
-        assertTrue(stage.isPlayerTouchingAnyEnemy(player));
-
-        player.setCoordY(Stage.HEIGHT / 2 - enemy.getHeight() / 2 - player.getHeight() / 2 - 1);
-        assertFalse(stage.isPlayerTouchingAnyEnemy(player));
-    }
-
 }

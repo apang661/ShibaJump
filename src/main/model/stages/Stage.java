@@ -1,6 +1,10 @@
 package model.stages;
 
+import model.Enemy;
 import model.Player;
+import model.bossenemies.BossCat;
+import model.bossenemies.BossEnemy;
+import model.regularenemies.RegularEnemy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,17 +28,24 @@ public class Stage {
     public static final int NARROW_PLATFORM_WIDTH = (int) Math.round(WIDTH * NARROW_PLATFORM_MULTIPLIER);
     public static final int GRAVITY_ACCELERATION =
             -1 * (int) Math.round(2 * HEIGHT_BETWEEN_PLATFORMS / Math.pow(TIME_BETWEEN_PLATFORMS, 2));
+    public static final double MIN_JUMP_DY
+            = 1.1 * Math.sqrt(-2 * Stage.GRAVITY_ACCELERATION * Stage.HEIGHT_BETWEEN_PLATFORMS);
 
     int stageNum;
     boolean bossStage;
     private List<Platform> platforms;
+    private List<RegularEnemy> regularEnemies;
+    private List<BossEnemy> bossEnemies;
 
 
     // EFFECTS: Create a new Stage with no platforms and not in bossStage
     public Stage() {
         platforms = new ArrayList<>();
+        regularEnemies = new ArrayList<>();
+        bossEnemies = new ArrayList<>();
         bossStage = false;
         stageNum = 0;
+
     }
 
     public List<Platform> getPlatforms() {
@@ -55,6 +66,10 @@ public class Stage {
 
     public void setStageNum(int stageNum) {
         this.stageNum = stageNum;
+    }
+
+    public List<RegularEnemy> getRegularEnemies() {
+        return regularEnemies;
     }
 
     // EFFECTS: Returns true if this stage contains a platform at given y
@@ -126,6 +141,8 @@ public class Stage {
     private void setStageToBossOne() {
         Platform platform = new Platform(BOSS_STAGE_WIDTH, PLATFORM_THICKNESS,WIDTH / 2, BOSS_STAGE_HEIGHT / 4);
         platforms.add(platform);
+        BossEnemy boss = new BossCat();
+        bossEnemies.add(boss);
     }
 
     // MODIFIES: this
@@ -203,5 +220,18 @@ public class Stage {
     public void addNarrowPlatform(int x, int y) {
         Platform platform = new Platform(NARROW_PLATFORM_WIDTH, PLATFORM_THICKNESS, x, y);
         platforms.add(platform);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Add the given regular enemy to this stage's regular enemies
+    public void addRegularEnemy(RegularEnemy regularEnemy) {
+        regularEnemies.add(regularEnemy);
+    }
+
+    // REQUIRES: Given enemy is in the list of enemies in this stage
+    // MODIFIES: this
+    // EFFECTS: Removes the given enemy from the list of enemies in this stage
+    public void removeRegularEnemy(RegularEnemy e) {
+        regularEnemies.remove(e);
     }
 }

@@ -1,9 +1,7 @@
 package tests;
 
-import model.DJGame;
-import model.Enemy;
-import model.PlayableCharacter;
-import model.Player;
+import model.*;
+import model.regularenemies.RegularCat;
 import model.stages.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +12,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DJGameTest {
-    DJGame game;
+    private DJGame game;
+
 
     @BeforeEach
     void setUp() {

@@ -1,6 +1,9 @@
 package model.bossenemies;
 
 import model.Enemy;
+import model.Projectile;
+
+import java.util.List;
 
 /*
  * Represents a boss-type enemy

@@ -25,6 +25,7 @@ public class DJGame {
     private int dogePoints;
     private Stage stage;
     private EnemyList encounteredEnemies;
+    private List<Projectile> projectiles;
 
     // EFFECTS: Creates a new DJGame with the first character ("Doge")
     public DJGame() {
@@ -32,6 +33,7 @@ public class DJGame {
         this.stage = new Stage();
         this.dogePoints = 0;
         this.encounteredEnemies = new EnemyList();
+        this.projectiles = new ArrayList<>();
     }
 
     // MODIFIES: this

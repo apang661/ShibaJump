@@ -2,6 +2,8 @@ package model;
 
 import model.stages.Stage;
 
+import java.util.List;
+
 /*
  * Represents a player
  */
@@ -28,22 +30,18 @@ public class Player {
         this.dyForJump = character.getDyForJump();
     }
 
-    // EFFECTS: Returns the name of the player
     public String getName() {
         return name;
     }
 
-    // EFFECTS: Returns the current health of the player
     public int getCurrentHealth() {
         return currentHealth;
     }
 
-    // EFFECTS: Returns the width of the player
     public int getWidth() {
         return width;
     }
 
-    // EFFECTS: Returns the height of the player
     public int getHeight() {
         return height;
     }
@@ -86,5 +84,29 @@ public class Player {
         this.coordX += dx;
         this.coordY += dy;
         this.dy += Stage.GRAVITY_ACCELERATION;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Returns true if this player is touching any enemy projectile in the list of projectiles
+    public boolean checkCollisionWithAnyEnemyProjectile(List<Projectile> projectiles) {
+        for (Projectile p: projectiles) {
+            if (p.getType().equals("enemy")) {
+                if (p.checkPlayerCollisionWithProjectile(this)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Returns true if this player is touching any enemies in the list of enemies
+    public boolean checkCollisionWithAnyEnemy(List<Enemy> enemies) {
+        for (Enemy enemy: enemies) {
+            if (enemy.isPlayerTouchingEnemy(this)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
