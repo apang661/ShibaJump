@@ -18,3 +18,7 @@ Here are four user stories that describe features that should be added in Phase 
 - As a user, I want to be able to select different characters and view the list of playable characters.
 - As a user, I want to be able to check my amount of DogePoints (User cannot earn DogePoints as of now).
 - As a user, I want to be able to add enemies to the list of enemies I've encountered.
+
+Here are two user stories that describe features that should be added in Phase 2:
+- As a user, I want to be able to save my account data (i.e. my username, character, DogePoints, encountered enemies)
+- As a user, I want to be able to load my account data
