@@ -1,9 +1,6 @@
 package tests;
 
-import model.DJGame;
-import model.PlayableCharacter;
-import model.Player;
-import model.Stage;
+import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,6 +30,16 @@ public class DJGameTest {
     void testGetStage() {
         Stage emptyStage = new Stage();
         assertEquals(emptyStage.getPlatforms(), game.getCurStage().getPlatforms());
+    }
+
+    @Test
+    void testGetAccount() {
+        Account account = new Account();
+        account.setUsername("dogeplayer");
+
+        game.setAccount(account);
+        assertEquals(account, game.getAccount());
+        assertEquals("dogeplayer", game.getAccount().getUsername());
     }
 
     @Test

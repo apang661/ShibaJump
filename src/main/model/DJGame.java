@@ -37,6 +37,10 @@ public class DJGame {
         return account;
     }
 
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     // MODIFIES: this
     // EFFECTS: Sets player to character with String name if found in CHARACTERS; otherwise do nothing
     public void setCharacter(String name) {
