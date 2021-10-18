@@ -6,6 +6,9 @@ import model.Enemy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -64,5 +67,25 @@ public class AccountTest {
         account.addEncounteredEnemy("Unknown Enemy 1305");
 
         assertEquals(0, account.getEncounteredEnemies().size());
+    }
+
+    @Test
+    void testGetRegularEnemyNames() {
+        List<String> listOfRegularEnemies = new ArrayList<>();
+        for (Enemy enemy: DJGame.REGULAR_ENEMIES) {
+            listOfRegularEnemies.add(enemy.getName());
+        }
+        assertEquals(listOfRegularEnemies, account.getRegularEnemyNames());
+        assertEquals(DJGame.REGULAR_ENEMIES.size(), account.getRegularEnemyNames().size());
+    }
+
+    @Test
+    void testGetBossEnemyNames() {
+        List<String> listOfBossEnemies = new ArrayList<>();
+        for (Enemy enemy: DJGame.BOSS_ENEMIES) {
+            listOfBossEnemies.add(enemy.getName());
+        }
+        assertEquals(listOfBossEnemies, account.getBossEnemyNames());
+        assertEquals(DJGame.BOSS_ENEMIES.size(), account.getBossEnemyNames().size());
     }
 }

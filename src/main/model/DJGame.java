@@ -21,14 +21,15 @@ public class DJGame {
 
     private Account account;
     private Player player;
-    private Stage stage;
+    private Stage curStage;
+    private Stage savedStage;
     private List<Projectile> projectiles;
 
     // EFFECTS: Creates a new DJGame with the first character ("Doge")
     public DJGame() {
         this.account = new Account();
         this.player = new Player(PlayableCharacter.DOGE);
-        this.stage = new Stage();
+        this.curStage = new Stage();
         this.projectiles = new ArrayList<>();
     }
 
@@ -50,17 +51,17 @@ public class DJGame {
         return player;
     }
 
-    public Stage getStage() {
-        return stage;
+    public Stage getCurStage() {
+        return curStage;
     }
 
-    // EFFECTS: Return the list of names of enemies in REGULAR_ENEMIES
-    public List<String> getRegularEnemyNames() {
-        return account.getRegularEnemyNames();
+    public void setSavedStage(Stage savedStage) {
+        this.savedStage = savedStage;
     }
 
-    // EFFECTS: Return the list of names of enemies in BOSS_ENEMIES
-    public List<String> getBossEnemyNames() {
-        return account.getBossEnemyNames();
+    // MODIFIES: this
+    // EFFECTS: Loads the saved stage to the current stage
+    public void loadStage() {
+        curStage = savedStage;
     }
 }
