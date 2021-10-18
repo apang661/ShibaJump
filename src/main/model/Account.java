@@ -9,6 +9,7 @@ import java.util.List;
 public class Account {
     String username;
     int dogePoints;
+    int nextStageNum;
     EnemyList encounteredEnemies;
 
     // EFFECTS: Creates a new account
@@ -31,6 +32,14 @@ public class Account {
 
     public int getDogePoints() {
         return dogePoints;
+    }
+
+    public int getNextStageNum() {
+        return nextStageNum;
+    }
+
+    public void setNextStageNum(int nextStageNum) {
+        this.nextStageNum = nextStageNum;
     }
 
     public EnemyList getEncounteredEnemies() {

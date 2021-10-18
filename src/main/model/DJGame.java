@@ -21,15 +21,14 @@ public class DJGame {
 
     private Account account;
     private Player player;
-    private Stage curStage;
-    private Stage savedStage;
+    private Stage stage;
     private List<Projectile> projectiles;
 
     // EFFECTS: Creates a new DJGame with the first character ("Doge")
     public DJGame() {
         this.account = new Account();
         this.player = new Player(PlayableCharacter.DOGE);
-        this.curStage = new Stage();
+        this.stage = new Stage();
         this.projectiles = new ArrayList<>();
     }
 
@@ -55,17 +54,23 @@ public class DJGame {
         return player;
     }
 
-    public Stage getCurStage() {
-        return curStage;
+    public Stage getStage() {
+        return stage;
     }
 
-    public void setSavedStage(Stage savedStage) {
-        this.savedStage = savedStage;
+    public List<Projectile> getProjectiles() {
+        return projectiles;
     }
 
     // MODIFIES: this
-    // EFFECTS: Loads the saved stage to the current stage
-    public void loadStage() {
-        curStage = savedStage;
+    // EFFECTS: Adds the given list of projectiles to the list of projectiles in this game
+    public void addProjectiles(List<Projectile> projectiles) {
+        this.projectiles.addAll(projectiles);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Clears the list of projectiles in this game
+    public void clearProjectiles() {
+        this.projectiles = new ArrayList<>();
     }
 }

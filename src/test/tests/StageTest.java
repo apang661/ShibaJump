@@ -1,12 +1,6 @@
 package tests;
 
-import model.PlayableCharacter;
-import model.Player;
-import model.regularenemies.RegularCat;
-import model.regularenemies.RegularEnemy;
-import model.regularenemies.RegularRat;
-import model.Platform;
-import model.Stage;
+import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -253,19 +247,74 @@ public class StageTest {
     }
 
     @Test
-    void testRemoveRegularEnemy() {
-        RegularEnemy enemy0 = new RegularCat();
-        RegularEnemy enemy1 = new RegularRat();
+    void testAddPlatform() {
+        stage.addPlatform(Stage.WIDTH, Stage.PLATFORM_THICKNESS, Stage.WIDTH / 2, Stage.HEIGHT / 2);
+        List<Platform> platforms = stage.getPlatforms();
 
-        stage.addRegularEnemy(enemy0);
-        stage.addRegularEnemy(enemy1);
+
+        assertEquals(2, platforms.size());
+        assertEquals(Stage.WIDTH, stage.getPlatforms().get(1).getWidth());
+        assertEquals(Stage.PLATFORM_THICKNESS, stage.getPlatforms().get(1).getHeight());
+        assertEquals(Stage.WIDTH / 2, stage.getPlatforms().get(1).getCoordX());
+        assertEquals(Stage.HEIGHT / 2, stage.getPlatforms().get(1).getCoordY());
+    }
+
+    @Test
+    void testAddEnemyNoHealthParam() {
+        stage.addEnemy(DJGame.REGULAR_ENEMIES.get(0).getName(), 0, 0);
+        stage.addEnemy(DJGame.REGULAR_ENEMIES.get(1).getName(), 2, 2);
         assertEquals(2, stage.getRegularEnemies().size());
 
-        stage.removeRegularEnemy(enemy0);
-        assertEquals(1, stage.getRegularEnemies().size());
-        assertEquals(stage.getRegularEnemies().get(0), enemy1);
+        List<Enemy> enemyList = stage.getRegularEnemies();
+        assertEquals(DJGame.REGULAR_ENEMIES.get(0).getName(), enemyList.get(0).getName());
+        assertEquals(0, enemyList.get(0).getCoordX());
+        assertEquals(0, enemyList.get(0).getCoordY());
+        assertEquals(DJGame.REGULAR_ENEMIES.get(1).getName(), enemyList.get(1).getName());
+        assertEquals(2, enemyList.get(1).getCoordX());
+        assertEquals(2, enemyList.get(1).getCoordY());
+    }
 
-        stage.removeRegularEnemy(enemy1);
+    @Test
+    void testAddEnemyWithHealthParam() {
+        stage.addEnemy(DJGame.REGULAR_ENEMIES.get(0).getName(), 0, 0, 6);
+        stage.addEnemy(DJGame.BOSS_ENEMIES.get(0).getName(), 2, 2, 10);
+        assertEquals(1, stage.getRegularEnemies().size());
+        assertEquals(1, stage.getBossEnemies().size());
+
+        Enemy enemy0 = stage.getRegularEnemies().get(0);
+        Enemy enemy1 = stage.getBossEnemies().get(0);
+        assertEquals(DJGame.REGULAR_ENEMIES.get(0).getName(), enemy0.getName());
+        assertEquals(0, enemy0.getCoordX());
+        assertEquals(0, enemy0.getCoordY());
+        assertEquals(6, enemy0.getCurrentHealth());
+
+        assertEquals(DJGame.BOSS_ENEMIES.get(0).getName(), enemy1.getName());
+        assertEquals(2, enemy1.getCoordX());
+        assertEquals(2, enemy1.getCoordY());
+        assertEquals(10, enemy1.getCurrentHealth());
+    }
+
+    @Test
+    void testRemoveEnemy() {
+        Enemy enemy0 = DJGame.REGULAR_ENEMIES.get(0);
+        Enemy enemy1 = DJGame.BOSS_ENEMIES.get(0);
+
+        stage.addEnemy(enemy0.getName(), 0, 0);
+        stage.addEnemy(enemy1.getName(), 2, 2);
+        assertEquals(1, stage.getRegularEnemies().size());
+        assertEquals(1, stage.getBossEnemies().size());
+
+        stage.removeEnemy(enemy0);
         assertEquals(0, stage.getRegularEnemies().size());
+        assertEquals(1, stage.getBossEnemies().size());
+        assertEquals(stage.getBossEnemies().get(0), enemy1);
+
+        stage.removeEnemy(enemy1);
+        assertEquals(0, stage.getBossEnemies().size());
+    }
+
+    @Test
+    void testNameToEnemyNotFound() {
+        assertEquals("Cat", stage.nameToEnemy("not found").getName());
     }
 }

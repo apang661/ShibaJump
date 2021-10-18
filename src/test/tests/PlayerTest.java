@@ -2,15 +2,13 @@ package tests;
 
 import model.*;
 import model.regularenemies.RegularCat;
-import model.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {
     private Player player;
@@ -33,6 +31,17 @@ public class PlayerTest {
         enemyList.add(enemy);
     }
 
+    @Test
+    void testGetCurrentHealth() {
+        player.setCurrentHealth(100);
+        assertEquals(100, player.getCurrentHealth());
+    }
+
+    @Test
+    void testGetDx() {
+        player.setDx(10);
+        assertEquals(10, player.getDx());
+    }
     @Test
     void testGetDyForJump() {
         assertEquals(PlayableCharacter.DOGE.getDyForJump(), player.getDyForJump());

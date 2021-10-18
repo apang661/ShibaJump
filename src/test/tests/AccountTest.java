@@ -85,7 +85,15 @@ public class AccountTest {
         for (Enemy enemy: DJGame.BOSS_ENEMIES) {
             listOfBossEnemies.add(enemy.getName());
         }
-        assertEquals(listOfBossEnemies, account.getBossEnemyNames());
-        assertEquals(DJGame.BOSS_ENEMIES.size(), account.getBossEnemyNames().size());
+
+        List<String> accountListOfBossEnemies = account.getBossEnemyNames();
+        assertEquals(listOfBossEnemies, accountListOfBossEnemies);
+        assertEquals(DJGame.BOSS_ENEMIES.size(), accountListOfBossEnemies.size());
+    }
+
+    @Test
+    void testGetNextStageNum() {
+        account.setNextStageNum(1);
+        assertEquals(1, account.getNextStageNum());
     }
 }

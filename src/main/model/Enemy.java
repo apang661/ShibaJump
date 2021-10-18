@@ -40,6 +40,14 @@ public abstract class Enemy {
         this.coordY = coordY;
     }
 
+    public int getCurrentHealth() {
+        return currentHealth;
+    }
+
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
+    }
+
     public int getWidth() {
         return width;
     }

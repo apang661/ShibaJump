@@ -32,6 +32,10 @@ public class Player {
         return name;
     }
 
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
+    }
+
     public int getCurrentHealth() {
         return currentHealth;
     }
@@ -62,6 +66,10 @@ public class Player {
 
     public int getDx() {
         return dx;
+    }
+
+    public void setDx(int dx) {
+        this.dx = dx;
     }
 
     public int getDy() {

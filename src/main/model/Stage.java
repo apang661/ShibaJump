@@ -2,6 +2,7 @@ package model;
 
 import model.bossenemies.BossCat;
 import model.bossenemies.BossEnemy;
+import model.regularenemies.RegularCat;
 import model.regularenemies.RegularEnemy;
 
 import java.util.ArrayList;
@@ -32,8 +33,8 @@ public class Stage {
     int stageNum;
     boolean bossStage;
     private List<Platform> platforms;
-    private List<RegularEnemy> regularEnemies;
-    private List<BossEnemy> bossEnemies;
+    private List<Enemy> regularEnemies;
+    private List<Enemy> bossEnemies;
 
 
     // EFFECTS: Create a new Stage with no platforms and not in bossStage
@@ -66,8 +67,12 @@ public class Stage {
         this.stageNum = stageNum;
     }
 
-    public List<RegularEnemy> getRegularEnemies() {
+    public List<Enemy> getRegularEnemies() {
         return regularEnemies;
+    }
+
+    public List<Enemy> getBossEnemies() {
+        return bossEnemies;
     }
 
     // EFFECTS: Returns true if this stage contains a platform at given y
@@ -220,16 +225,65 @@ public class Stage {
         platforms.add(platform);
     }
 
+    // REQUIRES: Platform must be within the stage
     // MODIFIES: this
-    // EFFECTS: Add the given regular enemy to this stage's regular enemies
-    public void addRegularEnemy(RegularEnemy regularEnemy) {
-        regularEnemies.add(regularEnemy);
+    // EFFECTS: Adds a platform at the given width, height, and x, y coordinates
+    public void addPlatform(int width, int height, int x, int y) {
+        Platform platform = new Platform(width, height, x, y);
+        platforms.add(platform);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Add the given regular enemy to this stage's regular enemies with coordinates x, y
+    public void addEnemy(String name, int x, int y) {
+        Enemy enemy = nameToEnemy(name);
+        enemy.setCoordX(x);
+        enemy.setCoordY(y);
+        if (enemy instanceof RegularEnemy) {
+            regularEnemies.add(enemy);
+        } else if (enemy instanceof BossEnemy) {
+            bossEnemies.add(enemy);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Add the given regular enemy to this stage's regular enemies with coordinates x, y at the given health
+    public void addEnemy(String name, int x, int y, int health) {
+        Enemy enemy = nameToEnemy(name);
+        enemy.setCoordX(x);
+        enemy.setCoordY(y);
+        enemy.setCurrentHealth(health);
+        if (enemy instanceof RegularEnemy) {
+            regularEnemies.add(enemy);
+        } else if (enemy instanceof BossEnemy) {
+            bossEnemies.add(enemy);
+        }
+    }
+
+    // REQUIRES: Given name must be a name of an enemy in either DJGame.REGULAR_ENEMIES or DJGame.BOSS_ENEMIES
+    // EFFECTS: Returns the enemy object with the given name
+    public static Enemy nameToEnemy(String name) {
+        for (Enemy e: DJGame.REGULAR_ENEMIES) {
+            if (e.getName().equals(name)) {
+                return e;
+            }
+        }
+        for (Enemy e: DJGame.BOSS_ENEMIES) {
+            if (e.getName().equals(name)) {
+                return e;
+            }
+        }
+        return new RegularCat();
     }
 
     // REQUIRES: Given enemy is in the list of enemies in this stage
     // MODIFIES: this
     // EFFECTS: Removes the given enemy from the list of enemies in this stage
-    public void removeRegularEnemy(RegularEnemy e) {
-        regularEnemies.remove(e);
+    public void removeEnemy(Enemy enemy) {
+        if (enemy instanceof RegularEnemy) {
+            regularEnemies.remove(enemy);
+        } else if (enemy instanceof BossEnemy) {
+            bossEnemies.remove(enemy);
+        }
     }
 }

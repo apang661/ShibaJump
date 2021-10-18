@@ -4,6 +4,9 @@ import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DJGameTest {
@@ -29,7 +32,7 @@ public class DJGameTest {
     @Test
     void testGetStage() {
         Stage emptyStage = new Stage();
-        assertEquals(emptyStage.getPlatforms(), game.getCurStage().getPlatforms());
+        assertEquals(emptyStage.getPlatforms(), game.getStage().getPlatforms());
     }
 
     @Test
@@ -43,11 +46,21 @@ public class DJGameTest {
     }
 
     @Test
-    void testLoadStage() {
-        Stage stage = new Stage();
-        game.setSavedStage(stage);
-        game.loadStage();
+    void testAddAndClearProjectiles() {
+        assertEquals(0, game.getProjectiles().size());
+        Projectile p0 = new Projectile("player", 10, 10, 0, 0, 0, 0);
+        Projectile p1 = new Projectile("enemy", 10, 10, 0, 0, 0, 0);
 
-        assertEquals(stage, game.getCurStage());
+        List<Projectile> addedList = new ArrayList<>();
+        addedList.add(p0);
+        addedList.add(p1);
+
+        game.addProjectiles(addedList);
+        List<Projectile> gameProjectiles = game.getProjectiles();
+        assertEquals(p0, gameProjectiles.get(0));
+        assertEquals(p1, gameProjectiles.get(1));
+
+        game.clearProjectiles();
+        assertEquals(0, game.getProjectiles().size());
     }
 }

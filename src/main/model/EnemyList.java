@@ -46,6 +46,12 @@ public class EnemyList {
         return listOfEnemies.contains(e);
     }
 
+    // EFFECTS: Returns true if list of enemies contains enemy with given name
+    public boolean containsEnemy(String name) {
+        Enemy enemy = Stage.nameToEnemy(name);
+        return listOfEnemies.contains(enemy);
+    }
+
     // EFFECTS: Returns the number of enemies in the list
     public int size() {
         return listOfEnemies.size();
