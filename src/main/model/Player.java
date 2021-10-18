@@ -1,11 +1,9 @@
 package model;
 
-import model.stages.Stage;
-
 import java.util.List;
 
 /*
- * Represents a player
+ * Represents the player of DogeGame
  */
 public class Player {
 

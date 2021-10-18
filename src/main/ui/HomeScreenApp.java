@@ -1,5 +1,6 @@
 package ui;
 
+import model.Account;
 import model.DJGame;
 import model.EnemyList;
 import model.PlayableCharacter;
@@ -16,20 +17,22 @@ import java.util.Scanner;
  */
 public class HomeScreenApp {
     DJGame game;
+    Account account;
     boolean keepGoing;
     private Scanner input;
 
     public HomeScreenApp() {
         game = new DJGame();
+        account = game.getAccount();
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         keepGoing = true;
 
         System.out.println("Welcome to Doge Jump!");
         System.out.println("Please enter your username:");
-        game.setUsername(input.next());
+        account.setUsername(input.next());
         while (keepGoing) {
-            System.out.println("\nHello " + game.getUsername() + "!");
+            System.out.println("\nHello " + account.getUsername() + "!");
             System.out.println("You have selected " + game.getPlayer().getName() + ".");
 
             selectOption();
@@ -45,9 +48,9 @@ public class HomeScreenApp {
 
         if (nextLine.equals("Change username")) {
             System.out.println("Enter your new username: ");
-            game.setUsername(input.next());
+            account.setUsername(input.next());
         } else if (nextLine.equals("View DogePoints")) {
-            System.out.println("You have " + game.getDogePoints() + " DogePoints!");
+            System.out.println("You have " + account.getDogePoints() + " DogePoints!");
         } else if (nextLine.equals("Change character")) {
             changeCharacter();
         } else if (nextLine.equals("Check or add encountered enemies")) {
@@ -77,7 +80,7 @@ public class HomeScreenApp {
 
     // EFFECTS: Lists the enemies in the user's list of encountered enemies
     private void checkEncounteredEnemies() {
-        EnemyList enemyList = game.getEncounteredEnemies();
+        EnemyList enemyList = account.getEncounteredEnemies();
         if (enemyList.size() == 0) {
             System.out.println("You have no enemies in your list.");
         } else {
@@ -98,13 +101,13 @@ public class HomeScreenApp {
 
         while (wantToAdd.equals("Y")) {
             System.out.println("Here is the list of regular enemies in the game: "
-                    + placeCommaOrAndInBetweenStrings(game.getRegularEnemyNames(), true));
+                    + placeCommaOrAndInBetweenStrings(account.getRegularEnemyNames(), true));
             System.out.println("Here is the list of boss enemies in the game: "
-                    + placeCommaOrAndInBetweenStrings(game.getBossEnemyNames(), true));
+                    + placeCommaOrAndInBetweenStrings(account.getBossEnemyNames(), true));
             System.out.println("Which enemy do you want to add? "
                     + "(The entry will not be added unless it is found in the list above)");
             String addedEnemyName = input.next();
-            game.addEncounteredEnemy(addedEnemyName);
+            account.addEncounteredEnemy(addedEnemyName);
 
             checkEncounteredEnemies();
             System.out.println("Do you want to add more enemies? (Y/N)");

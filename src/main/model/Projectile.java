@@ -13,6 +13,7 @@ public class Projectile {
     private int dx;
     private int dy;
 
+    // EFFECTS: Creates a new projectile with the given parameters
     public Projectile(String type, int width, int height, int coordX, int coordY, int dx, int dy) {
         this.type = type;
         this.width = width;

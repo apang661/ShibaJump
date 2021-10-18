@@ -5,8 +5,8 @@ import model.Player;
 import model.regularenemies.RegularCat;
 import model.regularenemies.RegularEnemy;
 import model.regularenemies.RegularRat;
-import model.stages.Platform;
-import model.stages.Stage;
+import model.Platform;
+import model.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

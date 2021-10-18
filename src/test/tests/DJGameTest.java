@@ -1,8 +1,7 @@
 package tests;
 
 import model.*;
-import model.regularenemies.RegularCat;
-import model.stages.Stage;
+import model.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DJGameTest {
     private DJGame game;
-
 
     @BeforeEach
     void setUp() {
@@ -30,55 +28,6 @@ public class DJGameTest {
         assertEquals(char0.getMaxHealth(), player.getCurrentHealth());
         assertEquals(char0.getWidth(), player.getWidth());
         assertEquals(char0.getHeight(), player.getHeight());
-    }
-
-    @Test
-    void testSetUsername() {
-        game.setUsername("test");
-        assertEquals("test", game.getUsername());
-    }
-
-    @Test
-    void testSetDogePoints() {
-        game.setDogePoints(100);
-        assertEquals(100, game.getDogePoints());
-    }
-
-    @Test
-    void testAddEncounteredEnemyEnemyParam() {
-        Enemy regCat = DJGame.REGULAR_ENEMIES.get(0);
-        Enemy bossCat = DJGame.BOSS_ENEMIES.get(0);
-        game.addEncounteredEnemy(regCat);
-        game.addEncounteredEnemy(bossCat);
-
-        assertEquals(2, game.getEncounteredEnemies().size());
-        assertTrue(game.getEncounteredEnemies().containsEnemy(regCat));
-        assertTrue(game.getEncounteredEnemies().containsEnemy(bossCat));
-    }
-
-    @Test
-    void testAddEncounteredEnemyStringParamFound() {
-        Enemy regCat = DJGame.REGULAR_ENEMIES.get(0);
-        Enemy bossCat = DJGame.BOSS_ENEMIES.get(0);
-        game.addEncounteredEnemy(regCat.getName());
-        game.addEncounteredEnemy(bossCat.getName());
-
-        assertEquals(2, game.getEncounteredEnemies().size());
-        assertTrue(game.getEncounteredEnemies().containsEnemy(regCat));
-        assertTrue(game.getEncounteredEnemies().containsEnemy(bossCat));
-
-        game.addEncounteredEnemy(regCat.getName());
-        game.addEncounteredEnemy(bossCat.getName());
-
-        assertEquals(2, game.getEncounteredEnemies().size());
-    }
-
-    @Test
-    void testAddEncounteredEnemyStringParamNotFound() {
-        game.addEncounteredEnemy("Unknown Enemy 1313");
-        game.addEncounteredEnemy("Unknown Enemy 1305");
-
-        assertEquals(0, game.getEncounteredEnemies().size());
     }
 
     @Test

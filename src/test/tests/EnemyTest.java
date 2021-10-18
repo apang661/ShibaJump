@@ -1,11 +1,10 @@
 package tests;
 
-import model.Enemy;
 import model.Projectile;
 import model.regularenemies.RegularCat;
 import model.regularenemies.RegularEnemy;
 import model.regularenemies.RegularRat;
-import model.stages.Stage;
+import model.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

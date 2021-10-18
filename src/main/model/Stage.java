@@ -1,7 +1,5 @@
-package model.stages;
+package model;
 
-import model.Enemy;
-import model.Player;
 import model.bossenemies.BossCat;
 import model.bossenemies.BossEnemy;
 import model.regularenemies.RegularEnemy;

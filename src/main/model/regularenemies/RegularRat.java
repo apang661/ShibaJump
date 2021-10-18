@@ -18,6 +18,7 @@ public class RegularRat extends RegularEnemy {
     public static final int PROJECTILE_DX = 0;
     public static final int PROJECTILE_DY = 20;
 
+    // EFFECTS: Creates a new RegularRat enemy
     public RegularRat() {
         super(NAME, MAX_HEALTH, WIDTH, HEIGHT);
     }

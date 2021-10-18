@@ -1,7 +1,5 @@
 package model;
 
-import model.stages.Stage;
-
 /*
  * Represents a playable character
  */

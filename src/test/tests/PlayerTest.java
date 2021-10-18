@@ -2,14 +2,13 @@ package tests;
 
 import model.*;
 import model.regularenemies.RegularCat;
-import model.stages.Stage;
+import model.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 

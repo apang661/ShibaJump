@@ -1,6 +1,4 @@
-package model.stages;
-
-import model.Player;
+package model;
 
 /*
  * Represents a platform
