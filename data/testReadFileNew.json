@@ -1,9 +1,10 @@
 {
     "account": {
-      "username": "",
-      "dogePoints": 0,
-      "nextStageNum": 0,
-      "encounteredEnemies":[]
+        "username": "",
+        "dogePoints": 0,
+        "selectedCharacter": "Doge",
+        "nextStageNum": 0,
+        "encounteredEnemies":[]
     },
     "player": {
         "name": "Doge",

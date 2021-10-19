@@ -1,12 +1,13 @@
 {
     "account": {
-      "username": "dogelover",
-      "dogePoints": 10000,
-      "nextStageNum": 2,
-      "encounteredEnemies":[
-          "Cat",
-          "Evil Cat",
-          "Rat"]
+        "username": "dogelover",
+        "dogePoints": 10000,
+        "selectedCharacter": "Walter",
+        "nextStageNum": 2,
+        "encounteredEnemies":[
+            "Cat",
+            "Evil Cat",
+            "Rat"]
     },
     "player": {
         "name": "Walter",

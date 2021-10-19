@@ -52,6 +52,7 @@ public class DJGame implements Writable {
         for (PlayableCharacter character: PlayableCharacter.values()) {
             if (character.getName().equals(name)) {
                 player = new Player(character);
+                account.setSelectedCharacter(name);
             }
         }
     }

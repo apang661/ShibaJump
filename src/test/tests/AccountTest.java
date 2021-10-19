@@ -21,15 +21,21 @@ public class AccountTest {
     }
 
     @Test
-    void testSetUsername() {
+    void testGetUsername() {
         account.setUsername("test");
         assertEquals("test", account.getUsername());
     }
 
     @Test
-    void testSetDogePoints() {
+    void testGetDogePoints() {
         account.setDogePoints(100);
         assertEquals(100, account.getDogePoints());
+    }
+
+    @Test
+    void testGetSelectedCharacter() {
+        account.setSelectedCharacter("Walter");
+        assertEquals("Walter", account.getSelectedCharacter());
     }
 
     @Test

@@ -311,10 +311,12 @@ public class StageTest {
 
         stage.removeEnemy(enemy1);
         assertEquals(0, stage.getBossEnemies().size());
+
+
     }
 
     @Test
     void testNameToEnemyNotFound() {
-        assertEquals("Cat", stage.nameToEnemy("not found").getName());
+        assertEquals("Cat", Stage.nameToEnemy("not found").getName());
     }
 }

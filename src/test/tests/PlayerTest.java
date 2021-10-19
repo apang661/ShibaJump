@@ -71,6 +71,11 @@ public class PlayerTest {
         player.setCoordY(Stage.HEIGHT / 2);
 
         assertFalse(player.checkCollisionWithAnyEnemyProjectile(projectileList));
+
+        player.setCoordX(Stage.WIDTH / 2 + player.getWidth() / 2 + projectile.getWidth() / 2 + 1);
+        player.setCoordY(Stage.HEIGHT / 2 + player.getHeight() / 2 + projectile.getHeight() / 2 + 1);
+
+        assertFalse(player.checkCollisionWithAnyEnemyProjectile(projectileList));
     }
 
     @Test

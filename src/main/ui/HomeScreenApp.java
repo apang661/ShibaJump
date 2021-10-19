@@ -48,7 +48,7 @@ public class HomeScreenApp {
 
     // EFFECTS: Saves the game data as a JSON file
     private void saveGame() {
-        JsonWriter writer = new JsonWriter("./data/testFileTemplate.json");
+        JsonWriter writer = new JsonWriter("./data/saveFile0.json");
         try {
             writer.open();
             writer.write(game);
@@ -61,7 +61,7 @@ public class HomeScreenApp {
     // MODIFIES: this
     // EFFECTS: Reads and loads JSON data from save file to game
     private void loadGame() {
-        JsonReader reader = new JsonReader("./data/testFileTemplate.json");
+        JsonReader reader = new JsonReader("./data/saveFile0.json");
         try {
             game = reader.loadToAccount();
             reader.loadToGame(game);
@@ -77,7 +77,7 @@ public class HomeScreenApp {
     public void selectOption() {
         System.out.println("Please enter one of these options:"
                 + " Change username, View DogePoints,"
-                + " Change character, Check or add encountered enemies, Enter game, Quit game");
+                + " Change character, Check or add encountered enemies, Enter game, Save and quit game");
         String nextLine = input.next();
 
         if (nextLine.equals("Change username")) {
@@ -91,7 +91,7 @@ public class HomeScreenApp {
             checkAndAddEncounteredEnemies();
         } else if (nextLine.equals("Enter game")) {
             enterGame();
-        } else if (nextLine.equals("Quit game")) {
+        } else if (nextLine.equals("Save and quit game")) {
             System.out.println("Thanks for playing!");
             keepGoing = false;
         } else {
@@ -108,7 +108,7 @@ public class HomeScreenApp {
         }
         System.out.println("Enter the character name "
                 + "(Character will not change unless entry is in the list below):");
-        System.out.println("Available characters: " + placeCommaOrAndInBetweenStrings(availableCharacters, true));
+        System.out.println("Available characters: " + placeCommaOrAndInBetweenStrings(availableCharacters));
         game.setCharacter(input.next());
     }
 
@@ -122,7 +122,7 @@ public class HomeScreenApp {
             for (int i = 0; i < enemyList.size(); i++) {
                 listOfEnemyName.add(enemyList.getEnemy(i).getName());
             }
-            System.out.println("Your encountered enemies: " + placeCommaOrAndInBetweenStrings(listOfEnemyName, true));
+            System.out.println("Your encountered enemies: " + placeCommaOrAndInBetweenStrings(listOfEnemyName));
         }
     }
 
@@ -135,16 +135,16 @@ public class HomeScreenApp {
 
         while (wantToAdd.equals("Y")) {
             System.out.println("Here is the list of regular enemies in the game: "
-                    + placeCommaOrAndInBetweenStrings(account.getRegularEnemyNames(), true));
+                    + placeCommaOrAndInBetweenStrings(account.getRegularEnemyNames()));
             System.out.println("Here is the list of boss enemies in the game: "
-                    + placeCommaOrAndInBetweenStrings(account.getBossEnemyNames(), true));
+                    + placeCommaOrAndInBetweenStrings(account.getBossEnemyNames()));
             System.out.println("Which enemy do you want to add? "
                     + "(The entry will not be added unless it is found in the list above)");
             String addedEnemyName = input.next();
             account.addEncounteredEnemy(addedEnemyName);
 
             checkEncounteredEnemies();
-            System.out.println("Do you want to add more enemies? (Y/N)");
+            System.out.println("Do you want to add more enemies? (Y for yes, any other key to exit)");
             wantToAdd = input.next();
         }
     }
@@ -154,10 +154,15 @@ public class HomeScreenApp {
         System.out.println("The game will be available in Phase 3!");
     }
 
-    // REQUIRES: isFirstRecursion must be true, listOfString must be an ArrayList
-    // MODIFIES: listOfString
+
     // EFFECTS: Places commas, spaces, and "and" between each string properly
-    public String placeCommaOrAndInBetweenStrings(List<String> listOfString, boolean isFirstRecursion) {
+    public String placeCommaOrAndInBetweenStrings(List<String> listOfString) {
+        return placeCommaOrAndInBetweenStringsHelper(listOfString, true);
+    }
+
+    // REQUIRES: isFirstRecursion must be true, listOfString must be an ArrayList
+    // EFFECTS: Places commas, spaces, and "and" between each string properly (with isFirstRecursion parameter)
+    public String placeCommaOrAndInBetweenStringsHelper(List<String> listOfString, boolean isFirstRecursion) {
         String result = "";
         int listSize = listOfString.size();
         if (listSize == 1) {
@@ -170,7 +175,7 @@ public class HomeScreenApp {
             }
         } else if (listSize > 2) {
             result = result.concat(listOfString.remove(0) + ", "
-                    + placeCommaOrAndInBetweenStrings(listOfString, false));
+                    + placeCommaOrAndInBetweenStringsHelper(listOfString, false));
         }
 
         return result;

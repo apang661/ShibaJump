@@ -240,28 +240,28 @@ public class Stage implements Writable {
     // EFFECTS: Add the given regular enemy to this stage's regular enemies with coordinates x, y
     public void addEnemy(String name, int x, int y) {
         Enemy enemy = nameToEnemy(name);
-        enemy.setCoordX(x);
-        enemy.setCoordY(y);
-        if (enemy instanceof RegularEnemy) {
-            regularEnemies.add(enemy);
-        } else if (enemy instanceof BossEnemy) {
-            bossEnemies.add(enemy);
-        }
+        setupAndPlaceEnemyInCorrectList(x, y, enemy);
     }
+
 
     // MODIFIES: this
     // EFFECTS: Add the given regular enemy to this stage's regular enemies with coordinates x, y at the given health
     public void addEnemy(String name, int x, int y, int health) {
         Enemy enemy = nameToEnemy(name);
+        enemy.setCurrentHealth(health);
+        setupAndPlaceEnemyInCorrectList(x, y, enemy);
+    }
+
+    private void setupAndPlaceEnemyInCorrectList(int x, int y, Enemy enemy) {
         enemy.setCoordX(x);
         enemy.setCoordY(y);
-        enemy.setCurrentHealth(health);
         if (enemy instanceof RegularEnemy) {
             regularEnemies.add(enemy);
-        } else if (enemy instanceof BossEnemy) {
+        } else {
             bossEnemies.add(enemy);
         }
     }
+
 
     // REQUIRES: Given name must be a name of an enemy in either DJGame.REGULAR_ENEMIES or DJGame.BOSS_ENEMIES
     // EFFECTS: Returns the enemy object with the given name
@@ -285,7 +285,7 @@ public class Stage implements Writable {
     public void removeEnemy(Enemy enemy) {
         if (enemy instanceof RegularEnemy) {
             regularEnemies.remove(enemy);
-        } else if (enemy instanceof BossEnemy) {
+        } else {
             bossEnemies.remove(enemy);
         }
     }

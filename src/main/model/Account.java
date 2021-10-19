@@ -13,11 +13,13 @@ public class Account implements Writable {
     String username;
     int dogePoints;
     int nextStageNum;
+    String selectedCharacter;
     EnemyList encounteredEnemies;
 
     // EFFECTS: Creates a new account
     public Account() {
         dogePoints = 0;
+        selectedCharacter = "Doge";
         encounteredEnemies = new EnemyList();
     }
 
@@ -43,6 +45,14 @@ public class Account implements Writable {
 
     public void setNextStageNum(int nextStageNum) {
         this.nextStageNum = nextStageNum;
+    }
+
+    public String getSelectedCharacter() {
+        return selectedCharacter;
+    }
+
+    public void setSelectedCharacter(String selectedCharacter) {
+        this.selectedCharacter = selectedCharacter;
     }
 
     public EnemyList getEncounteredEnemies() {
@@ -85,6 +95,7 @@ public class Account implements Writable {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("username", username);
         jsonObject.put("dogePoints", dogePoints);
+        jsonObject.put("selectedCharacter", selectedCharacter);
         jsonObject.put("nextStageNum", nextStageNum);
         jsonObject.put("encounteredEnemies", encounteredEnemies.toJson());
 

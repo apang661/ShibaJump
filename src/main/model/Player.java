@@ -99,10 +99,8 @@ public class Player implements Writable {
     // EFFECTS: Returns true if this player is touching any enemy projectile in the list of projectiles
     public boolean checkCollisionWithAnyEnemyProjectile(List<Projectile> projectiles) {
         for (Projectile p: projectiles) {
-            if (p.getType().equals("enemy")) {
-                if (p.checkPlayerCollisionWithProjectile(this)) {
-                    return true;
-                }
+            if (p.checkPlayerCollisionWithProjectile(this)) {
+                return true;
             }
         }
         return false;

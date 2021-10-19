@@ -27,6 +27,7 @@ public class DJGameTest {
         assertEquals(char0.getMaxHealth(), player.getCurrentHealth());
         assertEquals(char0.getWidth(), player.getWidth());
         assertEquals(char0.getHeight(), player.getHeight());
+        assertEquals(char0.getName(), game.getAccount().getSelectedCharacter());
     }
 
     @Test

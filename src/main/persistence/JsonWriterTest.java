@@ -51,8 +51,6 @@ public class JsonWriterTest {
             testWritePlayerFile0(readPlayer);
             testWriteStageFile0(stage);
             testWriteProjectilesFile0(projectiles);
-
-
         } catch (IOException e) {
             fail("Unexpected exception thrown.");
         }
