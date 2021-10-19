@@ -35,6 +35,7 @@ public class JsonReaderTest {
             Account account = game.getAccount();
             assertEquals("", account.getUsername());
             assertEquals(0, account.getDogePoints());
+            assertEquals("Doge", account.getSelectedCharacter());
             assertEquals(0, account.getNextStageNum());
             testParseEncounteredEnemiesTestFileNew(account.getEncounteredEnemies());
         } catch (IOException e) {
@@ -54,6 +55,7 @@ public class JsonReaderTest {
             Account account = game.getAccount();
             assertEquals("dogelover", account.getUsername());
             assertEquals(10000, account.getDogePoints());
+            assertEquals("Walter", account.getSelectedCharacter());
             assertEquals(2, account.getNextStageNum());
             testParseEncounteredEnemiesTestFile0(account.getEncounteredEnemies());
         } catch (IOException e) {

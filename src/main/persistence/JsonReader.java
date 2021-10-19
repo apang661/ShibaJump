@@ -58,6 +58,7 @@ public class JsonReader {
 
         account.setUsername(accountJsonObject.getString("username"));
         account.setDogePoints(accountJsonObject.getInt("dogePoints"));
+        account.setSelectedCharacter(accountJsonObject.getString("selectedCharacter"));
         account.setNextStageNum(accountJsonObject.getInt("nextStageNum"));
         parseEncounteredEnemies(account, accountJsonObject);
         return account;
