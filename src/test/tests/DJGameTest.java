@@ -30,9 +30,19 @@ public class DJGameTest {
     }
 
     @Test
+    void testGetPlayer() {
+        Player player = new Player(PlayableCharacter.DOGE);
+        game.setPlayer(player);
+
+        assertEquals(player, game.getPlayer());
+    }
+
+    @Test
     void testGetStage() {
         Stage emptyStage = new Stage();
-        assertEquals(emptyStage.getPlatforms(), game.getStage().getPlatforms());
+        game.setStage(emptyStage);
+
+        assertEquals(emptyStage, game.getStage());
     }
 
     @Test

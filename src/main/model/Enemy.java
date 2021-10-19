@@ -1,11 +1,14 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.List;
 
 /*
  * Represents an enemy
  */
-public abstract class Enemy {
+public abstract class Enemy implements Writable {
     protected int coordX;
     protected int coordY;
     protected int currentHealth;
@@ -83,5 +86,16 @@ public abstract class Enemy {
             }
         }
         return false;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", getName());
+        jsonObject.put("health", getCurrentHealth());
+        jsonObject.put("coordX", getCoordX());
+        jsonObject.put("coordY", getCoordY());
+
+        return jsonObject;
     }
 }

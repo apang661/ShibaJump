@@ -1,12 +1,15 @@
 package model;
 
+import org.json.JSONArray;
+import persistence.ArrayWritable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /*
  * Represents a list of enemies
  */
-public class EnemyList {
+public class EnemyList implements ArrayWritable {
     List<Enemy> listOfEnemies;
 
     public EnemyList() {
@@ -55,5 +58,14 @@ public class EnemyList {
     // EFFECTS: Returns the number of enemies in the list
     public int size() {
         return listOfEnemies.size();
+    }
+
+    @Override
+    public JSONArray toJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (Enemy enemy: listOfEnemies) {
+            jsonArray.put(enemy.getName());
+        }
+        return jsonArray;
     }
 }

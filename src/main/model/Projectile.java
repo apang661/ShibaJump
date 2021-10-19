@@ -1,9 +1,12 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 /*
  * Represents a projectile
  */
-public class Projectile {
+public class Projectile implements Writable {
 
     private String type; // either "player" if created by the player or "enemy" if created by the enemy
     private int width;
@@ -79,5 +82,19 @@ public class Projectile {
     public boolean checkEnemyCollisionWithProjectile(Enemy e) {
         return type.equals("player")
                 && checkCollision(e.getCoordX(), e.getCoordY(), e.getWidth(), e.getHeight());
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("type", type);
+        jsonObject.put("width", width);
+        jsonObject.put("height", height);
+        jsonObject.put("coordX", coordX);
+        jsonObject.put("coordY", coordY);
+        jsonObject.put("dx", dx);
+        jsonObject.put("dy", dy);
+
+        return jsonObject;
     }
 }

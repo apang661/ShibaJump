@@ -1,11 +1,14 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.List;
 
 /*
  * Represents the player of DogeGame
  */
-public class Player {
+public class Player implements Writable {
 
     private String name;
     private int currentHealth;
@@ -114,5 +117,18 @@ public class Player {
             }
         }
         return false;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", name);
+        jsonObject.put("currentHealth", currentHealth);
+        jsonObject.put("coordX", coordX);
+        jsonObject.put("coordY", coordY);
+        jsonObject.put("dx", dx);
+        jsonObject.put("dy", dy);
+
+        return jsonObject;
     }
 }

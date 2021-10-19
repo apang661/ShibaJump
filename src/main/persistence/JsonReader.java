@@ -1,8 +1,5 @@
 package persistence;
 
-// This class references CPSC210/JsonSerializationDemo
-// Link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
-
 import model.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,6 +11,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+
+// This class references CPSC210/JsonSerializationDemo
+// Link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
 
 /*
  * Represents a reader that converts JSON data stored in the save file to DJGame data
@@ -56,7 +56,7 @@ public class JsonReader {
         Account account = new Account();
         JSONObject accountJsonObject = jsonObject.getJSONObject("account");
 
-        account.setUsername(accountJsonObject.getString("name"));
+        account.setUsername(accountJsonObject.getString("username"));
         account.setDogePoints(accountJsonObject.getInt("dogePoints"));
         account.setNextStageNum(accountJsonObject.getInt("nextStageNum"));
         parseEncounteredEnemies(account, accountJsonObject);
@@ -103,9 +103,24 @@ public class JsonReader {
 
         stage.setStageNum(stageJsonObject.getInt("stageNum"));
         stage.setBossStage(stageJsonObject.getBoolean("bossStage"));
+        parseStagePlatforms(stage, stageJsonObject);
         parseStageRegularEnemies(stage, stageJsonObject);
         parseStageBossEnemies(stage, stageJsonObject);
-        parseStagePlatforms(stage, stageJsonObject);
+    }
+
+    // MODIFIES: stage
+    // EFFECTS: Parses stage platforms from the given JSONObject and loads it into the game
+    private void parseStagePlatforms(Stage stage, JSONObject stageJsonObject) {
+        JSONArray platformsJsonArray = stageJsonObject.getJSONArray("platforms");
+        for (Object platform: platformsJsonArray) {
+            JSONObject platformJsonArray = (JSONObject) platform;
+            stage.addPlatform(
+                    platformJsonArray.getInt("width"),
+                    platformJsonArray.getInt("height"),
+                    platformJsonArray.getInt("coordX"),
+                    platformJsonArray.getInt("coordY")
+            );
+        }
     }
 
     // MODIFIES: stage
@@ -134,22 +149,6 @@ public class JsonReader {
                     enemyJsonObject.getInt("coordX"),
                     enemyJsonObject.getInt("coordY"),
                     enemyJsonObject.getInt("health")
-            );
-        }
-    }
-
-
-    // MODIFIES: stage
-    // EFFECTS: Parses stage platforms from the given JSONObject and loads it into the game
-    private void parseStagePlatforms(Stage stage, JSONObject stageJsonObject) {
-        JSONArray platformsJsonArray = stageJsonObject.getJSONArray("platforms");
-        for (Object platform: platformsJsonArray) {
-            JSONObject platformJsonArray = (JSONObject) platform;
-            stage.addPlatform(
-                    platformJsonArray.getInt("width"),
-                    platformJsonArray.getInt("height"),
-                    platformJsonArray.getInt("coordX"),
-                    platformJsonArray.getInt("coordY")
             );
         }
     }

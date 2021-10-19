@@ -1,0 +1,24 @@
+{
+    "stage": {
+        "stageNum": 0,
+        "regularEnemies": [],
+        "bossStage": false,
+        "bossEnemies": [],
+        "platforms": []
+    },
+    "account": {
+        "dogePoints": 0,
+        "nextStageNum": 0,
+        "encounteredEnemies": [],
+        "username": "102382913"
+    },
+    "projectiles": [],
+    "player": {
+        "currentHealth": 5,
+        "coordX": 0,
+        "coordY": 0,
+        "dx": 600,
+        "dy": 572,
+        "name": "Doge"
+    }
+}

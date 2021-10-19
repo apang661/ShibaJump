@@ -4,7 +4,11 @@ import model.Account;
 import model.DJGame;
 import model.EnemyList;
 import model.PlayableCharacter;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -22,20 +26,50 @@ public class HomeScreenApp {
     private Scanner input;
 
     public HomeScreenApp() {
-        game = new DJGame();
-        account = game.getAccount();
         input = new Scanner(System.in);
         input.useDelimiter("\n");
-        keepGoing = true;
 
         System.out.println("Welcome to Doge Jump!");
-        System.out.println("Please enter your username:");
-        account.setUsername(input.next());
+        loadGame();
+
+        account = game.getAccount();
+        keepGoing = true;
+
         while (keepGoing) {
             System.out.println("\nHello " + account.getUsername() + "!");
             System.out.println("You have selected " + game.getPlayer().getName() + ".");
 
             selectOption();
+        }
+
+        saveGame();
+
+    }
+
+    // EFFECTS: Saves the game data as a JSON file
+    private void saveGame() {
+        JsonWriter writer = new JsonWriter("./data/testFileTemplate.json");
+        try {
+            writer.open();
+            writer.write(game);
+            writer.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Could not find file.");
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Reads and loads JSON data from save file to game
+    private void loadGame() {
+        JsonReader reader = new JsonReader("./data/testFileTemplate.json");
+        try {
+            game = reader.loadToAccount();
+            reader.loadToGame(game);
+        } catch (IOException e) {
+            System.out.println("Save file not found.");
+            game = new DJGame();
+            System.out.println("Please enter your username:");
+            game.getAccount().setUsername(input.next());
         }
     }
 

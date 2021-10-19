@@ -1,9 +1,12 @@
 {
     "account": {
-      "name":"dogelover",
+      "username": "dogelover",
       "dogePoints": 10000,
       "nextStageNum": 2,
-      "encounteredEnemies":["Cat", "Evil Cat", "Rat"]
+      "encounteredEnemies":[
+          "Cat",
+          "Evil Cat",
+          "Rat"]
     },
     "player": {
         "name": "Walter",
@@ -16,6 +19,20 @@
     "stage": {
         "stageNum": 2,
         "bossStage": false,
+        "platforms": [
+            {
+                "width": 100,
+                "height": 35,
+                "coordX": 10,
+                "coordY": 90
+            },
+            {
+                "width": 10,
+                "height": 10,
+                "coordX": 30,
+                "coordY": 5
+            }
+        ],
         "regularEnemies": [
             {
                 "name": "Cat",
@@ -42,20 +59,6 @@
                 "health": 30,
                 "coordX": 500,
                 "coordY": 300
-            }
-        ],
-        "platforms": [
-            {
-                "width": 100,
-                "height": 35,
-                "coordX": 10,
-                "coordY": 90
-            },
-            {
-                "width": 10,
-                "height": 10,
-                "coordX": 30,
-                "coordY": 5
             }
         ]
     },

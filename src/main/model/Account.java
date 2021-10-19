@@ -1,12 +1,15 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /*
  * This class represents a DJGame account
  */
-public class Account {
+public class Account implements Writable {
     String username;
     int dogePoints;
     int nextStageNum;
@@ -69,10 +72,22 @@ public class Account {
     public void addEncounteredEnemy(Enemy enemy) {
         encounteredEnemies.addEnemy(enemy);
     }
+
     // MODIFIES: this
     // EFFECTS: If the given name is one of the regular or boss enemies in the game AND is not already in this list,
     //          add that enemy to this list; otherwise do nothing
     public void addEncounteredEnemy(String name) {
         encounteredEnemies.addEnemy(name);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("username", username);
+        jsonObject.put("dogePoints", dogePoints);
+        jsonObject.put("nextStageNum", nextStageNum);
+        jsonObject.put("encounteredEnemies", encounteredEnemies.toJson());
+
+        return jsonObject;
     }
 }

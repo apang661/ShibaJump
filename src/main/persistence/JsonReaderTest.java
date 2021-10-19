@@ -29,7 +29,7 @@ public class JsonReaderTest {
 
     @Test
     void testLoadToAccountTestFileNew() {
-        reader = new JsonReader("./data/testFileNew.json");
+        reader = new JsonReader("./data/testReadFileNew.json");
         try {
             DJGame game = reader.loadToAccount();
             Account account = game.getAccount();
@@ -48,7 +48,7 @@ public class JsonReaderTest {
 
     @Test
     void testLoadToAccountTestFile0() {
-        reader = new JsonReader("./data/testFile0.json");
+        reader = new JsonReader("./data/testReadFile0.json");
         try {
             DJGame game = reader.loadToAccount();
             Account account = game.getAccount();
@@ -82,7 +82,7 @@ public class JsonReaderTest {
 
     @Test
     void testLoadToGameTestFileNew() {
-        reader = new JsonReader("./data/testFileNew.json");
+        reader = new JsonReader("./data/testReadFileNew.json");
         try {
             DJGame game = new DJGame();
             reader.loadToGame(game);
@@ -124,7 +124,7 @@ public class JsonReaderTest {
 
     @Test
     void testLoadToGameTestFile0() {
-        reader = new JsonReader("./data/testFile0.json");
+        reader = new JsonReader("./data/testReadFile0.json");
         try {
             DJGame game = new DJGame();
             reader.loadToGame(game);

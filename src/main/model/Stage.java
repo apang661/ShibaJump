@@ -4,6 +4,9 @@ import model.bossenemies.BossCat;
 import model.bossenemies.BossEnemy;
 import model.regularenemies.RegularCat;
 import model.regularenemies.RegularEnemy;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +14,7 @@ import java.util.List;
 /*
  * Represents a stage (a list of platforms)
  */
-public class Stage {
+public class Stage implements Writable {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 6000;
     public static final int HEIGHT_BETWEEN_PLATFORMS = 200;
@@ -285,5 +288,33 @@ public class Stage {
         } else if (enemy instanceof BossEnemy) {
             bossEnemies.remove(enemy);
         }
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        JSONArray platformsJsonArray = new JSONArray();
+        JSONArray regularEnemiesJsonArray = new JSONArray();
+        JSONArray bossEnemiesJsonArray = new JSONArray();
+
+        for (Platform platform: platforms) {
+            platformsJsonArray.put(platform.toJson());
+        }
+
+        for (Enemy enemy: regularEnemies) {
+            regularEnemiesJsonArray.put(enemy.toJson());
+        }
+
+        for (Enemy enemy: bossEnemies) {
+            bossEnemiesJsonArray.put(enemy.toJson());
+        }
+
+        jsonObject.put("stageNum", stageNum);
+        jsonObject.put("bossStage", bossStage);
+        jsonObject.put("platforms", platformsJsonArray);
+        jsonObject.put("regularEnemies", regularEnemiesJsonArray);
+        jsonObject.put("bossEnemies", bossEnemiesJsonArray);
+
+        return jsonObject;
     }
 }

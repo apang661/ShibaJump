@@ -1,9 +1,12 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 /*
  * Represents a platform
  */
-public class Platform {
+public class Platform implements Writable {
     private int width;
     private int height;
     private int coordX;
@@ -51,5 +54,16 @@ public class Platform {
             return (withinWidth && withinTopSurfaceToMiddle);
         }
         return false;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("width", width);
+        jsonObject.put("height", height);
+        jsonObject.put("coordX", coordX);
+        jsonObject.put("coordY", coordY);
+
+        return jsonObject;
     }
 }
