@@ -1,9 +1,10 @@
-package persistence;
+package tests;
 
 import model.*;
 import model.bossenemies.BossCat;
 import model.regularenemies.RegularCat;
 import org.junit.jupiter.api.Test;
+import persistence.JsonReader;
 
 import java.io.IOException;
 import java.util.List;
