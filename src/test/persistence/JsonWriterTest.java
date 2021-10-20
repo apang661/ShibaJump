@@ -1,12 +1,10 @@
-package tests;
+package persistence;
 
 // This class references CPSC210/JsonSerializationDemo
 // Link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
 
 import model.*;
 import org.junit.jupiter.api.Test;
-import persistence.JsonReader;
-import persistence.JsonWriter;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

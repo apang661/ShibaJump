@@ -1,4 +1,4 @@
-package tests;
+package persistence;
 
 import model.*;
 import model.bossenemies.BossCat;
