@@ -8,17 +8,21 @@
     },
     "account": {
         "dogePoints": 0,
+        "selectedCharacter": "Cheems",
         "nextStageNum": 0,
-        "encounteredEnemies": [],
-        "username": "102382913"
+        "encounteredEnemies": [
+            "Cat",
+            "Evil Cat"
+        ],
+        "username": "1"
     },
     "projectiles": [],
     "player": {
-        "currentHealth": 5,
+        "currentHealth": 4,
         "coordX": 0,
         "coordY": 0,
-        "dx": 600,
-        "dy": 572,
-        "name": "Doge"
+        "dx": 700,
+        "dy": 484,
+        "name": "Cheems"
     }
 }

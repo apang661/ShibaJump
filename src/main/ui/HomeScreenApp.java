@@ -29,10 +29,11 @@ public class HomeScreenApp {
         input = new Scanner(System.in);
         input.useDelimiter("\n");
 
-        System.out.println("Welcome to Doge Jump!");
-        loadGame();
-
+        game = new DJGame();
         account = game.getAccount();
+        System.out.println("Welcome to Doge Jump!");
+        System.out.println("\nPlease enter your username:");
+        account.setUsername(input.nextLine());
         keepGoing = true;
 
         while (keepGoing) {
@@ -41,8 +42,6 @@ public class HomeScreenApp {
 
             selectOption();
         }
-
-        saveGame();
 
     }
 
@@ -53,8 +52,9 @@ public class HomeScreenApp {
             writer.open();
             writer.write(game);
             writer.close();
+            System.out.println("Game saved.");
         } catch (FileNotFoundException e) {
-            System.out.println("Could not find file.");
+            System.out.println("Could not find file. Game not saved.");
         }
     }
 
@@ -65,11 +65,11 @@ public class HomeScreenApp {
         try {
             game = reader.loadToAccount();
             reader.loadToGame(game);
+            account = game.getAccount();
+
+            System.out.println("Game loaded.");
         } catch (IOException e) {
             System.out.println("Save file not found.");
-            game = new DJGame();
-            System.out.println("Please enter your username:");
-            game.getAccount().setUsername(input.next());
         }
     }
 
@@ -77,7 +77,7 @@ public class HomeScreenApp {
     public void selectOption() {
         System.out.println("Please enter one of these options:"
                 + " Change username, View DogePoints,"
-                + " Change character, Check or add encountered enemies, Enter game, Save and quit game");
+                + " Change character, Check or add encountered enemies, Enter game, Save game, Load game, Quit game");
         String nextLine = input.next();
 
         if (nextLine.equals("Change username")) {
@@ -91,7 +91,11 @@ public class HomeScreenApp {
             checkAndAddEncounteredEnemies();
         } else if (nextLine.equals("Enter game")) {
             enterGame();
-        } else if (nextLine.equals("Save and quit game")) {
+        } else if (nextLine.equals("Save game")) {
+            saveGame();
+        } else if (nextLine.equals("Load game")) {
+            loadGame();
+        } else if (nextLine.equals("Quit game")) {
             System.out.println("Thanks for playing!");
             keepGoing = false;
         } else {
