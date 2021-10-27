@@ -75,9 +75,7 @@ public class HomeScreenApp {
 
     // EFFECTS: Allows user to select their next option
     public void selectOption() {
-        System.out.println("Please enter one of these options:"
-                + " Change username, View DogePoints,"
-                + " Change character, Check or add encountered enemies, Enter game, Save game, Load game, Quit game");
+        printOptions();
         String nextLine = input.next();
 
         if (nextLine.equals("Change username")) {
@@ -101,7 +99,12 @@ public class HomeScreenApp {
         } else {
             System.out.println("Not available.");
         }
+    }
 
+    private void printOptions() {
+        System.out.println("Please enter one of these options:"
+                + " Change username, View DogePoints, Change character, Check or add encountered enemies, "
+                + "Enter game, Save game, Load game, Quit game");
     }
 
     // EFFECTS: Allows the user to select a character
