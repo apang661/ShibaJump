@@ -39,8 +39,8 @@ public class PlayerTest {
 
     @Test
     void testGetDx() {
-        player.setDx(10);
-        assertEquals(10, player.getDx());
+        player.setMaxDx(10);
+        assertEquals(10, player.getMaxDx());
     }
     @Test
     void testGetDyForJump() {
@@ -55,7 +55,7 @@ public class PlayerTest {
         int prevDy = player.getDy();
         player.updatePositionAndVelocity();
 
-        assertEquals(prevX + player.getDx(), player.getCoordX());
+        assertEquals(prevX + player.getMaxDx(), player.getCoordX());
         assertEquals(prevY + prevDy, player.getCoordY());
         assertEquals(prevDy + Stage.GRAVITY_ACCELERATION, player.getDy());
     }

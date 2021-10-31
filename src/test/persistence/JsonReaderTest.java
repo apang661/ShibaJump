@@ -4,7 +4,6 @@ import model.*;
 import model.bossenemies.BossCat;
 import model.regularenemies.RegularCat;
 import org.junit.jupiter.api.Test;
-import persistence.JsonReader;
 
 import java.io.IOException;
 import java.util.List;
@@ -109,7 +108,7 @@ public class JsonReaderTest {
         assertEquals(pc.getMaxHealth(), player.getCurrentHealth());
         assertEquals(pc.getWidth(), player.getWidth());
         assertEquals(pc.getHeight(), player.getHeight());
-        assertEquals(pc.getDx(), player.getDx());
+        assertEquals(pc.getDx(), player.getMaxDx());
         assertEquals(0, player.getDy());
     }
 
@@ -150,7 +149,7 @@ public class JsonReaderTest {
         assertEquals(5, player.getCurrentHealth());
         assertEquals(PlayableCharacter.WALTER.getWidth(), player.getWidth());
         assertEquals(PlayableCharacter.WALTER.getHeight(), player.getHeight());
-        assertEquals(20, player.getDx());
+        assertEquals(20, player.getMaxDx());
         assertEquals(2, player.getDy());
     }
 

@@ -122,7 +122,7 @@ public class JsonWriterTest {
         assertEquals(3, readPlayer.getCurrentHealth());
         assertEquals(100, readPlayer.getCoordX());
         assertEquals(300, readPlayer.getCoordY());
-        assertEquals(10, readPlayer.getDx());
+        assertEquals(10, readPlayer.getMaxDx());
         assertEquals(-30, readPlayer.getDy());
     }
 
@@ -164,7 +164,7 @@ public class JsonWriterTest {
         player.setCurrentHealth(3);
         player.setCoordX(100);
         player.setCoordY(300);
-        player.setDx(10);
+        player.setMaxDx(10);
         player.setDy(-30);
         return player;
     }

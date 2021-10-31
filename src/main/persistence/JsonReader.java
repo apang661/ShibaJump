@@ -92,7 +92,7 @@ public class JsonReader {
         player.setCurrentHealth(playerJsonObject.getInt("currentHealth"));
         player.setCoordX(playerJsonObject.getInt("coordX"));
         player.setCoordY(playerJsonObject.getInt("coordY"));
-        player.setDx(playerJsonObject.getInt("dx"));
+        player.setMaxDx(playerJsonObject.getInt("dx"));
         player.setDy(playerJsonObject.getInt("dy"));
     }
 
