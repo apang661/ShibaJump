@@ -36,12 +36,15 @@ public class HomeScreenApp {
         account.setUsername(input.nextLine());
         keepGoing = true;
 
-        while (keepGoing) {
-            System.out.println("\nHello " + account.getUsername() + "!");
-            System.out.println("You have selected " + game.getPlayer().getName() + ".");
-
-            selectOption();
-        }
+        game.getStage().setStageNum(1);
+        game.getStage().setStage();
+        new GameWindow(game);
+//        while (keepGoing) {
+//            System.out.println("\nHello " + account.getUsername() + "!");
+//            System.out.println("You have selected " + game.getPlayer().getName() + ".");
+//
+//            selectOption();
+//        }
 
     }
 
@@ -158,7 +161,7 @@ public class HomeScreenApp {
 
     // EFFECTS: Enter the game (only a message since game is incomplete)
     private void enterGame() {
-        System.out.println("The game will be available in Phase 3!");
+        new GameWindow(game);
     }
 
 

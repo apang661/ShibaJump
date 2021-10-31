@@ -9,9 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.awt.event.KeyEvent;
+import java.util.*;
 
 /*
  * Represents a game state of Doge Jump
@@ -29,6 +28,7 @@ public class DJGame implements Writable {
     private Player player;
     private Stage stage;
     private List<Projectile> projectiles;
+    private Set<Integer> keyCodesHeldDown;
 
     // EFFECTS: Creates a new DJGame with the first character ("Doge")
     public DJGame() {
@@ -36,6 +36,7 @@ public class DJGame implements Writable {
         this.player = new Player(PlayableCharacter.DOGE);
         this.stage = new Stage();
         this.projectiles = new ArrayList<>();
+        this.keyCodesHeldDown = new HashSet<>();
     }
 
     public Account getAccount() {
@@ -105,4 +106,71 @@ public class DJGame implements Writable {
 
         return jsonObject;
     }
+
+    // MODIFIES: this
+    // EFFECTS: Adds key code to the list of keys pressed if it is the A or D key
+    public void keyPressed(Integer keyCode) {
+        if ((keyCode == KeyEvent.VK_A) || (keyCode == KeyEvent.VK_D)) {
+            keyCodesHeldDown.add(keyCode);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Removes the key code from the list of key pressed if it is the A or D key
+    public void keyReleased(Integer keyCode) {
+        if ((keyCode == KeyEvent.VK_A) || (keyCode == KeyEvent.VK_D)) {
+            keyCodesHeldDown.remove(keyCode);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Updates the game to its next game state
+    public void update() {
+        checkCollisions();
+
+        updatePlayer();
+        updateProjectiles();
+    }
+
+    // MODIFIES: enemies
+    // EFFECTS: Checks and
+    private void checkCollisions() {
+        player.checkCollisionWithAnyEnemyProjectile(projectiles);
+        player.checkCollisionWithAnyEnemy(stage.getRegularEnemies());
+        player.checkCollisionWithAnyEnemy(stage.getBossEnemies());
+
+        checkEnemyCollisions(stage.getRegularEnemies());
+        checkEnemyCollisions(stage.getBossEnemies());
+    }
+
+
+    // MODIFIES: enemies
+    // EFFECTS: Updates the given list of enemies based on its collisions with player projectiles
+    private void checkEnemyCollisions(List<Enemy> enemies) {
+        for (Enemy e: enemies) {
+            if (e.checkCollisionWithAnyPlayerProjectile(projectiles)) {
+                e.setCurrentHealth(e.getCurrentHealth() - 1);
+                if (e.getCurrentHealth() <= 0) {
+                    enemies.remove(e);
+                }
+            }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Updates the player to its next player state
+    private void updatePlayer() {
+        player.setDirectionByKeyCodesHeldDown(keyCodesHeldDown);
+        if (stage.isPlayerFallingOnAnyPlatform(player)) {
+            player.jump();
+        }
+
+        player.updatePositionAndVelocity();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Updates the position and velocity of this game's projectiles to their next state
+    private void updateProjectiles() {
+    }
+
 }

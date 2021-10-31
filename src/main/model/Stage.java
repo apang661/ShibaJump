@@ -18,20 +18,20 @@ public class Stage implements Writable {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 6000;
     public static final int HEIGHT_BETWEEN_PLATFORMS = 200;
-    public static final double TIME_BETWEEN_PLATFORMS = 1;
+    public static final double TIME_BETWEEN_PLATFORMS = 0.5; // in milliseconds
     public static final int BOSS_STAGE_WIDTH = 800;
     public static final int BOSS_STAGE_HEIGHT = 600;
-    public static final int PLATFORM_THICKNESS = 10;
+    public static final int PLATFORM_THICKNESS = 20;
     public static final double WIDE_PLATFORM_MULTIPLIER = 0.5;
     public static final double REGULAR_PLATFORM_MULTIPLIER = 0.3;
     public static final double NARROW_PLATFORM_MULTIPLIER = 0.15;
     public static final int WIDE_PLATFORM_WIDTH = (int) Math.round(WIDTH * WIDE_PLATFORM_MULTIPLIER);
     public static final int REGULAR_PLATFORM_WIDTH = (int) Math.round(WIDTH * REGULAR_PLATFORM_MULTIPLIER);
     public static final int NARROW_PLATFORM_WIDTH = (int) Math.round(WIDTH * NARROW_PLATFORM_MULTIPLIER);
-    public static final int GRAVITY_ACCELERATION =
-            -1 * (int) Math.round(2 * HEIGHT_BETWEEN_PLATFORMS / Math.pow(TIME_BETWEEN_PLATFORMS, 2));
+    public static final double GRAVITY_ACCELERATION =
+            -1 * 2 * HEIGHT_BETWEEN_PLATFORMS / Math.pow(TIME_BETWEEN_PLATFORMS, 2);
     public static final double MIN_JUMP_DY
-            = 1.1 * Math.sqrt(-2 * Stage.GRAVITY_ACCELERATION * Stage.HEIGHT_BETWEEN_PLATFORMS);
+            = Math.sqrt(-2 * Stage.GRAVITY_ACCELERATION * Stage.HEIGHT_BETWEEN_PLATFORMS);
 
     int stageNum;
     boolean bossStage;
@@ -109,7 +109,7 @@ public class Stage implements Writable {
     public void setStage() {
         platforms.clear();
         if (stageNum == 0) {
-            addScreenWidePlatform(0);
+            addScreenWidePlatform(PLATFORM_THICKNESS / 2 + 1);
         } else if (stageNum == 1) {
             if (bossStage) {
                 setStageToBossOne();
