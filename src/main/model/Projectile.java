@@ -2,11 +2,13 @@ package model;
 
 import org.json.JSONObject;
 import persistence.Writable;
+import ui.GameWindow;
 
 /*
  * Represents a projectile
  */
 public class Projectile implements Writable {
+    public static final int MAX_DISTANCE = 500; // max y distance before the projectile disappears
 
     private String type; // either "player" if created by the player or "enemy" if created by the enemy
     private int width;
@@ -15,6 +17,7 @@ public class Projectile implements Writable {
     private int coordY;
     private int dx;
     private int dy;
+    private int distanceTravelled;
 
     // EFFECTS: Creates a new projectile with the given parameters
     public Projectile(String type, int width, int height, int coordX, int coordY, int dx, int dy) {
@@ -25,6 +28,7 @@ public class Projectile implements Writable {
         this.coordY = coordY;
         this.dx = dx;
         this.dy = dy;
+        this.distanceTravelled = 0;
     }
 
     public String getType() {
@@ -53,6 +57,19 @@ public class Projectile implements Writable {
 
     public int getDy() {
         return dy;
+    }
+
+    public int getDistanceTravelled() {
+        return distanceTravelled;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Updates the player's position and velocity based on dx, dy, Stage.GRAVITY_ACCELERATION
+    public void updatePositionAndVelocity() {
+        double conversionFactor = (double) GameWindow.UPDATE_INTERVAL / 1000;
+        this.coordX += (dx * conversionFactor);
+        this.coordY += (dy * conversionFactor);
+        this.distanceTravelled += (dy * conversionFactor);
     }
 
     // EFFECTS: Checks if the projectile touches a rectangle with the given coordinates and size

@@ -29,6 +29,8 @@ public class DJGame implements Writable {
     private Stage stage;
     private List<Projectile> projectiles;
     private Set<Integer> keyCodesHeldDown;
+    private boolean isPlaying;
+    private boolean isGameOver;
 
     // EFFECTS: Creates a new DJGame with the first character ("Doge")
     public DJGame() {
@@ -37,6 +39,7 @@ public class DJGame implements Writable {
         this.stage = new Stage();
         this.projectiles = new ArrayList<>();
         this.keyCodesHeldDown = new HashSet<>();
+        this.isPlaying = false;
     }
 
     public Account getAccount() {
@@ -90,6 +93,10 @@ public class DJGame implements Writable {
         this.projectiles = new ArrayList<>();
     }
 
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject jsonObject =  new JSONObject();
@@ -112,6 +119,10 @@ public class DJGame implements Writable {
     public void keyPressed(Integer keyCode) {
         if ((keyCode == KeyEvent.VK_A) || (keyCode == KeyEvent.VK_D)) {
             keyCodesHeldDown.add(keyCode);
+        } else if (keyCode == KeyEvent.VK_P) {
+            isPlaying = !isPlaying;
+        } else if (keyCode == KeyEvent.VK_K && isPlaying && !isGameOver) {
+            shoot();
         }
     }
 
@@ -124,20 +135,36 @@ public class DJGame implements Writable {
     }
 
     // MODIFIES: this
-    // EFFECTS: Updates the game to its next game state
-    public void update() {
-        checkCollisions();
+    // EFFECTS: Shoots a player-type projectile upwards
+    public void shoot() {
+        List<Projectile> projectiles = new ArrayList<>();
+        projectiles.add(new Projectile("player", 10, 10,
+                player.getCoordX(), player.getCoordY(), 0, 600));
+        addProjectiles(projectiles);
+    }
 
-        updatePlayer();
-        updateProjectiles();
+    // MODIFIES: this
+    // EFFECTS: Updates the game to its next game state if it is not paused
+    public void update() {
+        if (isPlaying && !isGameOver) {
+            checkCollisions();
+
+            updatePlayer();
+            updateProjectiles();
+            updateEnemies();
+        }
     }
 
     // MODIFIES: enemies
     // EFFECTS: Checks and
     private void checkCollisions() {
         player.checkCollisionWithAnyEnemyProjectile(projectiles);
-        player.checkCollisionWithAnyEnemy(stage.getRegularEnemies());
-        player.checkCollisionWithAnyEnemy(stage.getBossEnemies());
+        if (player.checkCollisionWithAnyEnemy(stage.getRegularEnemies())
+                || player.checkCollisionWithAnyEnemy(stage.getBossEnemies())) {
+            player.setCurrentHealth(player.getCurrentHealth() - 1);
+            isGameOver = true;
+        }
+
 
         checkEnemyCollisions(stage.getRegularEnemies());
         checkEnemyCollisions(stage.getBossEnemies());
@@ -147,14 +174,16 @@ public class DJGame implements Writable {
     // MODIFIES: enemies
     // EFFECTS: Updates the given list of enemies based on its collisions with player projectiles
     private void checkEnemyCollisions(List<Enemy> enemies) {
+        List<Enemy> deadEnemies = new ArrayList<>();
         for (Enemy e: enemies) {
             if (e.checkCollisionWithAnyPlayerProjectile(projectiles)) {
                 e.setCurrentHealth(e.getCurrentHealth() - 1);
                 if (e.getCurrentHealth() <= 0) {
-                    enemies.remove(e);
+                    deadEnemies.add(e);
                 }
             }
         }
+        enemies.removeAll(deadEnemies);
     }
 
     // MODIFIES: this
@@ -169,8 +198,23 @@ public class DJGame implements Writable {
     }
 
     // MODIFIES: this
-    // EFFECTS: Updates the position and velocity of this game's projectiles to their next state
+    // EFFECTS: Updates this game's projectiles to their next state
     private void updateProjectiles() {
+        List<Projectile> deadProjectiles = new ArrayList<>();
+        for (Projectile p: projectiles) {
+            p.updatePositionAndVelocity();
+            if (p.getDistanceTravelled() > Projectile.MAX_DISTANCE) {
+                deadProjectiles.add(p);
+                System.out.println("removed");
+            }
+        }
+        projectiles.removeAll(deadProjectiles);
+    }
+
+
+    // MODIFIES: this
+    // EFFECTS: Updates the enemies in this game's stage to their next state
+    private void updateEnemies() {
     }
 
 }

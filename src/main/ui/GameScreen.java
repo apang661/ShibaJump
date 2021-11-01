@@ -15,11 +15,14 @@ public class GameScreen extends JPanel {
 
     private DJGame game;
     private int currentTopBorderHeight; // the height of the player + half of the screen height
+    Toolkit toolkit;
 
     public GameScreen(DJGame game) {
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-        setBackground(Color.WHITE);
+        setBackground(Color.gray);
         this.game = game;
+
+        toolkit = Toolkit.getDefaultToolkit();
     }
 
     // EFFECTS: Sets the top of the screen to the player's height + half of the screen height
@@ -42,8 +45,8 @@ public class GameScreen extends JPanel {
     // EFFECTS: Renders the current game state onto g
     private void drawGame(Graphics g) {
         centerPlayerOnScreen();
-        drawPlayer(g, game.getPlayer());
         drawStage(g, game.getStage());
+        drawPlayer(g, game.getPlayer());
         drawProjectiles(g, game.getProjectiles());
     }
 
@@ -53,13 +56,16 @@ public class GameScreen extends JPanel {
         Image playerImage;
         String imageFileLocation = "";
         String name = player.getName();
+
+        // Find the image path of given character name
         for (PlayableCharacter pc: PlayableCharacter.values()) {
             if (name.equals(pc.getName())) {
                 imageFileLocation = pc.getImageFile();
             }
         }
+
+        // Draw the image onto g if a path is found, otherwise draw a black rectangle of the same size
         if (!imageFileLocation.equals("")) {
-            Toolkit toolkit = Toolkit.getDefaultToolkit();
             playerImage = toolkit.getImage(imageFileLocation);
             g.drawImage(playerImage,
                     player.getCoordX() - player.getWidth() / 2,
@@ -71,7 +77,6 @@ public class GameScreen extends JPanel {
                     currentTopBorderHeight - (player.getCoordY() + player.getHeight()),
                     player.getWidth(), player.getHeight());
         }
-
     }
 
     // MODIFIES: g
@@ -83,11 +88,21 @@ public class GameScreen extends JPanel {
                 drawPlatform(g, p);
             }
         }
+        for (Enemy e: stage.getRegularEnemies()) {
+            if ((e.getCoordY() < currentTopBorderHeight + e.getHeight() / 2)
+                    && (e.getCoordY() > currentTopBorderHeight - SCREEN_HEIGHT - e.getHeight() / 2)) {
+                drawEnemy(g, e);
+            }
+        }
     }
 
     // MODIFIES: g
     // EFFECTS: Draws the platform onto g
     private void drawPlatform(Graphics g, Platform p) {
+        g.setColor(Color.WHITE);
+        g.fillRect(p.getCoordX() - p.getWidth() / 2,
+                currentTopBorderHeight - (p.getCoordY() + p.getHeight()),
+                p.getWidth(), p.getHeight());
         g.setColor(Color.BLACK);
         g.drawRect(p.getCoordX() - p.getWidth() / 2,
                 currentTopBorderHeight - (p.getCoordY() + p.getHeight()),
@@ -95,7 +110,27 @@ public class GameScreen extends JPanel {
     }
 
     // MODIFIES: g
+    // EFFECTS: Draws the enemy onto g
+    private void drawEnemy(Graphics g, Enemy e) {
+        Image enemyImage = toolkit.getImage(e.getImageFile());
+        g.drawImage(enemyImage,
+                e.getCoordX() - e.getWidth() / 2,
+                currentTopBorderHeight - (e.getCoordY() + e.getHeight() / 2),
+                e.getWidth(), e.getHeight(), this);
+    }
+
+    // MODIFIES: g
     // EFFECTS: Draws the projectiles onto g
     private void drawProjectiles(Graphics g, List<Projectile> projectiles) {
+        for (Projectile p: projectiles) {
+            if (p.getType().equals("player")) {
+                g.setColor(Color.GREEN);
+            } else if (p.getType().equals("enemy")) {
+                g.setColor(Color.RED);
+            }
+            g.drawRect(p.getCoordX() - p.getWidth() / 2,
+                    currentTopBorderHeight - (p.getCoordY() + p.getHeight()),
+                    p.getWidth(), p.getHeight());
+        }
     }
 }

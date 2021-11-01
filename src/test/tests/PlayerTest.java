@@ -4,8 +4,11 @@ import model.*;
 import model.regularenemies.RegularCat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ui.GameWindow;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,16 +51,39 @@ public class PlayerTest {
     }
 
     @Test
-    void testUpdatePositionAndVelocity() {
-        player = new Player(PlayableCharacter.DOGE);
-        int prevX = player.getCoordX();
-        int prevY = player.getCoordY();
-        int prevDy = player.getDy();
-        player.updatePositionAndVelocity();
+    void testUpdatePositionAndVelocityWithinDyLimit() {
+        int prevX = 100;
+        int prevY = 300;
+        double conversionFactor = (double) GameWindow.UPDATE_INTERVAL / 1000;
+        player.setCoordX(prevX);
+        player.setCoordY(prevY);
+        player.setDirectionByKeyCodesHeldDown(Collections.singleton(KeyEvent.VK_D)); // set direction to 1
 
-        assertEquals(prevX + player.getMaxDx(), player.getCoordX());
-        assertEquals(prevY + prevDy, player.getCoordY());
-        assertEquals(prevDy + Stage.GRAVITY_ACCELERATION, player.getDy());
+        int prevDy = (int) (Player.MAX_FALLING_DY / conversionFactor);
+        player.setDy(prevDy);
+
+        player.updatePositionAndVelocity();
+        assertEquals(prevX + Math.round(player.getMaxDx() * conversionFactor), player.getCoordX());
+        assertEquals((int) (prevY + prevDy * conversionFactor), player.getCoordY());
+        assertEquals((int) (prevDy + Stage.GRAVITY_ACCELERATION * conversionFactor), player.getDy());
+    }
+
+    @Test
+    void testUpdatePositionAndVelocityOutOfDyLimit() {
+        int prevX = 100;
+        int prevY = 300;
+        double conversionFactor = (double) GameWindow.UPDATE_INTERVAL / 1000;
+        player.setCoordX(prevX);
+        player.setCoordY(prevY);
+        player.setDirectionByKeyCodesHeldDown(Collections.singleton(KeyEvent.VK_D)); // set direction to 1
+
+        int prevDy = (int) ((Player.MAX_FALLING_DY - 1) / conversionFactor);
+        player.setDy(prevDy);
+
+        player.updatePositionAndVelocity();
+        assertEquals(prevX + Math.round(player.getMaxDx() * conversionFactor), player.getCoordX());
+        assertEquals(prevY + Player.MAX_FALLING_DY, player.getCoordY());
+        assertEquals((int) (prevDy + Stage.GRAVITY_ACCELERATION * conversionFactor), player.getDy());
     }
 
     @Test

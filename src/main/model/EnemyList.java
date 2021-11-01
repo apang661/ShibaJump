@@ -51,8 +51,12 @@ public class EnemyList implements ArrayWritable {
 
     // EFFECTS: Returns true if list of enemies contains enemy with given name
     public boolean containsEnemy(String name) {
-        Enemy enemy = Stage.nameToEnemy(name);
-        return listOfEnemies.contains(enemy);
+        for (Enemy e: listOfEnemies) {
+            if (e.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // EFFECTS: Returns the number of enemies in the list

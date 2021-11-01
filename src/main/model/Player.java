@@ -12,6 +12,8 @@ import java.util.Set;
  * Represents the player of DogeGame
  */
 public class Player implements Writable {
+    public static final int MAX_FALLING_DY =
+            -1 * Stage.PLATFORM_THICKNESS / 2; // max dy for player to not fall through platform
 
     private String name;
     private int currentHealth;
@@ -113,12 +115,16 @@ public class Player implements Writable {
     // MODIFIES: this
     // EFFECTS: Updates the player's position and velocity based on dx, dy, Stage.GRAVITY_ACCELERATION
     public void updatePositionAndVelocity() {
-        double conversionFactor = GameWindow.UPDATE_INTERVAL / (Stage.TIME_BETWEEN_PLATFORMS * 1000);
-        this.coordX += (maxDx * conversionFactor) * direction;
-        this.coordY += (dy * GameWindow.UPDATE_INTERVAL / 1000);
-        this.dy += Stage.GRAVITY_ACCELERATION * GameWindow.UPDATE_INTERVAL / 1000;
+        double conversionFactor = (double) GameWindow.UPDATE_INTERVAL / 1000;
+        this.coordX +=
+                Math.round((maxDx * conversionFactor) * direction); // *** rounded to keep left and right movement equal
+        this.coordY += Math.max(MAX_FALLING_DY, (dy * conversionFactor));
+        this.dy += Stage.GRAVITY_ACCELERATION * conversionFactor;
 
         checkBoundaries();
+
+        System.out.println(Math.round((maxDx * conversionFactor) * direction));
+        System.out.println((int) Math.max(MAX_FALLING_DY, (dy * conversionFactor)));
     }
 
     // MODIFIES: this

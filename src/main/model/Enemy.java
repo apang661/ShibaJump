@@ -9,18 +9,31 @@ import java.util.List;
  * Represents an enemy
  */
 public abstract class Enemy implements Writable {
+    protected String name;
     protected int coordX;
     protected int coordY;
     protected int currentHealth;
     protected int width;
     protected int height;
-    protected String name;
+    protected String imageFile;
 
-    public Enemy(String name, int health, int width, int height) {
+    public Enemy(String name, int health, int width, int height, String imageFile) {
         this.name = name;
         this.currentHealth = health;
         this.width = width;
         this.height = height;
+        this.imageFile = imageFile;
+    }
+
+    // EFFECTS: Creates a copy of the given enemy
+    public Enemy(Enemy e) {
+        this.name = e.name;
+        this.coordX = e.coordX;
+        this.coordY = e.coordY;
+        this.currentHealth = e.currentHealth;
+        this.width = e.width;
+        this.height = e.height;
+        this.imageFile = e.imageFile;
     }
 
     public String getName() {
@@ -59,6 +72,10 @@ public abstract class Enemy implements Writable {
         return height;
     }
 
+    public String getImageFile() {
+        return imageFile;
+    }
+
     // EFFECTS: Returns true if given player is touching this enemy
     public boolean isPlayerTouchingEnemy(Player player) {
         int playerLeftX = player.getCoordX() - player.getWidth() / 2;
@@ -76,10 +93,12 @@ public abstract class Enemy implements Writable {
         return (isWithinWidth && isWithinHeight);
     }
 
-    // EFFECTS: Returns true if this enemy is touching a player projectile in the given list of projectiles
+    // EFFECTS: If this enemy is touching a player projectile in the given list of projectiles,
+    //          return true and remove the projectile
     public boolean checkCollisionWithAnyPlayerProjectile(List<Projectile> projectiles) {
         for (Projectile p : projectiles) {
             if (p.checkEnemyCollisionWithProjectile(this)) {
+                projectiles.remove(p);
                 return true;
             }
         }

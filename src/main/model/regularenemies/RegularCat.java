@@ -16,11 +16,12 @@ public class RegularCat extends RegularEnemy {
     public static final int PROJECTILE_WIDTH = 10;
     public static final int PROJECTILE_HEIGHT = 10;
     public static final int PROJECTILE_DX = 0;
-    public static final int PROJECTILE_DY = 10;
+    public static final int PROJECTILE_DY = -10;
+    public static final String IMAGE_FILE = "./images/regularCat.jpg";
 
     // EFFECTS: Creates a new RegularCat enemy
     public RegularCat() {
-        super(NAME, MAX_HEALTH, WIDTH, HEIGHT);
+        super(NAME, MAX_HEALTH, WIDTH, HEIGHT, IMAGE_FILE);
     }
 
     @Override

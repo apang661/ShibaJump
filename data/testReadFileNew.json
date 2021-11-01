@@ -11,7 +11,7 @@
         "currentHealth": 5,
         "coordX": 100,
         "coordY": 100,
-        "dx": 600,
+        "dx": 400,
         "dy": 0
     },
     "stage": {

@@ -4,6 +4,7 @@ import model.bossenemies.BossCat;
 import model.bossenemies.BossEnemy;
 import model.regularenemies.RegularCat;
 import model.regularenemies.RegularEnemy;
+import model.regularenemies.RegularRat;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
@@ -17,8 +18,8 @@ import java.util.List;
 public class Stage implements Writable {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 6000;
-    public static final int HEIGHT_BETWEEN_PLATFORMS = 200;
-    public static final double TIME_BETWEEN_PLATFORMS = 0.5; // in milliseconds
+    public static final int HEIGHT_BETWEEN_PLATFORMS = 100;
+    public static final double TIME_BETWEEN_PLATFORMS = 0.4; // in seconds
     public static final int BOSS_STAGE_WIDTH = 800;
     public static final int BOSS_STAGE_HEIGHT = 600;
     public static final int PLATFORM_THICKNESS = 20;
@@ -31,7 +32,8 @@ public class Stage implements Writable {
     public static final double GRAVITY_ACCELERATION =
             -1 * 2 * HEIGHT_BETWEEN_PLATFORMS / Math.pow(TIME_BETWEEN_PLATFORMS, 2);
     public static final double MIN_JUMP_DY
-            = Math.sqrt(-2 * Stage.GRAVITY_ACCELERATION * Stage.HEIGHT_BETWEEN_PLATFORMS);
+            = Math.sqrt(-2 * Stage.GRAVITY_ACCELERATION * Stage.HEIGHT_BETWEEN_PLATFORMS)
+            + PlayableCharacter.MIN_HEIGHT;
 
     int stageNum;
     boolean bossStage;
@@ -126,18 +128,37 @@ public class Stage implements Writable {
         for (int i = 0; i < HEIGHT / HEIGHT_BETWEEN_PLATFORMS; i++) {
             int indexForQuarterOfHeight = HEIGHT / HEIGHT_BETWEEN_PLATFORMS / 4;
             int heightOfPlatformAtI = i * HEIGHT_BETWEEN_PLATFORMS;
-            if (i == 0 || i == indexForQuarterOfHeight) {
+            if (i == 0 || i % indexForQuarterOfHeight == 0) {
                 addScreenWidePlatform(i * HEIGHT_BETWEEN_PLATFORMS);
             } else {
-                double rand = Math.random();
-                if (rand < .4) {
+                double stageRand = Math.random();
+                if (stageRand < .4) {
                     addEasyPlatformConfiguration(heightOfPlatformAtI);
-                } else if (rand < .8) {
+                } else if (stageRand < .8) {
                     addNormalPlatformConfiguration(heightOfPlatformAtI);
                 } else {
                     addHardPlatformConfiguration(heightOfPlatformAtI);
                 }
+                if (i > 2) {
+                    addEnemyStage1Reg(heightOfPlatformAtI);
+                }
             }
+        }
+    }
+
+    // EFFECTS: Randomly adds enemy to level one at the given platform
+    private void addEnemyStage1Reg(int heightOfPlatformAtI) {
+        double enemyRand = Math.random();
+        double enemyCoordXRand = Math.random();
+
+        if (enemyRand < .2) {
+            addEnemy("Rat", // *** test this
+                    (int) (WIDTH / 2 + Math.round((enemyCoordXRand - 0.5) * WIDTH)),
+                    heightOfPlatformAtI + HEIGHT_BETWEEN_PLATFORMS / 2);
+        } else if (enemyRand < .4) {
+            addEnemy("Cat", // *** test this
+                    (int) (WIDTH / 2 + Math.round((enemyCoordXRand - 0.5) * WIDTH)),
+                    heightOfPlatformAtI + HEIGHT_BETWEEN_PLATFORMS / 2);
         }
     }
 
@@ -266,27 +287,19 @@ public class Stage implements Writable {
     // REQUIRES: Given name must be a name of an enemy in either DJGame.REGULAR_ENEMIES or DJGame.BOSS_ENEMIES
     // EFFECTS: Returns the enemy object with the given name
     public static Enemy nameToEnemy(String name) {
-        for (Enemy e: DJGame.REGULAR_ENEMIES) {
-            if (e.getName().equals(name)) {
-                return e;
+        switch (name) {
+            case ("Cat"): {
+                return new RegularCat();
             }
-        }
-        for (Enemy e: DJGame.BOSS_ENEMIES) {
-            if (e.getName().equals(name)) {
-                return e;
+            case ("Rat"): {
+                return new RegularRat();
             }
-        }
-        return new RegularCat();
-    }
-
-    // REQUIRES: Given enemy is in the list of enemies in this stage
-    // MODIFIES: this
-    // EFFECTS: Removes the given enemy from the list of enemies in this stage
-    public void removeEnemy(Enemy enemy) {
-        if (enemy instanceof RegularEnemy) {
-            regularEnemies.remove(enemy);
-        } else {
-            bossEnemies.remove(enemy);
+            case ("Evil Cat"): {
+                return new BossCat();
+            }
+            default: {
+                return null;
+            }
         }
     }
 

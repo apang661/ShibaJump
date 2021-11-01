@@ -155,7 +155,7 @@ public class StageTest {
         stage.setStage();
 
         assertEquals(1, stage.getPlatforms().size());
-        assertTrue(stage.containsPlatformAtY(0));
+        assertTrue(stage.containsPlatformAtY(Stage.PLATFORM_THICKNESS / 2 + 1));
     }
 
     @Test
@@ -295,28 +295,7 @@ public class StageTest {
     }
 
     @Test
-    void testRemoveEnemy() {
-        Enemy enemy0 = DJGame.REGULAR_ENEMIES.get(0);
-        Enemy enemy1 = DJGame.BOSS_ENEMIES.get(0);
-
-        stage.addEnemy(enemy0.getName(), 0, 0);
-        stage.addEnemy(enemy1.getName(), 2, 2);
-        assertEquals(1, stage.getRegularEnemies().size());
-        assertEquals(1, stage.getBossEnemies().size());
-
-        stage.removeEnemy(enemy0);
-        assertEquals(0, stage.getRegularEnemies().size());
-        assertEquals(1, stage.getBossEnemies().size());
-        assertEquals(stage.getBossEnemies().get(0), enemy1);
-
-        stage.removeEnemy(enemy1);
-        assertEquals(0, stage.getBossEnemies().size());
-
-
-    }
-
-    @Test
     void testNameToEnemyNotFound() {
-        assertEquals("Cat", Stage.nameToEnemy("not found").getName());
+        assertNull(Stage.nameToEnemy("not found"));
     }
 }
