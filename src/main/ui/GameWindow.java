@@ -21,6 +21,7 @@ public class GameWindow extends JFrame {
         this.game = game;
         gs = new GameScreen(game);
 
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         add(gs);
         addKeyListener(new KeyHandler());
         pack();
@@ -47,6 +48,10 @@ public class GameWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 game.update();
                 gs.repaint();
+                if (game.isGameOver()) {
+                    System.out.println("You lose");
+                    System.exit(0);
+                }
             }
         });
 

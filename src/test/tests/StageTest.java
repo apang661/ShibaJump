@@ -67,7 +67,7 @@ public class StageTest {
 
     @Test
     void testIsPlayerFallingOnAnyPlatformFallingMiddle() {
-        Player player = new Player(PlayableCharacter.DOGE);
+        Player player = new Player(Player.PlayableCharacter.DOGE);
         player.setDy(0);
 
         // Middle of platform
@@ -89,7 +89,7 @@ public class StageTest {
 
     @Test
     void testIsPlayerFallingOnAnyPlatformFallingLeft() {
-        Player player = new Player(PlayableCharacter.DOGE);
+        Player player = new Player(Player.PlayableCharacter.DOGE);
         player.setDy(0);
 
         // On left edge of platform
@@ -115,7 +115,7 @@ public class StageTest {
 
     @Test
     void testIsPlayerFallingOnAnyPlatformFallingRight() {
-        Player player = new Player(PlayableCharacter.DOGE);
+        Player player = new Player(Player.PlayableCharacter.DOGE);
         player.setDy(0);
 
         // On right edge of platform
@@ -141,7 +141,7 @@ public class StageTest {
 
     @Test
     void testIsPlayerFallingOnAnyPlatformNotFalling() {
-        Player player = new Player(PlayableCharacter.DOGE);
+        Player player = new Player(Player.PlayableCharacter.DOGE);
         player.setDy(1);
 
         player.setCoordX(Stage.WIDTH / 2);

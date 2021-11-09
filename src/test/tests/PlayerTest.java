@@ -7,9 +7,7 @@ import org.junit.jupiter.api.Test;
 import ui.GameWindow;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +20,7 @@ public class PlayerTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player(PlayableCharacter.DOGE);
+        player = new Player(Player.PlayableCharacter.DOGE);
 
         projectile = new Projectile(
                 "enemy", 10, 6, Stage.WIDTH / 2, Stage.HEIGHT / 2, 0, 0);
@@ -47,7 +45,8 @@ public class PlayerTest {
     }
     @Test
     void testGetDyForJump() {
-        assertEquals(PlayableCharacter.DOGE.getDyForJump(), player.getDyForJump());
+        player.setDyForJump(100);
+        assertEquals(100, player.getDyForJump());
     }
 
     @Test
@@ -66,6 +65,29 @@ public class PlayerTest {
         assertEquals(prevX + Math.round(player.getMaxDx() * conversionFactor), player.getCoordX());
         assertEquals((int) (prevY + prevDy * conversionFactor), player.getCoordY());
         assertEquals((int) (prevDy + Stage.GRAVITY_ACCELERATION * conversionFactor), player.getDy());
+
+        testHandleHorizontalBoundaries();
+    }
+
+    private void testHandleHorizontalBoundaries() {
+        player.setMaxDx(0);
+        player.setDy(0);
+
+        player.setCoordX(-1);
+        player.updatePositionAndVelocity();
+        assertEquals(Stage.WIDTH - 1, player.getCoordX());
+
+        player.setCoordX(0);
+        player.updatePositionAndVelocity();
+        assertEquals(0, player.getCoordX());
+
+        player.setCoordX(Stage.WIDTH + 1);
+        player.updatePositionAndVelocity();
+        assertEquals(1, player.getCoordX());
+
+        player.setCoordX(Stage.WIDTH);
+        player.updatePositionAndVelocity();
+        assertEquals(Stage.WIDTH, player.getCoordX());
     }
 
     @Test
@@ -332,4 +354,34 @@ public class PlayerTest {
         assertFalse(player.checkCollisionWithAnyEnemy(enemyList));
     }
 
+    @Test
+    void testSetDirectionByKeyCodesHeldDown() {
+        Set<Integer> keyCodes = new HashSet<>();
+
+        keyCodes.add(KeyEvent.VK_A);
+        player.setDirectionByKeyCodesHeldDown(keyCodes);
+        assertEquals(-1, player.getDirection());
+        keyCodes.remove(KeyEvent.VK_A);
+
+        keyCodes.add(KeyEvent.VK_D);
+        player.setDirectionByKeyCodesHeldDown(keyCodes);
+        assertEquals(1, player.getDirection());
+        keyCodes.remove(KeyEvent.VK_D);
+
+        keyCodes.add(-1);
+        player.setDirectionByKeyCodesHeldDown(keyCodes);
+        assertEquals(0, player.getDirection());
+    }
+
+    @Test
+    void testJump() {
+        player.setDy(0);
+        player.jump();
+        assertEquals(player.getDyForJump(), player.getDy());
+    }
+
+    @Test
+    void testGetImageFileLocation() {
+        assertEquals("./images/doge.jpg", player.getImageFileLocation(player.getName()));
+    }
 }

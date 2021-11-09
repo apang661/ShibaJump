@@ -3,7 +3,7 @@ package ui;
 import model.Account;
 import model.DJGame;
 import model.EnemyList;
-import model.PlayableCharacter;
+import model.Player.PlayableCharacter;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -156,7 +156,7 @@ public class HomeScreenApp {
         }
     }
 
-    // EFFECTS: Enter the game (only a message since game is incomplete)
+    // EFFECTS: Enter the game
     private void enterGame() {
         game.getStage().setStageNum(1);
         game.getStage().setStage();

@@ -18,8 +18,8 @@ import java.util.List;
 public class Stage implements Writable {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 6000;
-    public static final int HEIGHT_BETWEEN_PLATFORMS = 100;
-    public static final double TIME_BETWEEN_PLATFORMS = 0.4; // in seconds
+    public static final int HEIGHT_BETWEEN_PLATFORMS = 150;
+    public static final double TIME_BETWEEN_PLATFORMS = 0.35; // in seconds
     public static final int BOSS_STAGE_WIDTH = 800;
     public static final int BOSS_STAGE_HEIGHT = 600;
     public static final int PLATFORM_THICKNESS = 20;
@@ -33,7 +33,7 @@ public class Stage implements Writable {
             -1 * 2 * HEIGHT_BETWEEN_PLATFORMS / Math.pow(TIME_BETWEEN_PLATFORMS, 2);
     public static final double MIN_JUMP_DY
             = Math.sqrt(-2 * Stage.GRAVITY_ACCELERATION * Stage.HEIGHT_BETWEEN_PLATFORMS)
-            + PlayableCharacter.MIN_HEIGHT;
+            + Player.PlayableCharacter.MIN_HEIGHT;
 
     int stageNum;
     boolean bossStage;
@@ -132,33 +132,20 @@ public class Stage implements Writable {
                 addScreenWidePlatform(i * HEIGHT_BETWEEN_PLATFORMS);
             } else {
                 double stageRand = Math.random();
+                double enemyRand = Math.random();
+                List<Integer> enemyLocations;
+
                 if (stageRand < .4) {
-                    addEasyPlatformConfiguration(heightOfPlatformAtI);
+                    enemyLocations = addEasyPlatformConfiguration(heightOfPlatformAtI);
                 } else if (stageRand < .8) {
-                    addNormalPlatformConfiguration(heightOfPlatformAtI);
+                    enemyLocations = addNormalPlatformConfiguration(heightOfPlatformAtI);
                 } else {
-                    addHardPlatformConfiguration(heightOfPlatformAtI);
+                    enemyLocations = addHardPlatformConfiguration(heightOfPlatformAtI);
                 }
                 if (i > 2) {
-                    addEnemyStage1Reg(heightOfPlatformAtI);
+                    addEnemyStageReg(enemyLocations, heightOfPlatformAtI, enemyRand);
                 }
             }
-        }
-    }
-
-    // EFFECTS: Randomly adds enemy to level one at the given platform
-    private void addEnemyStage1Reg(int heightOfPlatformAtI) {
-        double enemyRand = Math.random();
-        double enemyCoordXRand = Math.random();
-
-        if (enemyRand < .2) {
-            addEnemy("Rat", // *** test this
-                    (int) (WIDTH / 2 + Math.round((enemyCoordXRand - 0.5) * WIDTH)),
-                    heightOfPlatformAtI + HEIGHT_BETWEEN_PLATFORMS / 2);
-        } else if (enemyRand < .4) {
-            addEnemy("Cat", // *** test this
-                    (int) (WIDTH / 2 + Math.round((enemyCoordXRand - 0.5) * WIDTH)),
-                    heightOfPlatformAtI + HEIGHT_BETWEEN_PLATFORMS / 2);
         }
     }
 
@@ -172,49 +159,107 @@ public class Stage implements Writable {
         bossEnemies.add(boss);
     }
 
+    // REQUIRES: Given rand value is between 0 and 1, this.isBossStage must be false
     // MODIFIES: this
-    // EFFECTS: Adds an easy-level platform configuration to the stage
-    public void addEasyPlatformConfiguration(int y) {
+    // EFFECTS: If rand < .4 (50% chance) and enemyLocations is not empty,
+    //              - randomly choose one of the given enemy locations
+    //              - place a randomly chosen enemy at the location chosen above
+    private void addEnemyStageReg(List<Integer> enemyLocations, int heightOfPlatformAtI, double rand) {
+        if (!enemyLocations.isEmpty() && (rand < .5)) {
+            double locationRand = Math.random(); // chooses location of enemy
+            double enemyRand = Math.random(); // chooses which enemy to add
+
+            int numOfLocations = enemyLocations.size();
+            int coordX = 0;
+
+            for (int i = 0; i < numOfLocations; i++) {
+                if (locationRand < (i + 1) / (double) numOfLocations && locationRand >= i / (double) numOfLocations) {
+                    coordX = enemyLocations.get(i);
+                }
+            }
+            if (stageNum == 1) {
+                spawnEnemyStage1Reg(heightOfPlatformAtI, enemyRand, coordX);
+            }
+        }
+    }
+
+    private void spawnEnemyStage1Reg(int heightOfPlatformAtI, double enemyRand, int coordX) {
+        if (enemyRand < .5) {
+            addEnemy("Rat", coordX, heightOfPlatformAtI + HEIGHT_BETWEEN_PLATFORMS / 2);  // *** test this
+        } else {
+            addEnemy("Cat", coordX, heightOfPlatformAtI + HEIGHT_BETWEEN_PLATFORMS / 2);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Adds an easy-level platform configuration to the stage and returns a list of possible enemy locations
+    public List<Integer> addEasyPlatformConfiguration(int y) {
         double rand = Math.random();
+        List<Integer> enemyLocations = new ArrayList<>();
+
         if (rand < .25) {
             addWidePlatform(WIDTH / 2, y);
+            enemyLocations.add(WIDTH / 2);
         } else if (rand < .5) {
             addRegularPlatform(REGULAR_PLATFORM_WIDTH / 2, y);
             addRegularPlatform(WIDTH - REGULAR_PLATFORM_WIDTH / 2, y);
+            enemyLocations.add(REGULAR_PLATFORM_WIDTH / 2);
+            enemyLocations.add(WIDTH - REGULAR_PLATFORM_WIDTH / 2);
         } else if (rand < .75) {
             addWidePlatform(WIDE_PLATFORM_WIDTH / 2, y);
             addNarrowPlatform(WIDTH - NARROW_PLATFORM_WIDTH / 2, y);
+            enemyLocations.add(WIDE_PLATFORM_WIDTH / 2);
+            enemyLocations.add(WIDTH - NARROW_PLATFORM_WIDTH / 2);
         } else {
             addNarrowPlatform(NARROW_PLATFORM_WIDTH / 2, y);
             addWidePlatform(WIDTH - WIDE_PLATFORM_WIDTH / 2, y);
+            enemyLocations.add(NARROW_PLATFORM_WIDTH / 2);
+            enemyLocations.add(WIDTH - WIDE_PLATFORM_WIDTH / 2);
         }
+
+        return enemyLocations;
     }
 
     // MODIFIES: this
-    // EFFECTS: Adds a normal-level platform configuration to the stage
-    public void addNormalPlatformConfiguration(int y) {
+    // EFFECTS: Adds a normal-level platform configuration to the stage and returns a list of possible enemy locations
+    public List<Integer> addNormalPlatformConfiguration(int y) {
         double rand = Math.random();
+        List<Integer> enemyLocations = new ArrayList<>();
+
         if (rand < .25) {
             addRegularPlatform(WIDTH / 2, y);
+            enemyLocations.add(WIDTH / 2);
+            System.out.println("now");
         } else if (rand < .5) {
             addRegularPlatform(WIDTH / 4, y);
+            enemyLocations.add(WIDTH / 4);
         } else if (rand < .75) {
             addRegularPlatform(3 * WIDTH / 4, y);
+            enemyLocations.add(3 * WIDTH / 4);
         } else {
             addNarrowPlatform(NARROW_PLATFORM_WIDTH / 2, y);
             addWidePlatform(WIDTH - WIDE_PLATFORM_WIDTH / 2, y);
+            enemyLocations.add(NARROW_PLATFORM_WIDTH / 2);
+            enemyLocations.add(WIDTH - WIDE_PLATFORM_WIDTH / 2);
+
         }
+        return enemyLocations;
     }
 
     // MODIFIES: this
-    // EFFECTS: Adds a hard-level platform configuration to the stage
-    public void addHardPlatformConfiguration(int y) {
+    // EFFECTS: Adds a hard-level platform configuration to the stage and returns a list of possible enemy locations
+    public List<Integer> addHardPlatformConfiguration(int y) {
         double rand = Math.random();
+        List<Integer> enemyLocations = new ArrayList<>();
+
         if (rand < .5) {
             addNarrowPlatform(WIDTH / 4, y);
+            enemyLocations.add(WIDTH / 4);
         } else {
             addNarrowPlatform(3 * WIDTH / 4, y);
+            enemyLocations.add(3 * WIDTH / 4);
         }
+        return enemyLocations;
     }
 
     // REQUIRES: Platform must be within the stage (between 0 and HEIGHT)
@@ -264,7 +309,7 @@ public class Stage implements Writable {
         setupAndPlaceEnemyInCorrectList(x, y, enemy);
     }
 
-
+    // REQUIRES: Given name must be the name of an enemy in the game
     // MODIFIES: this
     // EFFECTS: Add the given regular enemy to this stage's regular enemies with coordinates x, y at the given health
     public void addEnemy(String name, int x, int y, int health) {

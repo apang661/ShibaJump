@@ -25,17 +25,6 @@ public abstract class Enemy implements Writable {
         this.imageFile = imageFile;
     }
 
-    // EFFECTS: Creates a copy of the given enemy
-    public Enemy(Enemy e) {
-        this.name = e.name;
-        this.coordX = e.coordX;
-        this.coordY = e.coordY;
-        this.currentHealth = e.currentHealth;
-        this.width = e.width;
-        this.height = e.height;
-        this.imageFile = e.imageFile;
-    }
-
     public String getName() {
         return name;
     }

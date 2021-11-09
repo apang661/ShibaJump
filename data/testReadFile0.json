@@ -11,7 +11,7 @@
     },
     "player": {
         "name": "Walter",
-        "currentHealth": 5,
+        "currentHealth": 3,
         "coordX": 0,
         "coordY": 1,
         "dx": 20,

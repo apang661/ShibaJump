@@ -35,7 +35,7 @@ public class DJGame implements Writable {
     // EFFECTS: Creates a new DJGame with the first character ("Doge")
     public DJGame() {
         this.account = new Account();
-        this.player = new Player(PlayableCharacter.DOGE);
+        this.player = new Player(Player.PlayableCharacter.WALTER);
         this.stage = new Stage();
         this.projectiles = new ArrayList<>();
         this.keyCodesHeldDown = new HashSet<>();
@@ -53,7 +53,7 @@ public class DJGame implements Writable {
     // MODIFIES: this
     // EFFECTS: Sets player to character with String name if found in CHARACTERS; otherwise do nothing
     public void setCharacter(String name) {
-        for (PlayableCharacter character: PlayableCharacter.values()) {
+        for (Player.PlayableCharacter character: Player.PlayableCharacter.values()) {
             if (character.getName().equals(name)) {
                 player = new Player(character);
                 account.setSelectedCharacter(name);
@@ -93,8 +93,24 @@ public class DJGame implements Writable {
         this.projectiles = new ArrayList<>();
     }
 
+    public Set<Integer> getKeyCodesHeldDown() {
+        return keyCodesHeldDown;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
     public void setPlaying(boolean playing) {
         isPlaying = playing;
+    }
+
+    public boolean isGameOver() {
+        return isGameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        isGameOver = gameOver;
     }
 
     @Override
@@ -156,16 +172,18 @@ public class DJGame implements Writable {
     }
 
     // MODIFIES: enemies
-    // EFFECTS: Checks and
+    // EFFECTS: Updates the game based on the collisions between objects in the game
+    //          if player collides with any enemy or enemy projectile, subtract one from player's current health
+    //          if player's current health is at 0, set isGameOver to true
     private void checkCollisions() {
         player.checkCollisionWithAnyEnemyProjectile(projectiles);
         if (player.checkCollisionWithAnyEnemy(stage.getRegularEnemies())
                 || player.checkCollisionWithAnyEnemy(stage.getBossEnemies())) {
             player.setCurrentHealth(player.getCurrentHealth() - 1);
+        }
+        if (player.getCurrentHealth() == 0) {
             isGameOver = true;
         }
-
-
         checkEnemyCollisions(stage.getRegularEnemies());
         checkEnemyCollisions(stage.getBossEnemies());
     }
@@ -173,6 +191,8 @@ public class DJGame implements Writable {
 
     // MODIFIES: enemies
     // EFFECTS: Updates the given list of enemies based on its collisions with player projectiles
+    //          Subtracts one from enemy health if it collides with a player-type projectile
+    //          Removes the enemy from the game if its health is <= 0
     private void checkEnemyCollisions(List<Enemy> enemies) {
         List<Enemy> deadEnemies = new ArrayList<>();
         for (Enemy e: enemies) {

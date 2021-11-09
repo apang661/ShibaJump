@@ -103,12 +103,12 @@ public class JsonReaderTest {
     }
 
     private void testParsePlayerTestFileNew(Player player) {
-        PlayableCharacter pc = PlayableCharacter.DOGE;
-        assertEquals(pc.getName(), player.getName());
-        assertEquals(pc.getMaxHealth(), player.getCurrentHealth());
-        assertEquals(pc.getWidth(), player.getWidth());
-        assertEquals(pc.getHeight(), player.getHeight());
-        assertEquals(pc.getDx(), player.getMaxDx());
+        Player testPlayer = new Player(Player.PlayableCharacter.DOGE);
+        assertEquals(testPlayer.getName(), player.getName());
+        assertEquals(testPlayer.getCurrentHealth(), player.getCurrentHealth());
+        assertEquals(testPlayer.getWidth(), player.getWidth());
+        assertEquals(testPlayer.getHeight(), player.getHeight());
+        assertEquals(testPlayer.getMaxDx(), player.getMaxDx());
         assertEquals(0, player.getDy());
     }
 
@@ -145,10 +145,14 @@ public class JsonReaderTest {
     }
 
     private void testParsePlayerTestFile0(Player player) {
+        Player testPlayer = new Player(Player.PlayableCharacter.WALTER);
+
         assertEquals("Walter", player.getName());
-        assertEquals(5, player.getCurrentHealth());
-        assertEquals(PlayableCharacter.WALTER.getWidth(), player.getWidth());
-        assertEquals(PlayableCharacter.WALTER.getHeight(), player.getHeight());
+        assertEquals(3, player.getCurrentHealth());
+        assertEquals(testPlayer.getWidth(), player.getWidth());
+        assertEquals(testPlayer.getHeight(), player.getHeight());
+        assertEquals(0, player.getCoordX());
+        assertEquals(1, player.getCoordY());
         assertEquals(20, player.getMaxDx());
         assertEquals(2, player.getDy());
     }

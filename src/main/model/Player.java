@@ -15,6 +15,35 @@ public class Player implements Writable {
     public static final int MAX_FALLING_DY =
             -1 * Stage.PLATFORM_THICKNESS / 2; // max dy for player to not fall through platform
 
+    public enum PlayableCharacter {
+        DOGE("Doge",5,  60, 60, 400, 1.25, "./images/doge.jpg"),
+        WALTER("Walter",4,  40, 70, 600, 1.2, "./images/walter.jpg"),
+        CHEEMS("Cheems", 4, 40, 40, 600, 1.1, "./images/cheems.jpg");
+
+        public static final int MIN_HEIGHT = 40;
+        private final String name;
+        private final int maxHealth;
+        private final int width;
+        private final int height;
+        private final int dx;
+        private final int dyForJump;
+        private final String imageFile;
+
+        PlayableCharacter(String name, int health, int width, int height, int dx, double dyMultiplier, String imgFile) {
+            this.maxHealth = health;
+            this.name = name;
+            this.width = width;
+            this.height = Math.max(MIN_HEIGHT, height);
+            this.dx = dx;
+            this.dyForJump = (int) Math.round(dyMultiplier * Stage.MIN_JUMP_DY);
+            this.imageFile = imgFile;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+    }
+
     private String name;
     private int currentHealth;
     private int width;
@@ -28,14 +57,14 @@ public class Player implements Writable {
 
     // EFFECTS: Creates a new player with variables corresponding to the parameter character
     public Player(PlayableCharacter character) {
-        this.name = character.getName();
-        this.currentHealth = character.getMaxHealth();
-        this.width = character.getWidth();
-        this.height = character.getHeight();
-        this.maxDx = character.getDx();
+        this.name = character.name;
+        this.currentHealth = character.maxHealth;
+        this.width = character.width;
+        this.height = character.height;
+        this.maxDx = character.dx;
         this.direction = 0;
-        this.dy = character.getDyForJump();
-        this.dyForJump = character.getDyForJump();
+        this.dy = character.dyForJump;
+        this.dyForJump = character.dyForJump;
     }
 
     public String getName() {
@@ -82,6 +111,10 @@ public class Player implements Writable {
         this.maxDx = maxDx;
     }
 
+    public int getDirection() {
+        return direction;
+    }
+
     // MODIFIES: this
     // EFFECTS: Sets the direction based on the given key codes (A - left, D - right, other - no direction)
     public void setDirectionByKeyCodesHeldDown(Set<Integer> keyCodes) {
@@ -106,6 +139,21 @@ public class Player implements Writable {
         return dyForJump;
     }
 
+    public void setDyForJump(int dyForJump) {
+        this.dyForJump = dyForJump;
+    }
+
+    // EFFECTS: Returns the image file directory for the character of the given name
+    public String getImageFileLocation(String name) {
+        String imageFileLocation = "";
+        for (PlayableCharacter pc: PlayableCharacter.values()) {
+            if (name.equals(pc.getName())) {
+                imageFileLocation = pc.imageFile;
+            }
+        }
+        return imageFileLocation;
+    }
+
     // MODIFIES: this
     // EFFECTS: Sets player's dy to its initial dy when jumping
     public void jump() {
@@ -121,17 +169,14 @@ public class Player implements Writable {
         this.coordY += Math.max(MAX_FALLING_DY, (dy * conversionFactor));
         this.dy += Stage.GRAVITY_ACCELERATION * conversionFactor;
 
-        checkBoundaries();
-
-        System.out.println(Math.round((maxDx * conversionFactor) * direction));
-        System.out.println((int) Math.max(MAX_FALLING_DY, (dy * conversionFactor)));
+        handleHorizontalBoundaries();
     }
 
     // MODIFIES: this
     // EFFECTS: Moves player to the other side of the stage if out of boundary
-    private void checkBoundaries() {
+    private void handleHorizontalBoundaries() {
         if (coordX < 0) {
-            coordX = Stage.WIDTH - coordX;
+            coordX = Stage.WIDTH + coordX;
         } else if (coordX > Stage.WIDTH) {
             coordX = coordX - Stage.WIDTH;
         }

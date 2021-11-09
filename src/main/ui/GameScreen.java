@@ -54,15 +54,11 @@ public class GameScreen extends JPanel {
     // EFFECTS: Draws the player onto g
     private void drawPlayer(Graphics g, Player player) {
         Image playerImage;
-        String imageFileLocation = "";
+        String imageFileLocation;
         String name = player.getName();
 
         // Find the image path of given character name
-        for (PlayableCharacter pc: PlayableCharacter.values()) {
-            if (name.equals(pc.getName())) {
-                imageFileLocation = pc.getImageFile();
-            }
-        }
+        imageFileLocation = player.getImageFileLocation(name);
 
         // Draw the image onto g if a path is found, otherwise draw a black rectangle of the same size
         if (!imageFileLocation.equals("")) {
@@ -78,6 +74,7 @@ public class GameScreen extends JPanel {
                     player.getWidth(), player.getHeight());
         }
     }
+
 
     // MODIFIES: g
     // EFFECTS: Draws the stage onto g

@@ -61,7 +61,7 @@ public class Projectile implements Writable {
 
     public int getDistanceTravelled() {
         return distanceTravelled;
-    }
+    } // will be tested in DJgame
 
     // MODIFIES: this
     // EFFECTS: Updates the player's position and velocity based on dx, dy, Stage.GRAVITY_ACCELERATION

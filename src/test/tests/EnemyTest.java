@@ -84,11 +84,15 @@ public class EnemyTest {
         projectileList.add(projectile);
 
         assertEquals(1, projectileList.size());
-        enemy.setCoordX(Stage.WIDTH / 2);
-        enemy.setCoordY(Stage.HEIGHT / 2);
+        enemy.setCoordX(projectile.getCoordX());
+        enemy.setCoordY(projectile.getCoordY());
 
         assertTrue(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
         assertEquals(0, projectileList.size());
+
+        enemy.setCoordX(-500);
+        enemy.setCoordY(-500);
+        enemy.checkCollisionWithAnyPlayerProjectile(projectileList);
     }
 
     @Test
@@ -97,37 +101,44 @@ public class EnemyTest {
                 "enemy", 10, 6, Stage.WIDTH / 2, Stage.HEIGHT / 2, 0, 0);
         projectileList.add(projectile);
 
-        enemy.setCoordX(Stage.WIDTH / 2);
-        enemy.setCoordY(Stage.HEIGHT / 2);
-
+        enemy.setCoordX(projectile.getCoordX());
+        enemy.setCoordY(projectile.getCoordY());
         assertFalse(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
+        assertEquals(1, projectileList.size());
+
+        enemy.setCoordX(-300);
+        enemy.setCoordY(-300);
+        assertFalse(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
+        assertEquals(1, projectileList.size());
     }
 
     @Test
     void testCheckCollisionWithAnyPlayerProjectileRight() {
-        // Top right of enemy
         projectileList.add(projectile);
+
+        // Top right of enemy
         enemy.setCoordY(Stage.HEIGHT / 2 + projectile.getHeight() / 2 + enemy.getHeight() / 2);
         enemy.setCoordX(Stage.WIDTH / 2 + projectile.getWidth() / 2 + enemy.getWidth() / 2);
         assertTrue(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
+        projectileList.add(projectile);
 
         enemy.setCoordX(Stage.WIDTH / 2 + projectile.getWidth() / 2 + enemy.getWidth() / 2 + 1);
         assertFalse(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
 
         // Middle right of enemy
-        projectileList.add(projectile);
         enemy.setCoordY(Stage.HEIGHT / 2);
         enemy.setCoordX(Stage.WIDTH / 2 + projectile.getWidth() / 2 + enemy.getWidth() / 2);
         assertTrue(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
+        projectileList.add(projectile);
 
         enemy.setCoordX(Stage.WIDTH / 2 + projectile.getWidth() / 2 + enemy.getWidth() / 2 + 1);
         assertFalse(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
 
         // Bottom right of enemy
-        projectileList.add(projectile);
         enemy.setCoordY(Stage.HEIGHT / 2 - projectile.getHeight() / 2 - enemy.getHeight() / 2);
         enemy.setCoordX(Stage.WIDTH / 2 + projectile.getWidth() / 2 + enemy.getWidth() / 2);
         assertTrue(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
+        projectileList.add(projectile);
 
         enemy.setCoordX(Stage.WIDTH / 2 + projectile.getWidth() / 2 + enemy.getWidth() / 2 + 1);
         assertFalse(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
@@ -135,29 +146,31 @@ public class EnemyTest {
 
     @Test
     void testCheckCollisionWithAnyPlayerProjectileLeft() {
-        // Top left of projectile
         projectileList.add(projectile);
+
+        // Top left of projectile
         enemy.setCoordY(Stage.HEIGHT / 2 + projectile.getHeight() / 2 + enemy.getHeight() / 2);
         enemy.setCoordX(Stage.WIDTH / 2 - projectile.getWidth() / 2 - enemy.getWidth() / 2);
         assertTrue(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
+        projectileList.add(projectile);
 
         enemy.setCoordX(Stage.WIDTH / 2 - projectile.getWidth() / 2 - enemy.getWidth() / 2 - 1);
         assertFalse(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
 
         // Middle left of projectile
-        projectileList.add(projectile);
         enemy.setCoordY(Stage.HEIGHT / 2);
         enemy.setCoordX(Stage.WIDTH / 2 - projectile.getWidth() / 2 - enemy.getWidth() / 2);
         assertTrue(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
+        projectileList.add(projectile);
 
         enemy.setCoordX(Stage.WIDTH / 2 - projectile.getWidth() / 2 - enemy.getWidth() / 2 - 1);
         assertFalse(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
 
         // Bottom left of projectile
-        projectileList.add(projectile);
         enemy.setCoordY(Stage.HEIGHT / 2 - projectile.getHeight() / 2 - enemy.getHeight() / 2);
         enemy.setCoordX(Stage.WIDTH / 2 - projectile.getWidth() / 2 - enemy.getWidth() / 2);
         assertTrue(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
+        projectileList.add(projectile);
 
         enemy.setCoordX(Stage.WIDTH / 2 - projectile.getWidth() / 2 - enemy.getWidth() / 2 - 1);
         assertFalse(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
@@ -165,11 +178,13 @@ public class EnemyTest {
 
     @Test
     void testCheckCollisionWithAnyPlayerProjectileTop() {
-        // Top left of projectile
         projectileList.add(projectile);
+
+        // Top left of projectile
         enemy.setCoordX(Stage.WIDTH / 2 - projectile.getWidth() / 2 - enemy.getWidth() / 2);
         enemy.setCoordY(Stage.HEIGHT / 2 + projectile.getHeight() / 2 + enemy.getHeight() / 2);
         assertTrue(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
+        projectileList.add(projectile);
 
         enemy.setCoordY(Stage.HEIGHT / 2 + projectile.getHeight() / 2 + enemy.getHeight() / 2 + 1);
         assertFalse(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
@@ -179,6 +194,7 @@ public class EnemyTest {
         enemy.setCoordX(Stage.WIDTH / 2);
         enemy.setCoordY(Stage.HEIGHT / 2 + projectile.getHeight() / 2 + enemy.getHeight() / 2);
         assertTrue(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
+        projectileList.add(projectile);
 
         enemy.setCoordY(Stage.HEIGHT / 2 + projectile.getHeight() / 2 + enemy.getHeight() / 2 + 1);
         assertFalse(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
@@ -188,6 +204,7 @@ public class EnemyTest {
         enemy.setCoordX(Stage.WIDTH / 2 + projectile.getWidth() / 2 + enemy.getWidth() / 2);
         enemy.setCoordY(Stage.HEIGHT / 2 + projectile.getHeight() / 2 + enemy.getHeight() / 2);
         assertTrue(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
+        projectileList.add(projectile);
 
         enemy.setCoordY(Stage.HEIGHT / 2 + projectile.getHeight() / 2 + enemy.getHeight() / 2 + 1);
         assertFalse(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
@@ -195,31 +212,38 @@ public class EnemyTest {
 
     @Test
     void testCheckCollisionWithAnyPlayerProjectileBottom() {
-        // Bottom left of projectile
         projectileList.add(projectile);
+
+        // Bottom left of projectile
         enemy.setCoordX(Stage.WIDTH / 2 - projectile.getWidth() / 2 - enemy.getWidth() / 2);
         enemy.setCoordY(Stage.HEIGHT / 2 - projectile.getHeight() / 2 - enemy.getHeight() / 2);
         assertTrue(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
+        projectileList.add(projectile);
 
         enemy.setCoordY(Stage.HEIGHT / 2 - projectile.getHeight() / 2 - enemy.getHeight() / 2 - 1);
         assertFalse(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
 
         // Bottom middle of projectile
-        projectileList.add(projectile);
         enemy.setCoordX(Stage.WIDTH / 2);
         enemy.setCoordY(Stage.HEIGHT / 2 - projectile.getHeight() / 2 - enemy.getHeight() / 2);
         assertTrue(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
+        projectileList.add(projectile);
 
         enemy.setCoordY(Stage.HEIGHT / 2 - projectile.getHeight() / 2 - enemy.getHeight() / 2 - 1);
         assertFalse(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
 
         // Bottom right of projectile
-        projectileList.add(projectile);
         enemy.setCoordX(Stage.WIDTH / 2 + projectile.getWidth() / 2 + enemy.getWidth() / 2);
         enemy.setCoordY(Stage.HEIGHT / 2 - projectile.getHeight() / 2 - enemy.getHeight() / 2);
         assertTrue(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
+        projectileList.add(projectile);
 
         enemy.setCoordY(Stage.HEIGHT / 2 - projectile.getHeight() / 2 - enemy.getHeight() / 2 - 1);
         assertFalse(enemy.checkCollisionWithAnyPlayerProjectile(projectileList));
+    }
+
+    @Test
+    void testGetImageFile() {
+        assertEquals(RegularCat.IMAGE_FILE, enemy.getImageFile());
     }
 }
