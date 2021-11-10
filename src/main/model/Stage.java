@@ -2,6 +2,7 @@ package model;
 
 import model.bossenemies.BossCat;
 import model.bossenemies.BossEnemy;
+import model.exceptions.UnknownEnemyException;
 import model.regularenemies.RegularCat;
 import model.regularenemies.RegularEnemy;
 import model.regularenemies.RegularRat;
@@ -199,7 +200,6 @@ public class Stage implements Writable {
 
         if (rand < .25) {
             addWidePlatform(WIDTH / 2, y);
-            enemyLocations.add(WIDTH / 2);
         } else if (rand < .5) {
             addRegularPlatform(REGULAR_PLATFORM_WIDTH / 2, y);
             addRegularPlatform(WIDTH - REGULAR_PLATFORM_WIDTH / 2, y);
@@ -229,7 +229,6 @@ public class Stage implements Writable {
         if (rand < .25) {
             addRegularPlatform(WIDTH / 2, y);
             enemyLocations.add(WIDTH / 2);
-            System.out.println("now");
         } else if (rand < .5) {
             addRegularPlatform(WIDTH / 4, y);
             enemyLocations.add(WIDTH / 4);
@@ -304,18 +303,27 @@ public class Stage implements Writable {
 
     // MODIFIES: this
     // EFFECTS: Add the given regular enemy to this stage's regular enemies with coordinates x, y
+    //          If the given name is not a name of an enemy in the game, do nothing
     public void addEnemy(String name, int x, int y) {
-        Enemy enemy = nameToEnemy(name);
-        setupAndPlaceEnemyInCorrectList(x, y, enemy);
+        try {
+            Enemy enemy = nameToEnemy(name);
+            setupAndPlaceEnemyInCorrectList(x, y, enemy);
+        } catch (UnknownEnemyException e) {
+            // will not add a new enemy
+        }
     }
 
-    // REQUIRES: Given name must be the name of an enemy in the game
     // MODIFIES: this
-    // EFFECTS: Add the given regular enemy to this stage's regular enemies with coordinates x, y at the given health
+    // EFFECTS: Add enemy of the given name to this stage's regular enemies with coordinates x, y at the given health
+    //          If the given name is not a name of an enemy in the game, do nothing
     public void addEnemy(String name, int x, int y, int health) {
-        Enemy enemy = nameToEnemy(name);
-        enemy.setCurrentHealth(health);
-        setupAndPlaceEnemyInCorrectList(x, y, enemy);
+        try {
+            Enemy enemy = nameToEnemy(name);
+            enemy.setCurrentHealth(health);
+            setupAndPlaceEnemyInCorrectList(x, y, enemy);
+        } catch (UnknownEnemyException e) {
+            // will not add a new enemy
+        }
     }
 
     private void setupAndPlaceEnemyInCorrectList(int x, int y, Enemy enemy) {
@@ -329,9 +337,9 @@ public class Stage implements Writable {
     }
 
 
-    // REQUIRES: Given name must be a name of an enemy in either DJGame.REGULAR_ENEMIES or DJGame.BOSS_ENEMIES
     // EFFECTS: Returns the enemy object with the given name
-    public static Enemy nameToEnemy(String name) {
+    //          throws UnknownEnemyException if the given name is not a name of a valid enemy
+    public static Enemy nameToEnemy(String name) throws UnknownEnemyException {
         switch (name) {
             case ("Cat"): {
                 return new RegularCat();
@@ -343,7 +351,7 @@ public class Stage implements Writable {
                 return new BossCat();
             }
             default: {
-                return null;
+                throw new UnknownEnemyException();
             }
         }
     }

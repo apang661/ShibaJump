@@ -24,6 +24,7 @@ public class DJGame implements Writable {
     public static final List<BossEnemy> BOSS_ENEMIES = Arrays.asList(
             new BossCat());
 
+
     private Account account;
     private Player player;
     private Stage stage;
@@ -163,7 +164,7 @@ public class DJGame implements Writable {
     // EFFECTS: Updates the game to its next game state if it is not paused
     public void update() {
         if (isPlaying && !isGameOver) {
-            checkCollisions();
+            handleCollisions();
 
             updatePlayer();
             updateProjectiles();
@@ -171,21 +172,27 @@ public class DJGame implements Writable {
         }
     }
 
-    // MODIFIES: enemies
     // EFFECTS: Updates the game based on the collisions between objects in the game
-    //          if player collides with any enemy or enemy projectile, subtract one from player's current health
-    //          if player's current health is at 0, set isGameOver to true
-    private void checkCollisions() {
-        player.checkCollisionWithAnyEnemyProjectile(projectiles);
-        if (player.checkCollisionWithAnyEnemy(stage.getRegularEnemies())
-                || player.checkCollisionWithAnyEnemy(stage.getBossEnemies())) {
+    private void handleCollisions() {
+        handlePlayerCollisions();
+        handleEnemyCollisions(stage.getRegularEnemies());
+        handleEnemyCollisions(stage.getBossEnemies());
+    }
+
+
+    // EFFECTS: If player collides with any enemy or enemy projectile, subtract one from player's current health
+    //          If player's current health is at 0, set isGameOver to true
+    public void handlePlayerCollisions() {
+        boolean hasCollideEnemy = player.checkCollisionWithAnyEnemy(stage.getRegularEnemies())
+                || player.checkCollisionWithAnyEnemy(stage.getBossEnemies());
+        boolean hasCollideEnemyProjectile = player.checkCollisionWithAnyEnemyProjectile(projectiles);
+
+        if (hasCollideEnemy || hasCollideEnemyProjectile) {
             player.setCurrentHealth(player.getCurrentHealth() - 1);
         }
         if (player.getCurrentHealth() == 0) {
             isGameOver = true;
         }
-        checkEnemyCollisions(stage.getRegularEnemies());
-        checkEnemyCollisions(stage.getBossEnemies());
     }
 
 
@@ -193,7 +200,7 @@ public class DJGame implements Writable {
     // EFFECTS: Updates the given list of enemies based on its collisions with player projectiles
     //          Subtracts one from enemy health if it collides with a player-type projectile
     //          Removes the enemy from the game if its health is <= 0
-    private void checkEnemyCollisions(List<Enemy> enemies) {
+    public void handleEnemyCollisions(List<Enemy> enemies) {
         List<Enemy> deadEnemies = new ArrayList<>();
         for (Enemy e: enemies) {
             if (e.checkCollisionWithAnyPlayerProjectile(projectiles)) {
@@ -208,7 +215,7 @@ public class DJGame implements Writable {
 
     // MODIFIES: this
     // EFFECTS: Updates the player to its next player state
-    private void updatePlayer() {
+    public void updatePlayer() {
         player.setDirectionByKeyCodesHeldDown(keyCodesHeldDown);
         if (stage.isPlayerFallingOnAnyPlatform(player)) {
             player.jump();
@@ -219,14 +226,13 @@ public class DJGame implements Writable {
 
     // MODIFIES: this
     // EFFECTS: Updates this game's projectiles to their next state
-    private void updateProjectiles() {
+    public void updateProjectiles() {
         List<Projectile> deadProjectiles = new ArrayList<>();
         for (Projectile p: projectiles) {
-            p.updatePositionAndVelocity();
-            if (p.getDistanceTravelled() > Projectile.MAX_DISTANCE) {
+            if (p.getDistanceTravelled() >= Projectile.MAX_DISTANCE) {
                 deadProjectiles.add(p);
-                System.out.println("removed");
             }
+            p.updatePositionAndVelocity();
         }
         projectiles.removeAll(deadProjectiles);
     }
@@ -234,7 +240,13 @@ public class DJGame implements Writable {
 
     // MODIFIES: this
     // EFFECTS: Updates the enemies in this game's stage to their next state
-    private void updateEnemies() {
+    public void updateEnemies() {
+        for (Enemy enemy: stage.getRegularEnemies()) {
+            enemy.move();
+        }
+        for (Enemy enemy: stage.getBossEnemies()) {
+            enemy.move();
+        }
     }
 
 }

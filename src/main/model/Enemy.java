@@ -94,6 +94,8 @@ public abstract class Enemy implements Writable {
         return false;
     }
 
+    public abstract void move();
+
     @Override
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();

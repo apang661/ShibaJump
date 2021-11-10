@@ -1,6 +1,7 @@
 package tests;
 
 import model.*;
+import model.exceptions.UnknownEnemyException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -260,42 +261,92 @@ public class StageTest {
     }
 
     @Test
-    void testAddEnemyNoHealthParam() {
-        stage.addEnemy(DJGame.REGULAR_ENEMIES.get(0).getName(), 0, 0);
-        stage.addEnemy(DJGame.REGULAR_ENEMIES.get(1).getName(), 2, 2);
-        assertEquals(2, stage.getRegularEnemies().size());
+    void testAddEnemyNoHealthParamAllRegularEnemies() {
+        for (Enemy enemy: DJGame.REGULAR_ENEMIES) {
+            stage.addEnemy(enemy.getName(), 0, 0);
+        }
+        assertEquals(DJGame.REGULAR_ENEMIES.size(), stage.getRegularEnemies().size());
 
         List<Enemy> enemyList = stage.getRegularEnemies();
-        assertEquals(DJGame.REGULAR_ENEMIES.get(0).getName(), enemyList.get(0).getName());
-        assertEquals(0, enemyList.get(0).getCoordX());
-        assertEquals(0, enemyList.get(0).getCoordY());
-        assertEquals(DJGame.REGULAR_ENEMIES.get(1).getName(), enemyList.get(1).getName());
-        assertEquals(2, enemyList.get(1).getCoordX());
-        assertEquals(2, enemyList.get(1).getCoordY());
+        for (int i = 0; i < DJGame.REGULAR_ENEMIES.size(); i++) {
+            assertEquals(enemyList.get(i).getClass(), DJGame.REGULAR_ENEMIES.get(i).getClass());
+        }
     }
 
     @Test
-    void testAddEnemyWithHealthParam() {
-        stage.addEnemy(DJGame.REGULAR_ENEMIES.get(0).getName(), 0, 0, 6);
-        stage.addEnemy(DJGame.BOSS_ENEMIES.get(0).getName(), 2, 2, 10);
-        assertEquals(1, stage.getRegularEnemies().size());
-        assertEquals(1, stage.getBossEnemies().size());
+    void testAddEnemyNoHealthParamAllBossEnemies() {
+        for (Enemy enemy: DJGame.BOSS_ENEMIES) {
+            stage.addEnemy(enemy.getName(), 0, 0);
+        }
+        assertEquals(DJGame.BOSS_ENEMIES.size(), stage.getBossEnemies().size());
 
-        Enemy enemy0 = stage.getRegularEnemies().get(0);
-        Enemy enemy1 = stage.getBossEnemies().get(0);
-        assertEquals(DJGame.REGULAR_ENEMIES.get(0).getName(), enemy0.getName());
-        assertEquals(0, enemy0.getCoordX());
-        assertEquals(0, enemy0.getCoordY());
-        assertEquals(6, enemy0.getCurrentHealth());
+        List<Enemy> enemyList = stage.getBossEnemies();
+        for (int i = 0; i < DJGame.BOSS_ENEMIES.size(); i++) {
+            assertEquals(enemyList.get(i).getClass(), DJGame.BOSS_ENEMIES.get(i).getClass());
+        }
+    }
 
-        assertEquals(DJGame.BOSS_ENEMIES.get(0).getName(), enemy1.getName());
-        assertEquals(2, enemy1.getCoordX());
-        assertEquals(2, enemy1.getCoordY());
-        assertEquals(10, enemy1.getCurrentHealth());
+    @Test
+    void testAddEnemyNoHealthParamNameNotFound() {
+        stage.addEnemy("Unknown Enemy", 0, 0);
+        assertEquals(0, stage.getRegularEnemies().size());
+        assertEquals(0, stage.getBossEnemies().size());
+    }
+
+    @Test
+    void testAddEnemyWithHealthParamAllRegularEnemies() {
+        for (int i = 0; i < DJGame.REGULAR_ENEMIES.size(); i++) {
+            stage.addEnemy(DJGame.REGULAR_ENEMIES.get(i).getName(), 0, 0, DJGame.REGULAR_ENEMIES.get(i).getCurrentHealth() - 1);
+        }
+        assertEquals(DJGame.REGULAR_ENEMIES.size(), stage.getRegularEnemies().size());
+
+        List<Enemy> enemyList = stage.getRegularEnemies();
+        for (int i = 0; i < DJGame.REGULAR_ENEMIES.size(); i++) {
+            assertEquals(enemyList.get(i).getClass(), DJGame.REGULAR_ENEMIES.get(i).getClass());
+            assertEquals(enemyList.get(i).getCurrentHealth(), DJGame.REGULAR_ENEMIES.get(i).getCurrentHealth() - 1);
+        }
+    }
+
+    @Test
+    void testAddEnemyWithHealthParamAllBossEnemies() {
+        for (int i = 0; i < DJGame.BOSS_ENEMIES.size(); i++) {
+            stage.addEnemy(DJGame.BOSS_ENEMIES.get(i).getName(), 0, 0, DJGame.BOSS_ENEMIES.get(i).getCurrentHealth() - 1);
+        }
+        assertEquals(DJGame.BOSS_ENEMIES.size(), stage.getBossEnemies().size());
+
+        List<Enemy> enemyList = stage.getBossEnemies();
+        for (int i = 0; i < DJGame.BOSS_ENEMIES.size(); i++) {
+            assertEquals(enemyList.get(i).getClass(), DJGame.BOSS_ENEMIES.get(i).getClass());
+            assertEquals(enemyList.get(i).getCurrentHealth(), DJGame.BOSS_ENEMIES.get(i).getCurrentHealth() - 1);
+        }
+    }
+
+    @Test
+    void testAddEnemyWithHealthParamNameNotFound() {
+        stage.addEnemy("Unknown Enemy", 0, 0, 5);
+        assertEquals(0, stage.getRegularEnemies().size());
+        assertEquals(0, stage.getBossEnemies().size());
     }
 
     @Test
     void testNameToEnemyNotFound() {
-        assertNull(Stage.nameToEnemy("not found"));
+        try {
+            Stage.nameToEnemy("not found");
+            fail();
+        } catch (UnknownEnemyException e) {
+            // pass
+        }
     }
+
+//    @Test
+//    void testNameToEnemyNullName() {
+//        try {
+//            Stage.nameToEnemy(null);
+//            fail();
+//        } catch (NullPointerException e) {
+//            // pass
+//        } catch (UnknownEnemyException e) {
+//            fail("Wrong exception thrown");
+//        }
+//    }
 }

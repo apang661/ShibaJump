@@ -2,6 +2,7 @@ package ui;
 
 import model.Account;
 import model.DJGame;
+import model.Enemy;
 import model.EnemyList;
 import model.Player.PlayableCharacter;
 import persistence.JsonReader;
@@ -142,9 +143,9 @@ public class HomeScreenApp {
 
         while (wantToAdd.equals("Y")) {
             System.out.println("Here is the list of regular enemies in the game: "
-                    + placeCommaOrAndInBetweenStrings(account.getRegularEnemyNames()));
+                    + placeCommaOrAndInBetweenStrings(getRegularEnemyNames()));
             System.out.println("Here is the list of boss enemies in the game: "
-                    + placeCommaOrAndInBetweenStrings(account.getBossEnemyNames()));
+                    + placeCommaOrAndInBetweenStrings(getBossEnemyNames()));
             System.out.println("Which enemy do you want to add? "
                     + "(The entry will not be added unless it is found in the list above)");
             String addedEnemyName = input.next();
@@ -154,6 +155,24 @@ public class HomeScreenApp {
             System.out.println("Do you want to add more enemies? (Y for yes, any other key to exit)");
             wantToAdd = input.next();
         }
+    }
+
+    // EFFECTS: Return the list of names of enemies in REGULAR_ENEMIES
+    private List<String> getRegularEnemyNames() {
+        List<String> listOfRegEnemies = new ArrayList<>();
+        for (Enemy enemy : DJGame.REGULAR_ENEMIES) {
+            listOfRegEnemies.add(enemy.getName());
+        }
+        return listOfRegEnemies;
+    }
+
+    // EFFECTS: Return the list of names of enemies in BOSS_ENEMIES
+    private List<String> getBossEnemyNames() {
+        List<String> listOfBossEnemies = new ArrayList<>();
+        for (Enemy enemy : DJGame.BOSS_ENEMIES) {
+            listOfBossEnemies.add(enemy.getName());
+        }
+        return listOfBossEnemies;
     }
 
     // EFFECTS: Enter the game

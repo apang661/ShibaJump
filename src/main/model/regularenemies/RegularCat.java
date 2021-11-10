@@ -33,4 +33,9 @@ public class RegularCat extends RegularEnemy {
 
         return projectiles;
     }
+
+    @Override
+    public void move() {
+
+    }
 }

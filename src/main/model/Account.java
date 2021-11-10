@@ -3,9 +3,6 @@ package model;
 import org.json.JSONObject;
 import persistence.Writable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /*
  * This class represents a DJGame account
  */
@@ -16,7 +13,7 @@ public class Account implements Writable {
     String selectedCharacter;
     EnemyList encounteredEnemies;
 
-    // EFFECTS: Creates a new account
+    // EFFECTS: Creates a new account with 0 DogePoints, Doge as the selected character, and no encountered enemies
     public Account() {
         dogePoints = 0;
         selectedCharacter = "Doge";
@@ -57,24 +54,6 @@ public class Account implements Writable {
 
     public EnemyList getEncounteredEnemies() {
         return encounteredEnemies;
-    }
-
-    // EFFECTS: Return the list of names of enemies in REGULAR_ENEMIES
-    public List<String> getRegularEnemyNames() {
-        List<String> listOfRegEnemies = new ArrayList<>();
-        for (Enemy enemy : DJGame.REGULAR_ENEMIES) {
-            listOfRegEnemies.add(enemy.getName());
-        }
-        return listOfRegEnemies;
-    }
-
-    // EFFECTS: Return the list of names of enemies in BOSS_ENEMIES
-    public List<String> getBossEnemyNames() {
-        List<String> listOfBossEnemies = new ArrayList<>();
-        for (Enemy enemy : DJGame.BOSS_ENEMIES) {
-            listOfBossEnemies.add(enemy.getName());
-        }
-        return listOfBossEnemies;
     }
 
     // MODIFIES: this

@@ -61,7 +61,11 @@ public class Projectile implements Writable {
 
     public int getDistanceTravelled() {
         return distanceTravelled;
-    } // will be tested in DJgame
+    }
+
+    public void setDistanceTravelled(int distanceTravelled) {
+        this.distanceTravelled = distanceTravelled;
+    }
 
     // MODIFIES: this
     // EFFECTS: Updates the player's position and velocity based on dx, dy, Stage.GRAVITY_ACCELERATION
