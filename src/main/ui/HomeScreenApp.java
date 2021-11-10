@@ -177,7 +177,7 @@ public class HomeScreenApp {
 
     // EFFECTS: Enter the game
     private void enterGame() {
-        game.getStage().setStageNum(1);
+        game.getStage().setStageNum(2);
         game.getStage().setStage();
         game.setPlaying(true);
 

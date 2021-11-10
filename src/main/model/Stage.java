@@ -117,39 +117,68 @@ public class Stage implements Writable {
             if (bossStage) {
                 setStageToBossOne();
             } else {
-                setStageToRegOne();
+                setStageToRegN();
             }
+        } else { // stage 2
+            setStageToRegN();
         }
     }
 
     // REQUIRES: platforms must be empty
     // MODIFIES: this
-    // EFFECTS: Sets the stage to level one (regular)
-    private void setStageToRegOne() {
+    // EFFECTS: Sets the stage to the regular stage of stageNum
+    private void setStageToRegN() {
+        double easyPlatformProbability = getEasyPlatformProbability();
+        double normalPlatformProbability = getNormalPlatformProbability();
+
         for (int i = 0; i < HEIGHT / HEIGHT_BETWEEN_PLATFORMS; i++) {
             int indexForQuarterOfHeight = HEIGHT / HEIGHT_BETWEEN_PLATFORMS / 4;
             int heightOfPlatformAtI = i * HEIGHT_BETWEEN_PLATFORMS;
-            if (i == 0 || i % indexForQuarterOfHeight == 0) {
+            if (i == 0) {
+                addScreenWidePlatform(0);
+            } else if (i % indexForQuarterOfHeight == 0 && stageNum == 1) {
                 addScreenWidePlatform(i * HEIGHT_BETWEEN_PLATFORMS);
             } else {
-                double stageRand = Math.random();
-                double enemyRand = Math.random();
-                List<Integer> enemyLocations;
-
-                if (stageRand < .4) {
-                    enemyLocations = addEasyPlatformConfiguration(heightOfPlatformAtI);
-                } else if (stageRand < .8) {
-                    enemyLocations = addNormalPlatformConfiguration(heightOfPlatformAtI);
-                } else {
-                    enemyLocations = addHardPlatformConfiguration(heightOfPlatformAtI);
-                }
-                if (i > 2) {
-                    addEnemyStageReg(enemyLocations, heightOfPlatformAtI, enemyRand);
-                }
+                addRandomPlatformForStageNum(easyPlatformProbability,
+                        normalPlatformProbability, i, heightOfPlatformAtI);
             }
         }
     }
 
+    private void addRandomPlatformForStageNum(double easyPlatformProbability, double normalPlatformProbability,
+                                              int i, int heightOfPlatformAtI) {
+        double stageRand = Math.random();
+        double enemyRand = Math.random();
+        List<Integer> enemyLocations;
+
+        if (stageRand < easyPlatformProbability) {
+            enemyLocations = addEasyPlatformConfiguration(heightOfPlatformAtI);
+        } else if (stageRand < easyPlatformProbability + normalPlatformProbability) {
+            enemyLocations = addNormalPlatformConfiguration(heightOfPlatformAtI);
+        } else {
+            enemyLocations = addHardPlatformConfiguration(heightOfPlatformAtI);
+        }
+        if (i > 2) {
+            addEnemyStageReg(enemyLocations, heightOfPlatformAtI, enemyRand);
+        }
+    }
+
+
+    private double getEasyPlatformProbability() {
+        if (stageNum == 1) {
+            return 0.4;
+        } else {
+            return 0.2;
+        }
+    }
+
+    private double getNormalPlatformProbability() {
+        if (stageNum == 1) {
+            return 0.4;
+        } else {
+            return 0.5;
+        }
+    }
 
     // MODIFIES: this
     // EFFECTS: Sets the stage to level one (boss)
@@ -180,12 +209,23 @@ public class Stage implements Writable {
             }
             if (stageNum == 1) {
                 spawnEnemyStage1Reg(heightOfPlatformAtI, enemyRand, coordX);
+            } else { // stage 2
+                spawnEnemyStage2Reg(heightOfPlatformAtI, enemyRand, coordX);
             }
         }
     }
 
+
     private void spawnEnemyStage1Reg(int heightOfPlatformAtI, double enemyRand, int coordX) {
         if (enemyRand < .5) {
+            addEnemy("Rat", coordX, heightOfPlatformAtI + HEIGHT_BETWEEN_PLATFORMS / 2);
+        } else {
+            addEnemy("Cat", coordX, heightOfPlatformAtI + HEIGHT_BETWEEN_PLATFORMS / 2);
+        }
+    }
+
+    private void spawnEnemyStage2Reg(int heightOfPlatformAtI, double enemyRand, int coordX) {
+        if (enemyRand < .7) {
             addEnemy("Rat", coordX, heightOfPlatformAtI + HEIGHT_BETWEEN_PLATFORMS / 2);  // *** test this
         } else {
             addEnemy("Cat", coordX, heightOfPlatformAtI + HEIGHT_BETWEEN_PLATFORMS / 2);

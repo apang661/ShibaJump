@@ -186,6 +186,36 @@ public class StageTest {
             int testHeight = i * Stage.HEIGHT_BETWEEN_PLATFORMS;
             assertTrue(stage.containsPlatformAtY(testHeight));
         }
+
+        List<String> nameList = new ArrayList<>();
+        for (Enemy enemy: stage.getRegularEnemies()) {
+            nameList.add(enemy.getName());
+        }
+
+        assertTrue(nameList.contains("Cat"));
+        assertTrue(nameList.contains("Rat"));
+    }
+
+    @Test
+    void testSetStage2Reg() {
+        stage.setStageNum(2);
+        stage.setBossStage(false);
+        stage.setStage();
+
+        assertTrue(stage.getPlatforms().size() > Stage.HEIGHT / Stage.HEIGHT_BETWEEN_PLATFORMS);
+
+        for (int i = 0; i < Stage.HEIGHT / Stage.HEIGHT_BETWEEN_PLATFORMS; i++) {
+            int testHeight = i * Stage.HEIGHT_BETWEEN_PLATFORMS;
+            assertTrue(stage.containsPlatformAtY(testHeight));
+        }
+
+        List<String> nameList = new ArrayList<>();
+        for (Enemy enemy: stage.getRegularEnemies()) {
+            nameList.add(enemy.getName());
+        }
+
+        assertTrue(nameList.contains("Cat"));
+        assertTrue(nameList.contains("Rat"));
     }
 
     @Test
@@ -196,14 +226,6 @@ public class StageTest {
 
         assertEquals(1, stage.getPlatforms().size());
         assertTrue(stage.containsPlatformAtY(Stage.BOSS_STAGE_HEIGHT / 4));
-    }
-
-    @Test
-    void testSetStage2() {
-        stage.setStageNum(2);
-        stage.setStage();
-
-        assertEquals(0, stage.getPlatforms().size());
     }
 
     @Test
