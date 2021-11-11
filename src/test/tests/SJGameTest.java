@@ -3,7 +3,7 @@ package tests;
 import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ui.GameWindow;
+import ui.GameScreen;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -13,12 +13,12 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DJGameTest {
-    private DJGame game;
+public class SJGameTest {
+    private SJGame game;
 
     @BeforeEach
     void setUp() {
-        game = new DJGame();
+        game = new SJGame();
     }
 
     @Test
@@ -257,7 +257,7 @@ public class DJGameTest {
         game.keyPressed(KeyEvent.VK_D);
         int prevX = player.getCoordX();
 
-        double conversionFactor = (double) GameWindow.UPDATE_INTERVAL / 1000;
+        double conversionFactor = (double) GameScreen.UPDATE_INTERVAL / 1000;
         game.update();
 
         if (bool) {
@@ -363,7 +363,7 @@ public class DJGameTest {
 
         game.updatePlayer();
 
-        double conversionFactor = (double) GameWindow.UPDATE_INTERVAL / 1000;
+        double conversionFactor = (double) GameScreen.UPDATE_INTERVAL / 1000;
         assertEquals((int) (player.getDyForJump() + Stage.GRAVITY_ACCELERATION * conversionFactor),
                 player.getDy());
     }
@@ -379,7 +379,7 @@ public class DJGameTest {
 
         game.updatePlayer();
 
-        double conversionFactor = (double) GameWindow.UPDATE_INTERVAL / 1000;
+        double conversionFactor = (double) GameScreen.UPDATE_INTERVAL / 1000;
         assertEquals((int) (1 + Stage.GRAVITY_ACCELERATION * conversionFactor),
                 player.getDy());
     }

@@ -1,12 +1,13 @@
-package ui;
+package ui.console;
 
 import model.Account;
-import model.DJGame;
+import model.SJGame;
 import model.Enemy;
 import model.EnemyList;
 import model.Player.PlayableCharacter;
 import persistence.JsonReader;
 import persistence.JsonWriter;
+import ui.GameWindow;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,7 +22,7 @@ import java.util.Scanner;
  * Represents the console-based home screen of Doge Jump
  */
 public class HomeScreenApp {
-    DJGame game;
+    SJGame game;
     Account account;
     boolean keepGoing;
     private Scanner input;
@@ -30,7 +31,7 @@ public class HomeScreenApp {
         input = new Scanner(System.in);
         input.useDelimiter("\n");
 
-        game = new DJGame();
+        game = new SJGame();
         account = game.getAccount();
         System.out.println("Welcome to Doge Jump!");
         System.out.println("\nPlease enter your username:");
@@ -82,8 +83,8 @@ public class HomeScreenApp {
         if (nextLine.equals("Change username")) {
             System.out.println("Enter your new username: ");
             account.setUsername(input.next());
-        } else if (nextLine.equals("View DogePoints")) {
-            System.out.println("You have " + account.getDogePoints() + " DogePoints!");
+        } else if (nextLine.equals("View ShibaPoints")) {
+            System.out.println("You have " + account.getShibaPoints() + " ShibaPoints!");
         } else if (nextLine.equals("Change character")) {
             changeCharacter();
         } else if (nextLine.equals("Check or add encountered enemies")) {
@@ -104,7 +105,7 @@ public class HomeScreenApp {
 
     private void printOptions() {
         System.out.println("Please enter one of these options:"
-                + " Change username, View DogePoints, Change character, Check or add encountered enemies, "
+                + " Change username, View ShibaPoints, Change character, Check or add encountered enemies, "
                 + "Enter game, Save game, Load game, Quit game");
     }
 
@@ -160,7 +161,7 @@ public class HomeScreenApp {
     // EFFECTS: Return the list of names of enemies in REGULAR_ENEMIES
     private List<String> getRegularEnemyNames() {
         List<String> listOfRegEnemies = new ArrayList<>();
-        for (Enemy enemy : DJGame.REGULAR_ENEMIES) {
+        for (Enemy enemy : SJGame.REGULAR_ENEMIES) {
             listOfRegEnemies.add(enemy.getName());
         }
         return listOfRegEnemies;
@@ -169,7 +170,7 @@ public class HomeScreenApp {
     // EFFECTS: Return the list of names of enemies in BOSS_ENEMIES
     private List<String> getBossEnemyNames() {
         List<String> listOfBossEnemies = new ArrayList<>();
-        for (Enemy enemy : DJGame.BOSS_ENEMIES) {
+        for (Enemy enemy : SJGame.BOSS_ENEMIES) {
             listOfBossEnemies.add(enemy.getName());
         }
         return listOfBossEnemies;
@@ -177,7 +178,7 @@ public class HomeScreenApp {
 
     // EFFECTS: Enter the game
     private void enterGame() {
-        game.getStage().setStageNum(2);
+        game.getStage().setStageNum(1);
         game.getStage().setStage();
         game.setPlaying(true);
 
@@ -209,5 +210,9 @@ public class HomeScreenApp {
         }
 
         return result;
+    }
+
+    public static void main(String[] args) {
+        new HomeScreenApp();
     }
 }

@@ -284,27 +284,27 @@ public class StageTest {
 
     @Test
     void testAddEnemyNoHealthParamAllRegularEnemies() {
-        for (Enemy enemy: DJGame.REGULAR_ENEMIES) {
+        for (Enemy enemy: SJGame.REGULAR_ENEMIES) {
             stage.addEnemy(enemy.getName(), 0, 0);
         }
-        assertEquals(DJGame.REGULAR_ENEMIES.size(), stage.getRegularEnemies().size());
+        assertEquals(SJGame.REGULAR_ENEMIES.size(), stage.getRegularEnemies().size());
 
         List<Enemy> enemyList = stage.getRegularEnemies();
-        for (int i = 0; i < DJGame.REGULAR_ENEMIES.size(); i++) {
-            assertEquals(enemyList.get(i).getClass(), DJGame.REGULAR_ENEMIES.get(i).getClass());
+        for (int i = 0; i < SJGame.REGULAR_ENEMIES.size(); i++) {
+            assertEquals(enemyList.get(i).getClass(), SJGame.REGULAR_ENEMIES.get(i).getClass());
         }
     }
 
     @Test
     void testAddEnemyNoHealthParamAllBossEnemies() {
-        for (Enemy enemy: DJGame.BOSS_ENEMIES) {
+        for (Enemy enemy: SJGame.BOSS_ENEMIES) {
             stage.addEnemy(enemy.getName(), 0, 0);
         }
-        assertEquals(DJGame.BOSS_ENEMIES.size(), stage.getBossEnemies().size());
+        assertEquals(SJGame.BOSS_ENEMIES.size(), stage.getBossEnemies().size());
 
         List<Enemy> enemyList = stage.getBossEnemies();
-        for (int i = 0; i < DJGame.BOSS_ENEMIES.size(); i++) {
-            assertEquals(enemyList.get(i).getClass(), DJGame.BOSS_ENEMIES.get(i).getClass());
+        for (int i = 0; i < SJGame.BOSS_ENEMIES.size(); i++) {
+            assertEquals(enemyList.get(i).getClass(), SJGame.BOSS_ENEMIES.get(i).getClass());
         }
     }
 
@@ -317,29 +317,29 @@ public class StageTest {
 
     @Test
     void testAddEnemyWithHealthParamAllRegularEnemies() {
-        for (int i = 0; i < DJGame.REGULAR_ENEMIES.size(); i++) {
-            stage.addEnemy(DJGame.REGULAR_ENEMIES.get(i).getName(), 0, 0, DJGame.REGULAR_ENEMIES.get(i).getCurrentHealth() - 1);
+        for (int i = 0; i < SJGame.REGULAR_ENEMIES.size(); i++) {
+            stage.addEnemy(SJGame.REGULAR_ENEMIES.get(i).getName(), 0, 0, SJGame.REGULAR_ENEMIES.get(i).getCurrentHealth() - 1);
         }
-        assertEquals(DJGame.REGULAR_ENEMIES.size(), stage.getRegularEnemies().size());
+        assertEquals(SJGame.REGULAR_ENEMIES.size(), stage.getRegularEnemies().size());
 
         List<Enemy> enemyList = stage.getRegularEnemies();
-        for (int i = 0; i < DJGame.REGULAR_ENEMIES.size(); i++) {
-            assertEquals(enemyList.get(i).getClass(), DJGame.REGULAR_ENEMIES.get(i).getClass());
-            assertEquals(enemyList.get(i).getCurrentHealth(), DJGame.REGULAR_ENEMIES.get(i).getCurrentHealth() - 1);
+        for (int i = 0; i < SJGame.REGULAR_ENEMIES.size(); i++) {
+            assertEquals(enemyList.get(i).getClass(), SJGame.REGULAR_ENEMIES.get(i).getClass());
+            assertEquals(enemyList.get(i).getCurrentHealth(), SJGame.REGULAR_ENEMIES.get(i).getCurrentHealth() - 1);
         }
     }
 
     @Test
     void testAddEnemyWithHealthParamAllBossEnemies() {
-        for (int i = 0; i < DJGame.BOSS_ENEMIES.size(); i++) {
-            stage.addEnemy(DJGame.BOSS_ENEMIES.get(i).getName(), 0, 0, DJGame.BOSS_ENEMIES.get(i).getCurrentHealth() - 1);
+        for (int i = 0; i < SJGame.BOSS_ENEMIES.size(); i++) {
+            stage.addEnemy(SJGame.BOSS_ENEMIES.get(i).getName(), 0, 0, SJGame.BOSS_ENEMIES.get(i).getCurrentHealth() - 1);
         }
-        assertEquals(DJGame.BOSS_ENEMIES.size(), stage.getBossEnemies().size());
+        assertEquals(SJGame.BOSS_ENEMIES.size(), stage.getBossEnemies().size());
 
         List<Enemy> enemyList = stage.getBossEnemies();
-        for (int i = 0; i < DJGame.BOSS_ENEMIES.size(); i++) {
-            assertEquals(enemyList.get(i).getClass(), DJGame.BOSS_ENEMIES.get(i).getClass());
-            assertEquals(enemyList.get(i).getCurrentHealth(), DJGame.BOSS_ENEMIES.get(i).getCurrentHealth() - 1);
+        for (int i = 0; i < SJGame.BOSS_ENEMIES.size(); i++) {
+            assertEquals(enemyList.get(i).getClass(), SJGame.BOSS_ENEMIES.get(i).getClass());
+            assertEquals(enemyList.get(i).getCurrentHealth(), SJGame.BOSS_ENEMIES.get(i).getCurrentHealth() - 1);
         }
     }
 

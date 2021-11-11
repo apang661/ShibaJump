@@ -1,7 +1,7 @@
 {
     "account": {
         "username": "",
-        "dogePoints": 0,
+        "shibaPoints": 0,
         "selectedCharacter": "Doge",
         "nextStageNum": 0,
         "encounteredEnemies":[]

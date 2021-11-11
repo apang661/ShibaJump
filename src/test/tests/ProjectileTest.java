@@ -3,7 +3,7 @@ package tests;
 import model.Projectile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ui.GameWindow;
+import ui.GameScreen;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,7 +16,7 @@ public class ProjectileTest {
     }
     @Test
     void testUpdatePositionAndVelocity() {
-        double conversionFactor = (double) GameWindow.UPDATE_INTERVAL / 1000;
+        double conversionFactor = (double) GameScreen.UPDATE_INTERVAL / 1000;
         int prevX = projectile.getCoordX();
         int prevY = projectile.getCoordY();
         int prevDistanceTravelled = projectile.getDistanceTravelled();

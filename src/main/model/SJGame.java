@@ -12,10 +12,15 @@ import persistence.Writable;
 import java.awt.event.KeyEvent;
 import java.util.*;
 
+
+// TODO: Make rat move across screen
+// TODO: Make enemies shoot
+// TODO: Make home screen
+
 /*
  * Represents a game state of Doge Jump
  */
-public class DJGame implements Writable {
+public class SJGame implements Writable {
     // List of all the subclasses of RegularEnemy
     public static final List<RegularEnemy> REGULAR_ENEMIES = Arrays.asList(
             new RegularCat(),
@@ -23,7 +28,6 @@ public class DJGame implements Writable {
     // List of all the subclasses of BossEnemy
     public static final List<BossEnemy> BOSS_ENEMIES = Arrays.asList(
             new BossCat());
-
 
     private Account account;
     private Player player;
@@ -34,7 +38,7 @@ public class DJGame implements Writable {
     private boolean isGameOver;
 
     // EFFECTS: Creates a new DJGame with the first character ("Doge")
-    public DJGame() {
+    public SJGame() {
         this.account = new Account();
         this.player = new Player(Player.PlayableCharacter.WALTER);
         this.stage = new Stage();
@@ -249,4 +253,10 @@ public class DJGame implements Writable {
         }
     }
 
+    // EFFECTS: Sets the stage to a new regular stage based on the account's nextStageNum
+    public void createNewStage() {
+        stage.setStageNum(account.getNextStageNum());
+        stage.setBossStage(false);
+        stage.setStage();
+    }
 }

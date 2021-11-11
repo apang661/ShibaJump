@@ -4,6 +4,9 @@ import model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 // This class references CPSC210/B02-SpaceInvadersBase
@@ -12,17 +15,108 @@ import java.util.List;
 public class GameScreen extends JPanel {
     public static final int SCREEN_WIDTH = Stage.WIDTH;
     public static final int SCREEN_HEIGHT = 600;
+    public static final int UPDATE_INTERVAL = 7; // 17 ms for ~60 fps; 7 ms for ~144 fps
 
-    private DJGame game;
+    private SJGame game;
+    private GameWindow gameWindow;
     private int currentTopBorderHeight; // the height of the player + half of the screen height
     Toolkit toolkit;
 
-    public GameScreen(DJGame game) {
-        setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-        setBackground(Color.gray);
+    public GameScreen(GameWindow gameWindow, SJGame game) {
+        this.gameWindow = gameWindow;
         this.game = game;
+        this.toolkit = Toolkit.getDefaultToolkit();
 
-        toolkit = Toolkit.getDefaultToolkit();
+        setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+        setBackground(Color.GRAY);
+        initializeKeyBindings(game);
+        addTimer();
+    }
+
+    private void initializeKeyBindings(SJGame game) {
+        InputMap windowInputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = getActionMap();
+
+        windowInputMap.put(KeyStroke.getKeyStroke("A"), "left");
+        actionMap.put("left", getActionLeft(game));
+        windowInputMap.put(KeyStroke.getKeyStroke("released A"), "released left");
+        actionMap.put("released left", getActionReleasedLeft(game));
+        windowInputMap.put(KeyStroke.getKeyStroke("D"), "right");
+        actionMap.put("right", getActionRight(game));
+        windowInputMap.put(KeyStroke.getKeyStroke("released D"), "released right");
+        actionMap.put("released right", getActionReleasedRight(game));
+        windowInputMap.put(KeyStroke.getKeyStroke("K"), "shoot");
+        actionMap.put("shoot", getActionShoot(game));
+        windowInputMap.put(KeyStroke.getKeyStroke("P"), "pause");
+        actionMap.put("pause", getActionPause(game));
+    }
+
+
+    private Action getActionLeft(SJGame game) {
+        return new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                game.keyPressed(KeyEvent.VK_A);
+            }
+        };
+    }
+
+    private Action getActionReleasedLeft(SJGame game) {
+        return new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                game.keyReleased(KeyEvent.VK_A);
+            }
+        };
+    }
+
+    private Action getActionRight(SJGame game) {
+        return new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                game.keyPressed(KeyEvent.VK_D);
+            }
+        };
+    }
+
+    private Action getActionReleasedRight(SJGame game) {
+        return new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                game.keyReleased(KeyEvent.VK_D);
+            }
+        };
+    }
+
+    private Action getActionShoot(SJGame game) {
+        return new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                game.keyPressed(KeyEvent.VK_K);
+            }
+        };
+    }
+
+    private Action getActionPause(SJGame game) {
+        return new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                game.keyPressed(KeyEvent.VK_P);
+            }
+        };
+    }
+
+    private void addTimer() {
+        Timer t = new Timer(GameScreen.UPDATE_INTERVAL, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (game.isPlaying()) {
+                    System.out.println("playing");
+                    game.update();
+                    repaint();
+                    if (game.isGameOver()) {
+                        System.out.println("You lose");
+                        System.exit(0);
+                    }
+                }
+            }
+        });
+
+        t.start();
     }
 
     // EFFECTS: Sets the top of the screen to the player's height + half of the screen height
@@ -37,7 +131,6 @@ public class GameScreen extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         drawGame(g);
     }
 

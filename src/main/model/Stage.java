@@ -20,7 +20,7 @@ public class Stage implements Writable {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 6000;
     public static final int HEIGHT_BETWEEN_PLATFORMS = 150;
-    public static final double TIME_BETWEEN_PLATFORMS = 0.35; // in seconds
+    public static final double TIME_BETWEEN_PLATFORMS = 0.4; // in seconds
     public static final int BOSS_STAGE_WIDTH = 800;
     public static final int BOSS_STAGE_HEIGHT = 600;
     public static final int PLATFORM_THICKNESS = 20;

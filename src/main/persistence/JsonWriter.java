@@ -1,6 +1,6 @@
 package persistence;
 
-import model.DJGame;
+import model.SJGame;
 import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
@@ -31,7 +31,7 @@ public class JsonWriter {
 
     // MODIFIES: this
     // EFFECTS: writes the given DJGame to the destination file
-    public void write(DJGame game) {
+    public void write(SJGame game) {
         JSONObject jsonObject = game.toJson();
         String jsonText = jsonObject.toString(TAB);
         writer.write(jsonText);

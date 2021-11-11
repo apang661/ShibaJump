@@ -31,10 +31,10 @@ public class JsonReaderTest {
     void testLoadToAccountTestFileNew() {
         reader = new JsonReader("./data/testReadFileNew.json");
         try {
-            DJGame game = reader.loadToAccount();
+            SJGame game = reader.loadToAccount();
             Account account = game.getAccount();
             assertEquals("", account.getUsername());
-            assertEquals(0, account.getDogePoints());
+            assertEquals(0, account.getShibaPoints());
             assertEquals("Doge", account.getSelectedCharacter());
             assertEquals(0, account.getNextStageNum());
             testParseEncounteredEnemiesTestFileNew(account.getEncounteredEnemies());
@@ -51,10 +51,10 @@ public class JsonReaderTest {
     void testLoadToAccountTestFile0() {
         reader = new JsonReader("./data/testReadFile0.json");
         try {
-            DJGame game = reader.loadToAccount();
+            SJGame game = reader.loadToAccount();
             Account account = game.getAccount();
             assertEquals("dogelover", account.getUsername());
-            assertEquals(10000, account.getDogePoints());
+            assertEquals(10000, account.getShibaPoints());
             assertEquals("Walter", account.getSelectedCharacter());
             assertEquals(2, account.getNextStageNum());
             testParseEncounteredEnemiesTestFile0(account.getEncounteredEnemies());
@@ -74,7 +74,7 @@ public class JsonReaderTest {
     void testLoadToGameNonExistentFile() {
         reader = new JsonReader("./data/noSuchFile.json");
         try {
-            DJGame game = new DJGame();
+            SJGame game = new SJGame();
             reader.loadToGame(game);
             fail("IOException expected.");
         } catch (IOException e) {
@@ -86,7 +86,7 @@ public class JsonReaderTest {
     void testLoadToGameTestFileNew() {
         reader = new JsonReader("./data/testReadFileNew.json");
         try {
-            DJGame game = new DJGame();
+            SJGame game = new SJGame();
             reader.loadToGame(game);
 
             Player player = game.getPlayer();
@@ -128,7 +128,7 @@ public class JsonReaderTest {
     void testLoadToGameTestFile0() {
         reader = new JsonReader("./data/testReadFile0.json");
         try {
-            DJGame game = new DJGame();
+            SJGame game = new SJGame();
             reader.loadToGame(game);
 
             Player player = game.getPlayer();

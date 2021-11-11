@@ -1,7 +1,10 @@
 package ui;
 
+import model.SJGame;
+
 public class Main {
     public static void main(String[] args) {
-        new HomeScreenApp();
+        SJGame game = new SJGame();
+        new GameWindow(game);
     }
 }

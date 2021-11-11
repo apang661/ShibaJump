@@ -4,7 +4,7 @@ import model.*;
 import model.regularenemies.RegularCat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ui.GameWindow;
+import ui.GameScreen;
 
 import java.awt.event.KeyEvent;
 import java.util.*;
@@ -53,7 +53,7 @@ public class PlayerTest {
     void testUpdatePositionAndVelocityWithinDyLimit() {
         int prevX = 100;
         int prevY = 300;
-        double conversionFactor = (double) GameWindow.UPDATE_INTERVAL / 1000;
+        double conversionFactor = (double) GameScreen.UPDATE_INTERVAL / 1000;
         player.setCoordX(prevX);
         player.setCoordY(prevY);
         player.setDirectionByKeyCodesHeldDown(Collections.singleton(KeyEvent.VK_D)); // set direction to 1
@@ -94,7 +94,7 @@ public class PlayerTest {
     void testUpdatePositionAndVelocityOutOfDyLimit() {
         int prevX = 100;
         int prevY = 300;
-        double conversionFactor = (double) GameWindow.UPDATE_INTERVAL / 1000;
+        double conversionFactor = (double) GameScreen.UPDATE_INTERVAL / 1000;
         player.setCoordX(prevX);
         player.setCoordY(prevY);
         player.setDirectionByKeyCodesHeldDown(Collections.singleton(KeyEvent.VK_D)); // set direction to 1

@@ -1,7 +1,7 @@
 {
     "account": {
         "username": "dogelover",
-        "dogePoints": 10000,
+        "shibaPoints": 10000,
         "selectedCharacter": "Walter",
         "nextStageNum": 2,
         "encounteredEnemies":[

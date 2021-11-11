@@ -26,12 +26,12 @@ public class EnemyList implements ArrayWritable {
     // EFFECTS: If the given name is one of the regular or boss enemies in the game AND is not already in this list,
     //          add that enemy to this list; otherwise do nothing
     public void addEnemy(String name) {
-        for (Enemy enemy : DJGame.REGULAR_ENEMIES) {
+        for (Enemy enemy : SJGame.REGULAR_ENEMIES) {
             if (enemy.getName().equals(name) && !(listOfEnemies.contains(enemy))) {
                 addEnemy(enemy);
             }
         }
-        for (Enemy enemy : DJGame.BOSS_ENEMIES) {
+        for (Enemy enemy : SJGame.BOSS_ENEMIES) {
             if (enemy.getName().equals(name) && !(listOfEnemies.contains(enemy))) {
                 addEnemy(enemy);
             }

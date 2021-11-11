@@ -2,7 +2,7 @@ package model;
 
 import org.json.JSONObject;
 import persistence.Writable;
-import ui.GameWindow;
+import ui.GameScreen;
 
 /*
  * Represents a projectile
@@ -70,7 +70,7 @@ public class Projectile implements Writable {
     // MODIFIES: this
     // EFFECTS: Updates the player's position and velocity based on dx, dy, Stage.GRAVITY_ACCELERATION
     public void updatePositionAndVelocity() {
-        double conversionFactor = (double) GameWindow.UPDATE_INTERVAL / 1000;
+        double conversionFactor = (double) GameScreen.UPDATE_INTERVAL / 1000;
         this.coordX += (dx * conversionFactor);
         this.coordY += (dy * conversionFactor);
         this.distanceTravelled += (dy * conversionFactor);

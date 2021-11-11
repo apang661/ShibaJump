@@ -1,61 +1,30 @@
 package ui;
 
-import model.DJGame;
+import model.SJGame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 
 public class GameWindow extends JFrame {
-    public static final int UPDATE_INTERVAL = 7; // 17 ms for ~60 fps; 7 ms for ~144 fps
+    private GameScreen gs;
+    private HomeScreen hs;
 
-    DJGame game;
-    GameScreen gs;
-
-    public GameWindow(DJGame game) {
+    public GameWindow(SJGame game) {
         super("Doge Jump");
-        this.game = game;
-        gs = new GameScreen(game);
+        gs = new GameScreen(this, game);
+        hs = new HomeScreen(this, game);
 
+        setLayout(new OverlayLayout(getContentPane()));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(true);
         add(gs);
-        addKeyListener(new KeyHandler());
+        gs.setVisible(false);
+        add(hs);
+        hs.setVisible(true);
         pack();
         centreOnScreen();
         setVisible(true);
-        addTimer();
-    }
-
-    private class KeyHandler extends KeyAdapter {
-        @Override
-        public void keyPressed(KeyEvent e) {
-            game.keyPressed(e.getKeyCode());
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            game.keyReleased(e.getKeyCode());
-        }
-    }
-
-    private void addTimer() {
-        Timer t = new Timer(UPDATE_INTERVAL, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                game.update();
-                gs.repaint();
-                if (game.isGameOver()) {
-                    System.out.println("You lose");
-                    System.exit(0);
-                }
-            }
-        });
-
-        t.start();
     }
 
     // MODIFIES: this
@@ -63,5 +32,30 @@ public class GameWindow extends JFrame {
     private void centreOnScreen() {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation((screen.width - getWidth()) / 2, (screen.height - getHeight()) / 2);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Switches the display based on the given int:
+    //            - 0 = Home Screen
+    //            - 1 = Game Screen
+    //            - other = do nothing
+    public void switchDisplay(int i) {
+        switch (i) {
+            case (0): {
+                hs.setVisible(true);
+                hs.setOpaque(true);
+                gs.setVisible(false);
+                gs.setOpaque(false);
+            }
+            case (1): {
+                gs.setVisible(true);
+                gs.setOpaque(true);
+                hs.setVisible(false);
+                hs.setOpaque(false);
+            }
+            default: {
+                // do nothing
+            }
+        }
     }
 }

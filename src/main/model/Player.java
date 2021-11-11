@@ -2,7 +2,7 @@ package model;
 
 import org.json.JSONObject;
 import persistence.Writable;
-import ui.GameWindow;
+import ui.GameScreen;
 
 import java.awt.event.KeyEvent;
 import java.util.List;
@@ -163,7 +163,7 @@ public class Player implements Writable {
     // MODIFIES: this
     // EFFECTS: Updates the player's position and velocity based on dx, dy, Stage.GRAVITY_ACCELERATION
     public void updatePositionAndVelocity() {
-        double conversionFactor = (double) GameWindow.UPDATE_INTERVAL / 1000;
+        double conversionFactor = (double) GameScreen.UPDATE_INTERVAL / 1000;
         this.coordX +=
                 Math.round((maxDx * conversionFactor) * direction); // *** rounded to keep left and right movement equal
         this.coordY += Math.max(MAX_FALLING_DY, (dy * conversionFactor));
@@ -181,8 +181,6 @@ public class Player implements Writable {
             coordX = coordX - Stage.WIDTH;
         }
     }
-
-    //TODO: make projectile disappear on touch
 
     // MODIFIES: this
     // EFFECTS: Returns true if this player is touching any enemy projectile in the list of projectiles

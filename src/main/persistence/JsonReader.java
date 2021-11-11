@@ -36,8 +36,8 @@ public class JsonReader {
     }
 
     // EFFECTS: Reads the JSON file at this reader's source and returns a new game state with the loaded account
-    public DJGame loadToAccount() throws IOException {
-        DJGame game = new DJGame();
+    public SJGame loadToAccount() throws IOException {
+        SJGame game = new SJGame();
         String jsonText = readFile();
         JSONObject jsonObject = new JSONObject(jsonText);
         game.setAccount(parseAccount(jsonObject));
@@ -45,7 +45,7 @@ public class JsonReader {
     }
 
     // EFFECTS: Reads the JSON file at this reader's source and returns the loaded game (except for Account)
-    public DJGame loadToGame(DJGame game) throws IOException {
+    public SJGame loadToGame(SJGame game) throws IOException {
         String jsonText = readFile();
         JSONObject jsonObject = new JSONObject(jsonText);
         return parseGame(game, jsonObject);
@@ -57,7 +57,7 @@ public class JsonReader {
         JSONObject accountJsonObject = jsonObject.getJSONObject("account");
 
         account.setUsername(accountJsonObject.getString("username"));
-        account.setDogePoints(accountJsonObject.getInt("dogePoints"));
+        account.setShibaPoints(accountJsonObject.getInt("shibaPoints"));
         account.setSelectedCharacter(accountJsonObject.getString("selectedCharacter"));
         account.setNextStageNum(accountJsonObject.getInt("nextStageNum"));
         parseEncounteredEnemies(account, accountJsonObject);
@@ -75,7 +75,7 @@ public class JsonReader {
 
     // MODIFIES: game
     // EFFECTS: Parses DJGame (except for the account) from the given JSONObject and loads it into the given game
-    private DJGame parseGame(DJGame game, JSONObject jsonObject) {
+    private SJGame parseGame(SJGame game, JSONObject jsonObject) {
         parsePlayer(game, jsonObject);
         parseStage(game, jsonObject);
         parseProjectiles(game, jsonObject);
@@ -84,7 +84,7 @@ public class JsonReader {
 
     // MODIFIES: game
     // EFFECTS: Parses player from the given JSONObject and loads it into the game
-    private void parsePlayer(DJGame game, JSONObject jsonObject) {
+    private void parsePlayer(SJGame game, JSONObject jsonObject) {
         JSONObject playerJsonObject = jsonObject.getJSONObject("player");
         game.setCharacter(playerJsonObject.getString("name"));
 
@@ -98,7 +98,7 @@ public class JsonReader {
 
     // MODIFIES: game
     // EFFECTS: Parses stage from the given JSONObject and loads it into the game
-    private void parseStage(DJGame game, JSONObject jsonObject) {
+    private void parseStage(SJGame game, JSONObject jsonObject) {
         Stage stage = game.getStage();
         JSONObject stageJsonObject = jsonObject.getJSONObject("stage");
 
@@ -156,7 +156,7 @@ public class JsonReader {
 
     // MODIFIES: game
     // EFFECTS: Parses projectiles from the given JSONObject and loads them into the game
-    private void parseProjectiles(DJGame game, JSONObject jsonObject) {
+    private void parseProjectiles(SJGame game, JSONObject jsonObject) {
         JSONArray projectilesJsonArray = jsonObject.getJSONArray("projectiles");
         List<Projectile> projectileList = new ArrayList<>();
         for (Object projectile: projectilesJsonArray) {

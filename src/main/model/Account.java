@@ -4,18 +4,19 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 /*
- * This class represents a DJGame account
+ * This class represents a SJGame account
  */
 public class Account implements Writable {
     String username;
-    int dogePoints;
+    int shibaPoints;
     int nextStageNum;
     String selectedCharacter;
     EnemyList encounteredEnemies;
 
-    // EFFECTS: Creates a new account with 0 DogePoints, Doge as the selected character, and no encountered enemies
+    // EFFECTS: Creates a new account with 0 ShibaPoints, Doge as the selected character, and no encountered enemies
     public Account() {
-        dogePoints = 0;
+        shibaPoints = 0;
+        nextStageNum = 1;
         selectedCharacter = "Doge";
         encounteredEnemies = new EnemyList();
     }
@@ -28,12 +29,12 @@ public class Account implements Writable {
         return username;
     }
 
-    public void setDogePoints(int dogePoints) {
-        this.dogePoints = dogePoints;
+    public void setShibaPoints(int shibaPoints) {
+        this.shibaPoints = shibaPoints;
     }
 
-    public int getDogePoints() {
-        return dogePoints;
+    public int getShibaPoints() {
+        return shibaPoints;
     }
 
     public int getNextStageNum() {
@@ -73,7 +74,7 @@ public class Account implements Writable {
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("username", username);
-        jsonObject.put("dogePoints", dogePoints);
+        jsonObject.put("shibaPoints", shibaPoints);
         jsonObject.put("selectedCharacter", selectedCharacter);
         jsonObject.put("nextStageNum", nextStageNum);
         jsonObject.put("encounteredEnemies", encounteredEnemies.toJson());

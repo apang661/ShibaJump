@@ -30,7 +30,7 @@ public class JsonWriterTest {
 
     @Test
     void testWriteFile0() {
-        DJGame writtenGame = setupGameFile0();
+        SJGame writtenGame = setupGameFile0();
 
         writer = new JsonWriter("./data/testWriteFile0.json");
         reader = new JsonReader("./data/testWriteFile0.json");
@@ -40,7 +40,7 @@ public class JsonWriterTest {
             writer.write(writtenGame);
             writer.close();
 
-            DJGame readGame = reader.loadToAccount();
+            SJGame readGame = reader.loadToAccount();
             reader.loadToGame(readGame);
             Account readAccount = readGame.getAccount();
             Player readPlayer = readGame.getPlayer();
@@ -130,14 +130,14 @@ public class JsonWriterTest {
         EnemyList enemyList = readAccount.getEncounteredEnemies();
 
         assertEquals("cathater", readAccount.getUsername());
-        assertEquals(12345, readAccount.getDogePoints());
+        assertEquals(12345, readAccount.getShibaPoints());
         assertEquals(1, readAccount.getNextStageNum());
         assertEquals(1, enemyList.size());
         assertTrue(enemyList.containsEnemy("Cat"));
     }
 
-    private DJGame setupGameFile0() {
-        DJGame game = new DJGame();
+    private SJGame setupGameFile0() {
+        SJGame game = new SJGame();
         game.setCharacter("Cheems");
 
         Account account = new Account();
@@ -154,7 +154,7 @@ public class JsonWriterTest {
 
     private Account setupAccountGameFile0(Account account) {
         account.setUsername("cathater");
-        account.setDogePoints(12345);
+        account.setShibaPoints(12345);
         account.setNextStageNum(1);
         account.addEncounteredEnemy("Cat");
         return account;

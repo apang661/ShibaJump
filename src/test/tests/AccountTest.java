@@ -1,7 +1,7 @@
 package tests;
 
 import model.Account;
-import model.DJGame;
+import model.SJGame;
 import model.Enemy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,9 +24,9 @@ public class AccountTest {
     }
 
     @Test
-    void testGetDogePoints() {
-        account.setDogePoints(100);
-        assertEquals(100, account.getDogePoints());
+    void testGetShibaPoints() {
+        account.setShibaPoints(100);
+        assertEquals(100, account.getShibaPoints());
     }
 
     @Test
@@ -37,8 +37,8 @@ public class AccountTest {
 
     @Test
     void testAddEncounteredEnemyEnemyParam() {
-        Enemy regCat = DJGame.REGULAR_ENEMIES.get(0);
-        Enemy bossCat = DJGame.BOSS_ENEMIES.get(0);
+        Enemy regCat = SJGame.REGULAR_ENEMIES.get(0);
+        Enemy bossCat = SJGame.BOSS_ENEMIES.get(0);
         account.addEncounteredEnemy(regCat);
         account.addEncounteredEnemy(bossCat);
 
@@ -49,8 +49,8 @@ public class AccountTest {
 
     @Test
     void testAddEncounteredEnemyStringParamFound() {
-        Enemy regCat = DJGame.REGULAR_ENEMIES.get(0);
-        Enemy bossCat = DJGame.BOSS_ENEMIES.get(0);
+        Enemy regCat = SJGame.REGULAR_ENEMIES.get(0);
+        Enemy bossCat = SJGame.BOSS_ENEMIES.get(0);
         account.addEncounteredEnemy(regCat.getName());
         account.addEncounteredEnemy(bossCat.getName());
 
