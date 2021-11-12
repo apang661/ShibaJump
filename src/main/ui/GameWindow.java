@@ -12,8 +12,8 @@ public class GameWindow extends JFrame {
 
     public GameWindow(SJGame game) {
         super("Doge Jump");
-        gs = new GameScreen(this, game);
-        hs = new HomeScreen(this, game);
+        gs = new GameScreen(game, this);
+        hs = new HomeScreen(game, this);
 
         setLayout(new OverlayLayout(getContentPane()));
         setDefaultCloseOperation(EXIT_ON_CLOSE);

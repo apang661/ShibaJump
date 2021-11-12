@@ -10,7 +10,7 @@ public class HomeButton extends JButton {
         setBackground(new Color(200, 200, 200));
         setForeground(Color.BLACK);
         setFont(new Font("Courier", Font.PLAIN, 20));
-        setPreferredSize(new Dimension(300, 40));
+        setMargin(new Insets(7, 30, 7, 30));
         setVisible(true);
     }
 }

@@ -4,6 +4,9 @@ import model.SJGame;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
@@ -13,50 +16,42 @@ import java.io.IOException;
 public class HomeScreen extends JPanel {
     public static final int SCREEN_WIDTH = 800;
     public static final int SCREEN_HEIGHT = 600;
-    public static final Color BACKGROUND_COLOR = new Color(165, 223, 245);
+    public static final Color BACKGROUND_COLOR = new Color(177, 222, 242, 255);
 
     private SJGame game;
-    private JPanel bottomPanel;
+    private JPanel contentPanel;
     private JPanel buttonPanel;
-    private Toolkit toolkit;
+    private JPanel namePanel;
+    private JPanel characterPanel;
     private GameWindow gameWindow;
 
-    public HomeScreen(GameWindow gameWindow, SJGame game) {
+
+    public HomeScreen(SJGame game, GameWindow gameWindow) {
         this.game = game;
-        this.toolkit = Toolkit.getDefaultToolkit();
-        this.bottomPanel = new JPanel();
         this.gameWindow = gameWindow;
+        this.contentPanel = new JPanel();
 
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         setLayout(new GridBagLayout());
+
         setBackground(BACKGROUND_COLOR);
-        setupBottomPanel();
+        setOpaque(true);
+        setupTitlePanel();
+        setupContentPanel();
         setVisible(true);
     }
 
-    private void setupBottomPanel() {
-        bottomPanel.setVisible(true);
-        bottomPanel.setOpaque(false);
-        bottomPanel.setLayout(new OverlayLayout(bottomPanel));
-        setupButtonPanel();
-
+    private void setupTitlePanel() {
+        JPanel titlePanel = new JPanel();
         GridBagConstraints c = new GridBagConstraints();
-        setupSurroundingBorders(c);
-        c.weightx = 0.8;
-        c.weighty = 0.5;
-        c.fill = GridBagConstraints.CENTER;
-        c.gridx = 0;
-        c.gridy = 1;
 
-        add(bottomPanel, c);
-    }
+        titlePanel.setBackground(BACKGROUND_COLOR);
+        giveBorder(titlePanel);
 
-    private void setupSurroundingBorders(GridBagConstraints c) {
-        JPanel topPanel = new JPanel();
         try {
             BufferedImage image = ImageIO.read(new File("./images/homeBackground.png"));
             JLabel imageContainer = new JLabel(new ImageIcon(image));
-            topPanel.add(imageContainer);
+            titlePanel.add(imageContainer);
         } catch (IOException e) {
             // do nothing
         }
@@ -64,30 +59,70 @@ public class HomeScreen extends JPanel {
         c.weightx = 1;
         c.weighty = 0.3;
         c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(20, 20, 10, 20);
         c.gridx = 0;
         c.gridy = 0;
-        add(topPanel, c);
+        c.gridwidth = 3;
+        add(titlePanel, c);
 
+        c.gridwidth = 1;
+    }
+
+    private void setupSurroundingBorders(GridBagConstraints c) {
         JPanel leftBorder = new JPanel();
+        leftBorder.setBackground(BACKGROUND_COLOR);
+        c.weightx = 0.2;
+        c.weighty = 0.7;
+        c.anchor = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 1;
+        add(leftBorder, c);
+
         JPanel rightBorder = new JPanel();
-        JPanel bottomBorder = new JPanel();
-//
-//        add(leftBorder, BorderLayout.LINE_START);
-//        add(rightBorder, BorderLayout.LINE_END);
-//        add(bottomBorder, BorderLayout.PAGE_END);
+        rightBorder.setBackground(BACKGROUND_COLOR);
+        c.weightx = 0.2;
+        c.weighty = 0.7;
+        c.anchor = GridBagConstraints.CENTER;
+        c.gridx = 2;
+        c.gridy = 1;
+        add(rightBorder, c);
+    }
+
+    private void setupContentPanel() {
+        contentPanel.setVisible(true);
+        contentPanel.setOpaque(false);
+        contentPanel.setLayout(new OverlayLayout(contentPanel));
+
+        setupButtonPanel();
+        setupNamePanel();
+
+        GridBagConstraints c = new GridBagConstraints();
+        setupSurroundingBorders(c);
+        c.weightx = 0.6;
+        c.weighty = 0.7;
+        c.anchor = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.insets = new Insets(10, 20, 20, 20);
+        c.gridx = 1;
+        c.gridy = 1;
+
+        giveBorder(contentPanel);
+
+        add(contentPanel, c);
     }
 
     private void setupButtonPanel() {
         buttonPanel = new JPanel();
-        bottomPanel.add(buttonPanel);
         buttonPanel.setLayout(new GridLayout(0, 1, 10, 10));
         buttonPanel.setOpaque(false);
         addButtons();
+
+        contentPanel.add(buttonPanel);
     }
 
     private void addButtons() {
-        JButton changeNameButton = new HomeButton(getActionNameButton(), "Change Name");
-        JButton changeCharacterButton = new HomeButton(getActionCharacterButton(), "Change Character");
+        JButton changeNameButton = new HomeButton(getActionChangeNameButton(), "Change Name");
+        JButton changeCharacterButton = new HomeButton(getActionChangeCharacterButton(), "Change Character");
         JButton newGameButton = new HomeButton(getActionNewGameButton(), "Enter Game");
         JButton continueGameButton = new HomeButton(getActionContinueGameButton(), "Continue Game");
         JButton viewEnemiesButton = new HomeButton(getActionViewEnemiesButton(),"View Enemies");
@@ -101,16 +136,17 @@ public class HomeScreen extends JPanel {
         buttonPanel.add(quitGameButton);
     }
 
-    private Action getActionNameButton() {
+    private Action getActionChangeNameButton() {
         return new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 buttonPanel.setVisible(false);
+                namePanel.setVisible(true);
             }
         };
     }
 
-    private Action getActionCharacterButton() {
+    private Action getActionChangeCharacterButton() {
         return new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -157,14 +193,40 @@ public class HomeScreen extends JPanel {
         };
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-     //   paintBackground(g);
+
+    private void setupNamePanel() {
+        namePanel = new JPanel();
+        namePanel.setBackground(BACKGROUND_COLOR);
+        namePanel.setVisible(false);
+
+        JTextField nameTextField = new JTextField("Enter name here:", 10);
+        nameTextField.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Document doc = nameTextField.getDocument();
+                try {
+                    String newName = doc.getText(0, doc.getEndPosition().getOffset());
+                    game.getAccount().setUsername(newName);
+                    System.out.println(newName);
+                } catch (BadLocationException ex) {
+                    System.out.println("Could not get name.");
+                }
+                namePanel.setVisible(false);
+                buttonPanel.setVisible(true);
+            }
+        });
+
+        namePanel.add(nameTextField);
+        contentPanel.add(namePanel);
     }
 
-    private void paintBackground(Graphics g) {
-        Image backgroundImage = toolkit.getImage("./images/homeBackground.png");
-        g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, this);
+    private void setupCharacterPanel() {
+
+    }
+
+    // for debugging
+    private void giveBorder(JPanel titlePanel) {
+        Border border = BorderFactory.createLineBorder(Color.BLACK);
+        //   titlePanel.setBorder(border);
     }
 }

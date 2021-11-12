@@ -22,7 +22,7 @@ public class GameScreen extends JPanel {
     private int currentTopBorderHeight; // the height of the player + half of the screen height
     Toolkit toolkit;
 
-    public GameScreen(GameWindow gameWindow, SJGame game) {
+    public GameScreen(SJGame game, GameWindow gameWindow) {
         this.gameWindow = gameWindow;
         this.game = game;
         this.toolkit = Toolkit.getDefaultToolkit();
