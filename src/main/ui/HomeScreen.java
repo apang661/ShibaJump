@@ -1,5 +1,6 @@
 package ui;
 
+import model.Player;
 import model.SJGame;
 
 import javax.imageio.ImageIO;
@@ -95,6 +96,7 @@ public class HomeScreen extends JPanel {
 
         setupButtonPanel();
         setupNamePanel();
+        setupCharacterPanel();
 
         GridBagConstraints c = new GridBagConstraints();
         setupSurroundingBorders(c);
@@ -150,7 +152,8 @@ public class HomeScreen extends JPanel {
         return new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                buttonPanel.setVisible(false);
+                characterPanel.setVisible(true);
             }
         };
     }
@@ -221,7 +224,25 @@ public class HomeScreen extends JPanel {
     }
 
     private void setupCharacterPanel() {
+        characterPanel = new JPanel();
+        characterPanel.setLayout(new GridLayout(0, 3));
+        characterPanel.setBackground(BACKGROUND_COLOR);
 
+        for (Player.PlayableCharacter pc: Player.PlayableCharacter.values()) {
+            Action action = new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    game.setCharacter(pc.getName());
+                    characterPanel.setVisible(false);
+                    buttonPanel.setVisible(true);
+                }
+            };
+            JButton characterButton = new HomeButton(action, pc.getName());
+            characterPanel.add(characterButton);
+        }
+
+        characterPanel.setVisible(false);
+        contentPanel.add(characterPanel);
     }
 
     // for debugging
