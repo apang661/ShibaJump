@@ -44,6 +44,11 @@ public class EnemyList implements ArrayWritable {
         return listOfEnemies.get(i);
     }
 
+    // EFFECTS: Removes the enemy from the list of enemies
+    public void removeEnemy(Enemy e) {
+        listOfEnemies.remove(e);
+    }
+
     // EFFECTS: Returns true if list of enemies contains e
     public boolean containsEnemy(Enemy e) {
         return listOfEnemies.contains(e);

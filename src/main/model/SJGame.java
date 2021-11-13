@@ -15,7 +15,10 @@ import java.util.*;
 
 // TODO: Make rat move across screen
 // TODO: Make enemies shoot
-// TODO: Make home screen
+// TODO: Make save and load buttons
+// TODO: Make pause screen for game
+// TODO: Resize title and enemies with changing window size
+// TODO: Make inputs not case sensitive
 
 /*
  * Represents a game state of Doge Jump
@@ -258,5 +261,23 @@ public class SJGame implements Writable {
         stage.setStageNum(account.getNextStageNum());
         stage.setBossStage(false);
         stage.setStage();
+    }
+
+    // EFFECTS: Returns the list of names of enemies in REGULAR_ENEMIES
+    public static List<String> getRegularEnemyNames() {
+        List<String> listOfRegEnemies = new ArrayList<>();
+        for (Enemy enemy : REGULAR_ENEMIES) {
+            listOfRegEnemies.add(enemy.getName());
+        }
+        return listOfRegEnemies;
+    }
+
+    // EFFECTS: Return the list of names of enemies in BOSS_ENEMIES
+    public static List<String> getBossEnemyNames() {
+        List<String> listOfBossEnemies = new ArrayList<>();
+        for (Enemy enemy : SJGame.BOSS_ENEMIES) {
+            listOfBossEnemies.add(enemy.getName());
+        }
+        return listOfBossEnemies;
     }
 }
