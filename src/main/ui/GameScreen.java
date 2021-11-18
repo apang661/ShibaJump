@@ -12,6 +12,10 @@ import java.util.List;
 // This class references CPSC210/B02-SpaceInvadersBase
 // Link: https://github.students.cs.ubc.ca/CPSC210/B02-SpaceInvadersBase.git
 
+
+/*
+ * Represents the game screen of Shiba Jump
+ */
 public class GameScreen extends JPanel {
     public static final int UPDATE_INTERVAL = 7; // 17 ms for ~60 fps; 7 ms for ~144 fps
     public static final int SCREEN_HEIGHT = GameWindow.SCREEN_HEIGHT;
@@ -24,6 +28,7 @@ public class GameScreen extends JPanel {
     private JPanel pausePanel;
     private JPanel topPanel;
 
+    // EFFECTS: Creates a new game screen
     public GameScreen(SJGame game, GameWindow gameWindow) {
         this.gameWindow = gameWindow;
         this.game = game;
@@ -34,10 +39,10 @@ public class GameScreen extends JPanel {
         setPreferredSize(new Dimension(GameWindow.SCREEN_WIDTH, GameWindow.SCREEN_HEIGHT));
         setupPausePanel();
         setupTopPanel();
-
-        System.out.println(getPreferredSize());
     }
 
+    // MODIFIES: this
+    // EFFECTS: Sets up the top panel consisting of a pause button at the top right
     private void setupTopPanel() {
         topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -48,6 +53,8 @@ public class GameScreen extends JPanel {
         add(topPanel);
     }
 
+    // MODIFIES: this
+    // EFFECTS: Sets up the pause panel consisting of a "resume" button and "save and quit" button
     private void setupPausePanel() {
         pausePanel = new JPanel();
         pausePanel.setBackground(new Color(200, 200, 200, 150));
@@ -62,6 +69,7 @@ public class GameScreen extends JPanel {
         add(pausePanel);
     }
 
+    // EFFECTS: Returns the "save and quit" action
     private Action getActionSaveQuit() {
         return new AbstractAction() {
             @Override
@@ -74,6 +82,7 @@ public class GameScreen extends JPanel {
         };
     }
 
+    // EFFECTS: Returns the "resume" action
     private Action getActionResume() {
         return new AbstractAction() {
             @Override
@@ -85,6 +94,8 @@ public class GameScreen extends JPanel {
         };
     }
 
+    // MODIFIES: this
+    // EFFECTS: Initializes the key bindings that are used during the game
     private void initializeKeyBindings(SJGame game) {
         InputMap windowInputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = getActionMap();
@@ -103,7 +114,7 @@ public class GameScreen extends JPanel {
         actionMap.put("pause", getActionPause(game));
     }
 
-
+    // EFFECTS: Returns the "move left" action
     private Action getActionLeft(SJGame game) {
         return new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
@@ -112,6 +123,7 @@ public class GameScreen extends JPanel {
         };
     }
 
+    // EFFECTS: Returns the "stop moving left" action
     private Action getActionReleasedLeft(SJGame game) {
         return new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
@@ -120,6 +132,7 @@ public class GameScreen extends JPanel {
         };
     }
 
+    // EFFECTS: Returns the "move right" action
     private Action getActionRight(SJGame game) {
         return new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
@@ -128,6 +141,7 @@ public class GameScreen extends JPanel {
         };
     }
 
+    // EFFECTS: Returns the "stop moving right" action
     private Action getActionReleasedRight(SJGame game) {
         return new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
@@ -136,6 +150,7 @@ public class GameScreen extends JPanel {
         };
     }
 
+    // EFFECTS: Returns the "shoot" action
     private Action getActionShoot(SJGame game) {
         return new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
@@ -144,6 +159,7 @@ public class GameScreen extends JPanel {
         };
     }
 
+    // EFFECTS: Returns the "pause" action
     private Action getActionPause(SJGame game) {
         return new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
@@ -159,8 +175,9 @@ public class GameScreen extends JPanel {
         };
     }
 
+    // EFFECTS: Adds and initializes a timer to update the game every UPDATE_INTERVAL
     private void addTimer() {
-        timer = new Timer(GameScreen.UPDATE_INTERVAL, new ActionListener() {
+        timer = new Timer(UPDATE_INTERVAL, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (game.isPlaying()) {
@@ -168,19 +185,23 @@ public class GameScreen extends JPanel {
                     repaint();
                     checkGameOver();
                     checkWinGame();
-                    System.out.println(gameWindow.getPreferredSize());
                 }
             }
         });
         timer.start();
     }
 
+    // MODIFIES: this
+    // EFFECTS: Ends the game if the game is over
     private void checkGameOver() {
         if (game.isGameOver()) {
             endGame();
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: If the player reaches the top of the stage,
+    //          advances account to the next stage, adds 100 ShibaPoints to the account, and ends the game
     private void checkWinGame() {
         if (game.getPlayer().getCoordY() > Stage.HEIGHT) {
             Account account = game.getAccount();
@@ -190,6 +211,7 @@ public class GameScreen extends JPanel {
         }
     }
 
+    // MODIFIES: this
     // EFFECTS: Sets the top of the screen to the player's height + half of the screen height
     //          or the top and bottom height limits, if the player is too high or low
     public void centerPlayerOnScreen() {
@@ -238,7 +260,6 @@ public class GameScreen extends JPanel {
                     player.getWidth(), player.getHeight());
         }
     }
-
 
     // MODIFIES: g
     // EFFECTS: Draws the stage onto g
@@ -295,10 +316,14 @@ public class GameScreen extends JPanel {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: Sets the game if the given game
     public void setGame(SJGame game) {
         this.game = game;
     }
 
+    // MODIFIES: this
+    // EFFECTS: Initializes the game
     public void startGame() {
         game.setPlaying(true);
         game.setGameOver(false);
@@ -306,6 +331,8 @@ public class GameScreen extends JPanel {
         addTimer();
     }
 
+    // MODIFIES: this
+    // EFFECTS: Ends the game, switches the home screen, and prepares the next game
     private void endGame() {
         game.getPlayer().setCoordY(0);
         game.setGameOver(false);
@@ -315,6 +342,8 @@ public class GameScreen extends JPanel {
         resetKeys();
     }
 
+    // MODIFIES: this
+    // EFFECTS: Releases the movement keys pressed
     private void resetKeys() {
         game.keyReleased(KeyEvent.VK_A);
         game.keyReleased(KeyEvent.VK_D);

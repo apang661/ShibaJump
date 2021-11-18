@@ -94,6 +94,7 @@ public abstract class Enemy implements Writable {
         return false;
     }
 
+    // EFFECTS: Move the enemy to its next location
     public abstract void move();
 
     @Override

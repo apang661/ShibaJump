@@ -218,7 +218,6 @@ public class Stage implements Writable {
         }
     }
 
-
     private void spawnEnemyStage1Reg(int heightOfPlatformAtI, double enemyRand, int coordX) {
         if (enemyRand < .5) {
             addEnemy("Rat", coordX, heightOfPlatformAtI + HEIGHT_BETWEEN_PLATFORMS / 2);
@@ -369,6 +368,8 @@ public class Stage implements Writable {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: Add the given enemy to the regular enemies list or boss enemies list based on its type
     private void setupAndPlaceEnemyInCorrectList(int x, int y, Enemy enemy) {
         enemy.setCoordX(x);
         enemy.setCoordY(y);

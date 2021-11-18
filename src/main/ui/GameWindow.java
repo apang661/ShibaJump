@@ -5,6 +5,9 @@ import model.SJGame;
 import javax.swing.*;
 import java.awt.*;
 
+/*
+ * Represents the Shiba Jump game window
+ */
 
 public class GameWindow extends JFrame {
     public static final int SCREEN_WIDTH = 800;
@@ -13,6 +16,7 @@ public class GameWindow extends JFrame {
     private GameScreen gs;
     private HomeScreen hs;
 
+    // EFFECTS: Starts up a Shiba Jump game window
     public GameWindow(SJGame game) {
         super("Doge Jump");
         gs = new GameScreen(game, this);
@@ -28,8 +32,6 @@ public class GameWindow extends JFrame {
         pack();
         centreOnScreen();
         setVisible(true);
-
-        System.out.println(getPreferredSize());
     }
 
     // MODIFIES: this
@@ -61,11 +63,15 @@ public class GameWindow extends JFrame {
         revalidate();
     }
 
+    // MODIFIES: this
+    // EFFECTS: Sets the game stored in the game screen and home screen to the given game
     public void setGame(SJGame game) {
         gs.setGame(game);
         hs.setGame(game);
     }
 
+    // MODIFIES: this
+    // EFFECTS: Starts the game in the game screen
     public void startGame() {
         gs.startGame();
     }

@@ -6,7 +6,6 @@ import persistence.JsonWriter;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import java.awt.*;
@@ -17,6 +16,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+/*
+ * Represents the home screen of Shiba Jump
+ */
 public class HomeScreen extends JPanel {
     public static final Color BACKGROUND_COLOR = new Color(177, 222, 242, 255);
     public static final String SAVE_DESTINATION = "./data/saveFile0.json";
@@ -33,6 +35,7 @@ public class HomeScreen extends JPanel {
     private JPanel enemiesMainPanel;
     private int selectedEnemyIndex;
 
+    // EFFECTS: Creates a new home screen of Shiba Jump
     public HomeScreen(SJGame game, GameWindow gameWindow) {
         this.game = game;
         this.gameWindow = gameWindow;
@@ -46,10 +49,9 @@ public class HomeScreen extends JPanel {
         setupTitlePanel();
         setupContentPanel();
         setVisible(true);
-
-        System.out.println(getPreferredSize());
     }
 
+    // EFFECTS: Sets up the info label displaying account information
     private void setupInfoLabel() {
         Account account = game.getAccount();
         infoLabel = new JLabel("Account name: " + account.getUsername()
@@ -72,6 +74,7 @@ public class HomeScreen extends JPanel {
         add(infoLabel, c);
     }
 
+    // EFFECTS: Updates the account information on the info label
     public void updateInfoLabel() {
         Account account = game.getAccount();
         infoLabel.setText("Account name: " + account.getUsername()
@@ -80,12 +83,12 @@ public class HomeScreen extends JPanel {
                 + "    ShibaPoints: " + account.getShibaPoints());
     }
 
+    // EFFECTS: Sets up the title panel consisting of the Shiba Jump banner
     private void setupTitlePanel() {
         JPanel titlePanel = new JPanel();
         GridBagConstraints c = new GridBagConstraints();
 
         titlePanel.setBackground(BACKGROUND_COLOR);
-        giveBorder(titlePanel);
 
         try {
             BufferedImage image = ImageIO.read(new File("./images/homeBackground.png"));
@@ -107,6 +110,7 @@ public class HomeScreen extends JPanel {
         c.gridwidth = 1;
     }
 
+    // EFFECTS: Sets up the left and right spaces on the sides of the content panel
     private void setupSurroundingBorders(GridBagConstraints c) {
         JPanel leftBorder = new JPanel();
         leftBorder.setBackground(BACKGROUND_COLOR);
@@ -127,6 +131,7 @@ public class HomeScreen extends JPanel {
         add(rightBorder, c);
     }
 
+    // EFFECTS: Sets up the content panel
     private void setupContentPanel() {
         contentPanel.setVisible(true);
         contentPanel.setOpaque(false);
@@ -157,6 +162,7 @@ public class HomeScreen extends JPanel {
         add(contentPanel, c);
     }
 
+    // EFFECTS: Sets up the load account panel at the start of the application
     private void setupLoadAccountPanel() {
         loadAccountPanel = new JPanel();
         loadAccountPanel.setLayout(new GridLayout(1, 2, 10, 10));
@@ -166,11 +172,13 @@ public class HomeScreen extends JPanel {
         setupLoadAccountButton();
     }
 
+    // EFFECTS: Sets up the button used for starting a new account
     private void setupNewAccountButton() {
         JButton newAccountButton = getDefaultButton(getActionNewAccountButton(), "Create New Account");
         loadAccountPanel.add(newAccountButton);
     }
 
+    // EFFECTS: Returns the action to start a new account
     private Action getActionNewAccountButton() {
         return new AbstractAction() {
             @Override
@@ -187,11 +195,13 @@ public class HomeScreen extends JPanel {
         };
     }
 
+    // EFFECTS: Sets up the button used for loading an existing account
     private void setupLoadAccountButton() {
         JButton loadAccountButton = getDefaultButton(getActionLoadAccountButton(), "Load Account");
         loadAccountPanel.add(loadAccountButton);
     }
 
+    // EFFECTS: Returns the action to load the existing account
     private Action getActionLoadAccountButton() {
         return new AbstractAction() {
             @Override
@@ -212,7 +222,7 @@ public class HomeScreen extends JPanel {
         };
     }
 
-
+    // EFFECTS: Sets up the button panel, which gives the user access to other parts of the home screen
     private void setupButtonPanel() {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(0, 1, 10, 10));
@@ -221,6 +231,7 @@ public class HomeScreen extends JPanel {
         addButtons();
     }
 
+    // EFFECTS: Sets up and adds the buttons used in the button panel
     private void addButtons() {
         JButton changeNameButton = getDefaultButton(getActionChangeNameButton(), "Change Name");
         JButton changeCharacterButton = getDefaultButton(getActionChangeCharacterButton(), "Change Character");
@@ -237,6 +248,7 @@ public class HomeScreen extends JPanel {
         buttonPanel.add(quitGameButton);
     }
 
+    // EFFECTS: Returns the action for changing the user's name
     private Action getActionChangeNameButton() {
         return new AbstractAction() {
             @Override
@@ -247,6 +259,7 @@ public class HomeScreen extends JPanel {
         };
     }
 
+    // EFFECTS: Returns the action for changing the user's character
     private Action getActionChangeCharacterButton() {
         return new AbstractAction() {
             @Override
@@ -257,6 +270,7 @@ public class HomeScreen extends JPanel {
         };
     }
 
+    // EFFECTS: Returns the action for starting a new game
     private Action getActionNewGameButton() {
         return new AbstractAction() {
             @Override
@@ -268,6 +282,7 @@ public class HomeScreen extends JPanel {
         };
     }
 
+    // EFFECTS: Returns the action for continuing the saved game
     private Action getActionContinueGameButton() {
         return new AbstractAction() {
             @Override
@@ -282,6 +297,7 @@ public class HomeScreen extends JPanel {
         };
     }
 
+    // EFFECTS: Returns the action for viewing the enemies
     private Action getActionViewEnemiesButton() {
         return new AbstractAction() {
             @Override
@@ -293,6 +309,7 @@ public class HomeScreen extends JPanel {
         };
     }
 
+    // EFFECTS: Returns the action for quitting the game
     private Action getActionQuitGameButton() {
         return new AbstractAction() {
             @Override
@@ -392,9 +409,9 @@ public class HomeScreen extends JPanel {
 
         setupAndUpdateEnemyPanel();
         enemiesPanel.add(enemiesMainPanel, BorderLayout.CENTER);
-        giveBorder(enemiesMainPanel);
     }
 
+    // EFFECTS: Returns the top of the "View Enemies" panel, consisting of add and remove buttons
     private JPanel getEnemyTopPanel() {
         JPanel enemyTopPanel = new JPanel();
         enemyTopPanel.setOpaque(false);
@@ -408,7 +425,7 @@ public class HomeScreen extends JPanel {
         return enemyTopPanel;
     }
 
-
+    // EFFECTS: Returns the action to add a new enemy to the list of enemies
     private Action getActionAddEnemy() {
         return new AbstractAction() {
             @Override
@@ -428,6 +445,7 @@ public class HomeScreen extends JPanel {
         };
     }
 
+    // EFFECTS: Returns the action to remove an enemy from the list of enemies
     private Action getActionRemoveEnemy() {
         return new AbstractAction() {
             @Override
@@ -446,6 +464,7 @@ public class HomeScreen extends JPanel {
         };
     }
 
+    // EFFECTS: Returns the bottom of the "View Enemies" panel, consisting of a back button
     private JPanel getEnemyBottomPanel() {
         JPanel enemyBottomPanel = new JPanel();
         enemyBottomPanel.setOpaque(false);
@@ -457,6 +476,7 @@ public class HomeScreen extends JPanel {
         return enemyBottomPanel;
     }
 
+    // EFFECTS: Returns the action to leave the "View Enemies" panel
     private Action getQuitEnemiesAction() {
         return new AbstractAction() {
             @Override
@@ -481,6 +501,7 @@ public class HomeScreen extends JPanel {
         return leftButtonPanel;
     }
 
+    // EFFECTS: Returns the action for viewing the previous enemy
     private Action getActionEnemyLeft() {
         return new AbstractAction() {
             @Override
@@ -496,6 +517,7 @@ public class HomeScreen extends JPanel {
         };
     }
 
+    // EFFECTS: Returns the action for viewing the next enemy
     private Action getActionEnemyRight() {
         return new AbstractAction() {
             @Override
@@ -536,6 +558,7 @@ public class HomeScreen extends JPanel {
         enemiesPanel.revalidate();
     }
 
+    // EFFECTS: Creates the enemy panel for the currently selected enemy
     private void createEnemyPanel(EnemyList enemyList) {
         Enemy enemy = enemyList.getEnemy(selectedEnemyIndex);
         Image image = getEnemyImage(enemy);
@@ -576,12 +599,7 @@ public class HomeScreen extends JPanel {
         return image;
     }
 
-    // for debugging
-    public static void giveBorder(JPanel titlePanel) {
-        Border border = BorderFactory.createLineBorder(Color.BLACK);
-    //    titlePanel.setBorder(border);
-    }
-
+    // EFFECTS: Returns the default Shiba Jump button with the given action and label
     public static JButton getDefaultButton(Action action, String label) {
         JButton button = new JButton(action);
         button.setText(label);
@@ -617,6 +635,7 @@ public class HomeScreen extends JPanel {
         return result;
     }
 
+    // EFFECTS: Sets the game info of the home screen as the given game
     public void setGame(SJGame game) {
         this.game = game;
     }
