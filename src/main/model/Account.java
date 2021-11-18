@@ -15,6 +15,7 @@ public class Account implements Writable {
 
     // EFFECTS: Creates a new account with 0 ShibaPoints, Doge as the selected character, and no encountered enemies
     public Account() {
+        username = "";
         shibaPoints = 0;
         nextStageNum = 1;
         selectedCharacter = "Doge";
@@ -41,8 +42,9 @@ public class Account implements Writable {
         return nextStageNum;
     }
 
+    // EFFECTS: Sets next stage number to the given number (up to a maximum to 2)
     public void setNextStageNum(int nextStageNum) {
-        this.nextStageNum = nextStageNum;
+        this.nextStageNum = Math.min(nextStageNum, 2);
     }
 
     public String getSelectedCharacter() {

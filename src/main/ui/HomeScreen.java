@@ -1,9 +1,8 @@
 package ui;
 
-import model.Enemy;
-import model.EnemyList;
-import model.Player;
-import model.SJGame;
+import model.*;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,15 +13,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
 public class HomeScreen extends JPanel {
-    public static final int SCREEN_WIDTH = 800;
-    public static final int SCREEN_HEIGHT = 600;
     public static final Color BACKGROUND_COLOR = new Color(177, 222, 242, 255);
+    public static final String SAVE_DESTINATION = "./data/saveFile0.json";
 
     private SJGame game;
+    private GameWindow gameWindow;
+    private JLabel infoLabel;
+    private JPanel loadAccountPanel;
     private JPanel contentPanel;
     private JPanel buttonPanel;
     private JPanel namePanel;
@@ -30,22 +32,52 @@ public class HomeScreen extends JPanel {
     private JPanel enemiesPanel;
     private JPanel enemiesMainPanel;
     private int selectedEnemyIndex;
-    private GameWindow gameWindow;
-
 
     public HomeScreen(SJGame game, GameWindow gameWindow) {
         this.game = game;
         this.gameWindow = gameWindow;
         this.contentPanel = new JPanel();
 
-        setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         setLayout(new GridBagLayout());
-
+        setPreferredSize(new Dimension(GameWindow.SCREEN_WIDTH, GameWindow.SCREEN_HEIGHT));
         setBackground(BACKGROUND_COLOR);
         setOpaque(true);
+        setupInfoLabel();
         setupTitlePanel();
         setupContentPanel();
         setVisible(true);
+
+        System.out.println(getPreferredSize());
+    }
+
+    private void setupInfoLabel() {
+        Account account = game.getAccount();
+        infoLabel = new JLabel("Account name: " + account.getUsername()
+                + "    Stage reached: " + account.getNextStageNum()
+                + "    Selected character: " + account.getSelectedCharacter()
+                + "    ShibaPoints: " + account.getShibaPoints());
+        GridBagConstraints c = new GridBagConstraints();
+
+        infoLabel.setOpaque(false);
+        infoLabel.setVisible(false);
+
+        c.weightx = 1;
+        c.weighty = 0;
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        c.insets = new Insets(5,5,5,5);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 3;
+
+        add(infoLabel, c);
+    }
+
+    public void updateInfoLabel() {
+        Account account = game.getAccount();
+        infoLabel.setText("Account name: " + account.getUsername()
+                + "    Stage reached: " + account.getNextStageNum()
+                + "    Selected character: " + account.getSelectedCharacter()
+                + "    ShibaPoints: " + account.getShibaPoints());
     }
 
     private void setupTitlePanel() {
@@ -68,7 +100,7 @@ public class HomeScreen extends JPanel {
         c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(20, 20, 10, 20);
         c.gridx = 0;
-        c.gridy = 0;
+        c.gridy = 1;
         c.gridwidth = 3;
         add(titlePanel, c);
 
@@ -82,7 +114,7 @@ public class HomeScreen extends JPanel {
         c.weighty = 0.7;
         c.anchor = GridBagConstraints.CENTER;
         c.gridx = 0;
-        c.gridy = 1;
+        c.gridy = 2;
         add(leftBorder, c);
 
         JPanel rightBorder = new JPanel();
@@ -91,7 +123,7 @@ public class HomeScreen extends JPanel {
         c.weighty = 0.7;
         c.anchor = GridBagConstraints.CENTER;
         c.gridx = 2;
-        c.gridy = 1;
+        c.gridy = 2;
         add(rightBorder, c);
     }
 
@@ -100,6 +132,7 @@ public class HomeScreen extends JPanel {
         contentPanel.setOpaque(false);
         contentPanel.setLayout(new OverlayLayout(contentPanel));
 
+        setupLoadAccountPanel();
         setupButtonPanel();
         setupNamePanel();
         setupCharacterPanel();
@@ -113,22 +146,78 @@ public class HomeScreen extends JPanel {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.insets = new Insets(10, 20, 20, 20);
         c.gridx = 1;
-        c.gridy = 1;
+        c.gridy = 2;
 
+        contentPanel.add(loadAccountPanel);
         contentPanel.add(buttonPanel);
         contentPanel.add(characterPanel);
         contentPanel.add(namePanel);
         contentPanel.add(enemiesPanel);
 
-
-        giveBorder(contentPanel);
         add(contentPanel, c);
     }
+
+    private void setupLoadAccountPanel() {
+        loadAccountPanel = new JPanel();
+        loadAccountPanel.setLayout(new GridLayout(1, 2, 10, 10));
+        loadAccountPanel.setOpaque(false);
+
+        setupNewAccountButton();
+        setupLoadAccountButton();
+    }
+
+    private void setupNewAccountButton() {
+        JButton newAccountButton = getDefaultButton(getActionNewAccountButton(), "Create New Account");
+        loadAccountPanel.add(newAccountButton);
+    }
+
+    private Action getActionNewAccountButton() {
+        return new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = JOptionPane.showInputDialog("Enter your username:");
+                if (username != null) {
+                    game.getAccount().setUsername(username);
+                    loadAccountPanel.setVisible(false);
+                    buttonPanel.setVisible(true);
+                    infoLabel.setVisible(true);
+                    updateInfoLabel();
+                }
+            }
+        };
+    }
+
+    private void setupLoadAccountButton() {
+        JButton loadAccountButton = getDefaultButton(getActionLoadAccountButton(), "Load Account");
+        loadAccountPanel.add(loadAccountButton);
+    }
+
+    private Action getActionLoadAccountButton() {
+        return new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JsonReader reader = new JsonReader(SAVE_DESTINATION);
+                try {
+                    SJGame newGame = reader.loadToAccount();
+                    reader.loadToGame(newGame);
+                    gameWindow.setGame(newGame);
+                    updateInfoLabel();
+                    loadAccountPanel.setVisible(false);
+                    buttonPanel.setVisible(true);
+                    infoLabel.setVisible(true);
+                } catch (IOException exc) {
+                    throw new RuntimeException("Could not load account");
+                }
+            }
+        };
+    }
+
 
     private void setupButtonPanel() {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(0, 1, 10, 10));
         buttonPanel.setOpaque(false);
+        buttonPanel.setVisible(false);
         addButtons();
     }
 
@@ -172,8 +261,8 @@ public class HomeScreen extends JPanel {
         return new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                gameWindow.startGame();
                 game.createNewStage();
-                game.setPlaying(true);
                 gameWindow.switchDisplay(1);
             }
         };
@@ -183,7 +272,12 @@ public class HomeScreen extends JPanel {
         return new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (game.getPlayer().getCoordY() > 0) {
+                    gameWindow.startGame();
+                    gameWindow.switchDisplay(1);
+                } else {
+                    JOptionPane.showMessageDialog(gameWindow, "You do not have a saved game.");
+                }
             }
         };
     }
@@ -194,6 +288,7 @@ public class HomeScreen extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 buttonPanel.setVisible(false);
                 enemiesPanel.setVisible(true);
+                setupAndUpdateEnemyPanel();
             }
         };
     }
@@ -202,7 +297,25 @@ public class HomeScreen extends JPanel {
         return new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                int option = JOptionPane.showConfirmDialog(gameWindow,
+                        "Would you like to save the game before you leave?");
+                switch (option) {
+                    case JOptionPane.YES_OPTION:
+                        JsonWriter writer = new JsonWriter(SAVE_DESTINATION);
+                        try {
+                            writer.open();
+                            writer.write(game);
+                            writer.close();
+//                            System.exit(0);
+                        } catch (FileNotFoundException exc) {
+                            throw new RuntimeException("Could not write to file");
+                        }
+                    case JOptionPane.NO_OPTION:
+                        System.exit(0);
+                    default:
+                        // do nothing
+                }
+
             }
         };
     }
@@ -222,10 +335,11 @@ public class HomeScreen extends JPanel {
                 try {
                     String newName = doc.getText(0, doc.getEndPosition().getOffset());
                     game.getAccount().setUsername(newName);
-                    System.out.println(newName);
                 } catch (BadLocationException ex) {
                     System.out.println("Could not get name.");
                 }
+
+                updateInfoLabel();
                 namePanel.setVisible(false);
                 buttonPanel.setVisible(true);
             }
@@ -246,6 +360,7 @@ public class HomeScreen extends JPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     game.setCharacter(pc.getName());
+                    updateInfoLabel();
                     characterPanel.setVisible(false);
                     buttonPanel.setVisible(true);
                 }
@@ -302,8 +417,9 @@ public class HomeScreen extends JPanel {
                         + placeCommaOrAndInBetweenStrings(SJGame.getRegularEnemyNames())
                         + "\nHere is the list of boss enemies in the game: "
                         + placeCommaOrAndInBetweenStrings(SJGame.getBossEnemyNames())
-                        + "\nEnter the added enemy name here:";
-                String enteredName = JOptionPane.showInputDialog(enemiesMainPanel, message, "");
+                        + "\n\nEnter the added enemy name here:";
+                String enteredName = JOptionPane.showInputDialog(enemiesMainPanel, message,
+                        "Add Enemy", JOptionPane.QUESTION_MESSAGE);
                 EnemyList enemyList = game.getAccount().getEncounteredEnemies();
                 enemyList.addEnemy(enteredName);
                 selectedEnemyIndex = enemyList.size() - 1;
@@ -461,12 +577,12 @@ public class HomeScreen extends JPanel {
     }
 
     // for debugging
-    private void giveBorder(JPanel titlePanel) {
+    public static void giveBorder(JPanel titlePanel) {
         Border border = BorderFactory.createLineBorder(Color.BLACK);
-      //  titlePanel.setBorder(border);
+    //    titlePanel.setBorder(border);
     }
 
-    private JButton getDefaultButton(Action action, String label) {
+    public static JButton getDefaultButton(Action action, String label) {
         JButton button = new JButton(action);
         button.setText(label);
         button.setBackground(new Color(200, 200, 200));
@@ -499,5 +615,9 @@ public class HomeScreen extends JPanel {
                     + placeCommaOrAndInBetweenStringsHelper(listOfString, false));
         }
         return result;
+    }
+
+    public void setGame(SJGame game) {
+        this.game = game;
     }
 }

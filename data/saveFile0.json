@@ -7,19 +7,22 @@
         "platforms": []
     },
     "account": {
+        "selectedCharacter": "Cheems",
         "shibaPoints": 0,
-        "selectedCharacter": "Doge",
-        "nextStageNum": 0,
-        "encounteredEnemies": [],
-        "username": "doge"
+        "nextStageNum": 2,
+        "encounteredEnemies": [
+            "Cat",
+            "Rat"
+        ],
+        "username": "Josh\n"
     },
     "projectiles": [],
     "player": {
-        "currentHealth": 5,
+        "currentHealth": 4,
         "coordX": 0,
         "coordY": 0,
         "dx": 600,
-        "dy": 572,
-        "name": "Doge"
+        "dy": 869,
+        "name": "Cheems"
     }
 }

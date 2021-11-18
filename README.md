@@ -22,3 +22,7 @@ Here are four user stories that describe features that should be added in Phase 
 Here are two user stories that describe features that should be added in Phase 2:
 - As a user, I want to be able to save my account and game data.
 - As a user, I want to be able to load my account and game data.
+
+Here are two user stories that describe features that should be added in Phase 3:
+- As a user, I want to be able to use a graphical user interface.
+- As a user, I want to be able to enter the game.

@@ -7,6 +7,9 @@ import java.awt.*;
 
 
 public class GameWindow extends JFrame {
+    public static final int SCREEN_WIDTH = 800;
+    public static final int SCREEN_HEIGHT = 600;
+
     private GameScreen gs;
     private HomeScreen hs;
 
@@ -25,6 +28,8 @@ public class GameWindow extends JFrame {
         pack();
         centreOnScreen();
         setVisible(true);
+
+        System.out.println(getPreferredSize());
     }
 
     // MODIFIES: this
@@ -41,21 +46,27 @@ public class GameWindow extends JFrame {
     //            - other = do nothing
     public void switchDisplay(int i) {
         switch (i) {
-            case (0): {
-                hs.setVisible(true);
-                hs.setOpaque(true);
+            case 0:
                 gs.setVisible(false);
-                gs.setOpaque(false);
-            }
-            case (1): {
+                hs.setVisible(true);
+                hs.updateInfoLabel();
+                break;
+            case 1:
                 gs.setVisible(true);
-                gs.setOpaque(true);
                 hs.setVisible(false);
-                hs.setOpaque(false);
-            }
-            default: {
+                break;
+            default:
                 // do nothing
-            }
         }
+        revalidate();
+    }
+
+    public void setGame(SJGame game) {
+        gs.setGame(game);
+        hs.setGame(game);
+    }
+
+    public void startGame() {
+        gs.startGame();
     }
 }

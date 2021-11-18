@@ -111,6 +111,9 @@ public class Stage implements Writable {
     // EFFECTS: Sets the stage according to the current stage number and stage type (reg or boss)
     public void setStage() {
         platforms.clear();
+        regularEnemies.clear();
+        bossEnemies.clear();
+
         if (stageNum == 0) {
             addScreenWidePlatform(PLATFORM_THICKNESS / 2 + 1);
         } else if (stageNum == 1) {

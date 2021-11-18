@@ -43,7 +43,7 @@ public class SJGame implements Writable {
     // EFFECTS: Creates a new DJGame with the first character ("Doge")
     public SJGame() {
         this.account = new Account();
-        this.player = new Player(Player.PlayableCharacter.WALTER);
+        this.player = new Player(Player.PlayableCharacter.DOGE);
         this.stage = new Stage();
         this.projectiles = new ArrayList<>();
         this.keyCodesHeldDown = new HashSet<>();
@@ -256,8 +256,12 @@ public class SJGame implements Writable {
         }
     }
 
-    // EFFECTS: Sets the stage to a new regular stage based on the account's nextStageNum
+    // EFFECTS: Sets the stage to a new regular stage based on the account's nextStageNum and resets player
     public void createNewStage() {
+        stage = new Stage();
+        player = new Player(Player.PlayableCharacter.DOGE);
+        setCharacter(account.getSelectedCharacter());
+
         stage.setStageNum(account.getNextStageNum());
         stage.setBossStage(false);
         stage.setStage();

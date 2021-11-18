@@ -61,6 +61,8 @@ public class Player implements Writable {
         this.currentHealth = character.maxHealth;
         this.width = character.width;
         this.height = character.height;
+        this.coordX = Stage.WIDTH / 2;
+        this.coordY = 0;
         this.maxDx = character.dx;
         this.direction = 0;
         this.dy = character.dyForJump;

@@ -13,24 +13,76 @@ import java.util.List;
 // Link: https://github.students.cs.ubc.ca/CPSC210/B02-SpaceInvadersBase.git
 
 public class GameScreen extends JPanel {
-    public static final int SCREEN_WIDTH = Stage.WIDTH;
-    public static final int SCREEN_HEIGHT = 600;
     public static final int UPDATE_INTERVAL = 7; // 17 ms for ~60 fps; 7 ms for ~144 fps
+    public static final int SCREEN_HEIGHT = GameWindow.SCREEN_HEIGHT;
 
     private SJGame game;
     private GameWindow gameWindow;
     private int currentTopBorderHeight; // the height of the player + half of the screen height
-    Toolkit toolkit;
+    private Toolkit toolkit;
+    private Timer timer;
+    private JPanel pausePanel;
+    private JPanel topPanel;
 
     public GameScreen(SJGame game, GameWindow gameWindow) {
         this.gameWindow = gameWindow;
         this.game = game;
         this.toolkit = Toolkit.getDefaultToolkit();
 
-        setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         setBackground(Color.GRAY);
-        initializeKeyBindings(game);
-        addTimer();
+        setLayout(new OverlayLayout(this));
+        setPreferredSize(new Dimension(GameWindow.SCREEN_WIDTH, GameWindow.SCREEN_HEIGHT));
+        setupPausePanel();
+        setupTopPanel();
+
+        System.out.println(getPreferredSize());
+    }
+
+    private void setupTopPanel() {
+        topPanel = new JPanel();
+        topPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        topPanel.setOpaque(false);
+
+        JButton pauseButton = HomeScreen.getDefaultButton(getActionPause(game), "Pause");
+        topPanel.add(pauseButton);
+        add(topPanel);
+    }
+
+    private void setupPausePanel() {
+        pausePanel = new JPanel();
+        pausePanel.setBackground(new Color(200, 200, 200, 150));
+        pausePanel.setVisible(false);
+
+        JButton resumeButton = HomeScreen.getDefaultButton(getActionResume(), "Resume game");
+        JButton saveQuitButton = HomeScreen.getDefaultButton(getActionSaveQuit(), "Save and quit game");
+
+        pausePanel.add(resumeButton);
+        pausePanel.add(saveQuitButton);
+
+        add(pausePanel);
+    }
+
+    private Action getActionSaveQuit() {
+        return new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pausePanel.setVisible(false);
+                topPanel.setVisible(true);
+                timer.stop();
+                gameWindow.switchDisplay(0);
+            }
+        };
+    }
+
+    private Action getActionResume() {
+        return new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                game.setPlaying(true);
+                topPanel.setVisible(true);
+                pausePanel.setVisible(false);
+            }
+        };
     }
 
     private void initializeKeyBindings(SJGame game) {
@@ -96,27 +148,46 @@ public class GameScreen extends JPanel {
         return new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 game.keyPressed(KeyEvent.VK_P);
+                if (!pausePanel.isVisible()) {
+                    pausePanel.setVisible(true);
+                    topPanel.setVisible(false);
+                } else {
+                    pausePanel.setVisible(false);
+                    topPanel.setVisible(true);
+                }
             }
         };
     }
 
     private void addTimer() {
-        Timer t = new Timer(GameScreen.UPDATE_INTERVAL, new ActionListener() {
+        timer = new Timer(GameScreen.UPDATE_INTERVAL, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (game.isPlaying()) {
-                    System.out.println("playing");
                     game.update();
                     repaint();
-                    if (game.isGameOver()) {
-                        System.out.println("You lose");
-                        System.exit(0);
-                    }
+                    checkGameOver();
+                    checkWinGame();
+                    System.out.println(gameWindow.getPreferredSize());
                 }
             }
         });
+        timer.start();
+    }
 
-        t.start();
+    private void checkGameOver() {
+        if (game.isGameOver()) {
+            endGame();
+        }
+    }
+
+    private void checkWinGame() {
+        if (game.getPlayer().getCoordY() > Stage.HEIGHT) {
+            Account account = game.getAccount();
+            account.setShibaPoints(account.getShibaPoints() + 100);
+            account.setNextStageNum(account.getNextStageNum() + 1);
+            endGame();
+        }
     }
 
     // EFFECTS: Sets the top of the screen to the player's height + half of the screen height
@@ -222,5 +293,30 @@ public class GameScreen extends JPanel {
                     currentTopBorderHeight - (p.getCoordY() + p.getHeight()),
                     p.getWidth(), p.getHeight());
         }
+    }
+
+    public void setGame(SJGame game) {
+        this.game = game;
+    }
+
+    public void startGame() {
+        game.setPlaying(true);
+        game.setGameOver(false);
+        initializeKeyBindings(game);
+        addTimer();
+    }
+
+    private void endGame() {
+        game.getPlayer().setCoordY(0);
+        game.setGameOver(false);
+        game.setPlaying(false);
+        timer.stop();
+        gameWindow.switchDisplay(0);
+        resetKeys();
+    }
+
+    private void resetKeys() {
+        game.keyReleased(KeyEvent.VK_A);
+        game.keyReleased(KeyEvent.VK_D);
     }
 }
