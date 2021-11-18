@@ -12,14 +12,6 @@ import persistence.Writable;
 import java.awt.event.KeyEvent;
 import java.util.*;
 
-
-// TODO: Make rat move across screen
-// TODO: Make enemies shoot
-// TODO: Make save and load buttons
-// TODO: Make pause screen for game
-// TODO: Resize title and enemies with changing window size
-// TODO: Make inputs not case sensitive
-
 /*
  * Represents a game state of Doge Jump
  */
