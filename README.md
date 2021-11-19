@@ -17,7 +17,7 @@ Here are four user stories that describe features that should be added in Phase 
 - As a user, I want to be able to enter, change, and view my username.
 - As a user, I want to be able to select different characters and view the list of playable characters.
 - As a user, I want to be able to check my amount of ShibaPoints (User cannot earn ShibaPoints as of now).
-- As a user, I want to be able to add enemies to the list of enemies I've encountered.
+- As a user, I want to be able to add enemies to the list of favorite enemies.
 
 Here are two user stories that describe features that should be added in Phase 2:
 - As a user, I want to be able to save my account and game data.
@@ -26,3 +26,5 @@ Here are two user stories that describe features that should be added in Phase 2
 Here are two user stories that describe features that should be added in Phase 3:
 - As a user, I want to be able to use a graphical user interface.
 - As a user, I want to be able to enter the game.
+- As a user, I want to be able to pause the game, and then choose to "resume" or "save and quit".
+- As a user, I want to be able to remove enemy from the list of favorite enemies.
