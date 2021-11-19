@@ -8,7 +8,7 @@ public class BossCat extends BossEnemy {
     public static final int MAX_HEALTH = 10;
     public static final int WIDTH = 20;
     public static final int HEIGHT = 40;
-    public static final String IMAGE_FILE = "./images/bossCat";
+    public static final String IMAGE_FILE = "./images/evilCat.png";
 
     // EFFECTS: Creates a new BossCat enemy
     public BossCat() {
