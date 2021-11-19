@@ -15,8 +15,8 @@ public class BossCat extends BossEnemy {
         super(NAME, MAX_HEALTH, WIDTH, HEIGHT, IMAGE_FILE);
     }
 
-    @Override
-    public void move() {
-
-    }
+//    @Override
+//    public void move() {
+//
+//    }
 }

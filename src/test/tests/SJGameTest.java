@@ -405,13 +405,13 @@ public class SJGameTest {
         assertEquals(1, game.getProjectiles().size());
     }
 
-    @Test
-    void testUpdateEnemy() {
-        game.getStage().addEnemy("Cat", 0, 0);
-        game.getStage().addEnemy("Evil Cat", 0, 0);
-
-        game.updateEnemies();
-    }
+//    @Test
+//    void testUpdateEnemy() {
+//        game.getStage().addEnemy("Cat", 0, 0);
+//        game.getStage().addEnemy("Evil Cat", 0, 0);
+//
+//        game.updateEnemies();
+//    }
 
     @Test
     void testGetRegularEnemyNames() {

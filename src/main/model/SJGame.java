@@ -167,7 +167,7 @@ public class SJGame implements Writable {
 
             updatePlayer();
             updateProjectiles();
-            updateEnemies();
+//            updateEnemies();
         }
     }
 
@@ -239,14 +239,14 @@ public class SJGame implements Writable {
 
     // MODIFIES: this
     // EFFECTS: Updates the enemies in this game's stage to their next state
-    public void updateEnemies() {
-        for (Enemy enemy: stage.getRegularEnemies()) {
-            enemy.move();
-        }
-        for (Enemy enemy: stage.getBossEnemies()) {
-            enemy.move();
-        }
-    }
+//    public void updateEnemies() {
+//        for (Enemy enemy: stage.getRegularEnemies()) {
+//            enemy.move();
+//        }
+//        for (Enemy enemy: stage.getBossEnemies()) {
+//            enemy.move();
+//        }
+//    }
 
     // EFFECTS: Sets the stage to a new regular stage based on the account's nextStageNum and resets player
     public void createNewStage() {

@@ -34,8 +34,8 @@ public class RegularRat extends RegularEnemy {
         return projectiles;
     }
 
-    @Override
-    public void move() {
-
-    }
+//    @Override
+//    public void move() {
+//
+//    }
 }
