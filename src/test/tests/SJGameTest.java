@@ -412,4 +412,33 @@ public class SJGameTest {
 
         game.updateEnemies();
     }
+
+    @Test
+    void testGetRegularEnemyNames() {
+        List<String> regularEnemyNames = SJGame.getRegularEnemyNames();
+        for (Enemy e: SJGame.REGULAR_ENEMIES)
+            assertTrue(regularEnemyNames.contains(e.getName()));
+    }
+
+    @Test
+    void testGetBossEnemyNames() {
+        List<String> bossEnemyNames = SJGame.getBossEnemyNames();
+        for (Enemy e: SJGame.BOSS_ENEMIES)
+            assertTrue(bossEnemyNames.contains(e.getName()));
+    }
+
+    @Test
+    void testCreateNewStage() {
+        Account account = game.getAccount();
+        account.setNextStageNum(2);
+        account.setSelectedCharacter("Cheems");
+
+        game.createNewStage();
+
+        Player player = game.getPlayer();
+        Stage stage = game.getStage();
+        assertEquals("Cheems", player.getName());
+        assertEquals(0, player.getCoordY());
+        assertEquals(2, stage.getStageNum());
+    }
 }

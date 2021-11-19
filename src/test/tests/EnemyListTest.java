@@ -22,12 +22,19 @@ public class EnemyListTest {
     }
 
     @Test
-    void testAddEnemy() {
+    void testAddAndRemoveEnemy() {
         enemyList.addEnemy(e0);
         enemyList.addEnemy(e1);
 
         assertEquals(e0, enemyList.getEnemy(0));
         assertEquals(e1, enemyList.getEnemy(1));
+
+        enemyList.removeEnemy(e0);
+        assertEquals(e1, enemyList.getEnemy(0));
+        assertEquals(1, enemyList.size());
+
+        enemyList.removeEnemy(e1);
+        assertEquals(0, enemyList.size());
     }
 
     @Test
@@ -36,6 +43,5 @@ public class EnemyListTest {
 
         assertTrue(enemyList.containsEnemy("Cat"));
         assertFalse(enemyList.containsEnemy("Unknown Enemy"));
-
     }
 }
