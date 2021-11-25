@@ -1,5 +1,7 @@
 package model;
 
+import model.logging.Event;
+import model.logging.EventLog;
 import org.json.JSONArray;
 import persistence.ArrayWritable;
 
@@ -11,15 +13,18 @@ import java.util.List;
  */
 public class EnemyList implements ArrayWritable {
     List<Enemy> listOfEnemies;
+    EventLog eventLog;
 
     public EnemyList() {
         this.listOfEnemies = new ArrayList<>();
+        this.eventLog = EventLog.getInstance();
     }
 
     // MODIFIES: this
     // EFFECTS: Adds an enemy to the list
     public void addEnemy(Enemy e) {
         listOfEnemies.add(e);
+        eventLog.logEvent(new Event("Added " + e.getName() + " from the enemy list."));
     }
 
     // MODIFIES: this
@@ -47,6 +52,7 @@ public class EnemyList implements ArrayWritable {
     // EFFECTS: Removes the enemy from the list of enemies
     public void removeEnemy(Enemy e) {
         listOfEnemies.remove(e);
+        eventLog.logEvent(new Event("Removed " + e.getName() + " to the enemy list."));
     }
 
     // EFFECTS: Returns true if list of enemies contains e
@@ -76,5 +82,9 @@ public class EnemyList implements ArrayWritable {
             jsonArray.put(enemy.getName());
         }
         return jsonArray;
+    }
+
+    public EventLog getEventLog() {
+        return eventLog;
     }
 }

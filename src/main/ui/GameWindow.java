@@ -18,7 +18,7 @@ public class GameWindow extends JFrame {
 
     // EFFECTS: Starts up a Shiba Jump game window
     public GameWindow(SJGame game) {
-        super("Doge Jump");
+        super("Shiba Jump");
         gs = new GameScreen(game, this);
         hs = new HomeScreen(game, this);
 

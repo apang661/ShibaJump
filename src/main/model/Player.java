@@ -16,9 +16,9 @@ public class Player implements Writable {
             -1 * Stage.PLATFORM_THICKNESS / 2; // max dy for player to not fall through platform
 
     public enum PlayableCharacter {
-        DOGE("Doge",5,  60, 60, 400, 1.25, "./images/doge.jpg"),
-        WALTER("Walter",4,  40, 70, 600, 1.2, "./images/walter.jpg"),
-        CHEEMS("Cheems", 4, 40, 40, 600, 1.1, "./images/cheems.jpg");
+        DOGE("Doge",5,  60, 60, 400, 1.25, "./data/images/doge.jpg"),
+        WALTER("Walter",4,  40, 70, 600, 1.2, "./data/images/walter.jpg"),
+        CHEEMS("Cheems", 4, 40, 40, 600, 1.1, "./data/images/cheems.jpg");
 
         public static final int MIN_HEIGHT = 40;
         private final String name;

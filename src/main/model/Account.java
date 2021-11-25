@@ -7,11 +7,11 @@ import persistence.Writable;
  * This class represents a SJGame account
  */
 public class Account implements Writable {
-    String username;
-    int shibaPoints;
-    int nextStageNum;
-    String selectedCharacter;
-    EnemyList encounteredEnemies;
+    private String username;
+    private int shibaPoints;
+    private int nextStageNum;
+    private String selectedCharacter;
+    private EnemyList encounteredEnemies;
 
     // EFFECTS: Creates a new account with 0 ShibaPoints, Doge as the selected character, and no encountered enemies
     public Account() {

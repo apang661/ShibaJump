@@ -382,6 +382,6 @@ public class PlayerTest {
 
     @Test
     void testGetImageFileLocation() {
-        assertEquals("./images/doge.jpg", player.getImageFileLocation(player.getName()));
+        assertEquals("./data/images/doge.jpg", player.getImageFileLocation(player.getName()));
     }
 }

@@ -57,15 +57,28 @@ public class GameScreen extends JPanel {
     // EFFECTS: Sets up the pause panel consisting of a "resume" button and "save and quit" button
     private void setupPausePanel() {
         pausePanel = new JPanel();
+        pausePanel.setLayout(new GridLayout(1, 1));
+
         pausePanel.setBackground(new Color(200, 200, 200, 150));
         pausePanel.setVisible(false);
+
+        JPanel pauseMiddlePanel = new JPanel();
+        pauseMiddlePanel.setLayout(new BoxLayout(pauseMiddlePanel, BoxLayout.PAGE_AXIS));
+        pauseMiddlePanel.setOpaque(false);
 
         JButton resumeButton = HomeScreen.getDefaultButton(getActionResume(), "Resume game");
         JButton saveQuitButton = HomeScreen.getDefaultButton(getActionSaveQuit(), "Save and quit game");
 
-        pausePanel.add(resumeButton);
-        pausePanel.add(saveQuitButton);
+        resumeButton.setAlignmentX(CENTER_ALIGNMENT);
+        saveQuitButton.setAlignmentX(CENTER_ALIGNMENT);
 
+        pauseMiddlePanel.add(Box.createVerticalGlue());
+        pauseMiddlePanel.add(resumeButton);
+        pauseMiddlePanel.add(Box.createVerticalStrut(30));
+        pauseMiddlePanel.add(saveQuitButton);
+        pauseMiddlePanel.add(Box.createVerticalGlue());
+
+        pausePanel.add(pauseMiddlePanel);
         add(pausePanel);
     }
 

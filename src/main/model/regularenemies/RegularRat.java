@@ -17,7 +17,7 @@ public class RegularRat extends RegularEnemy {
     public static final int PROJECTILE_HEIGHT = 10;
     public static final int PROJECTILE_DX = 0;
     public static final int PROJECTILE_DY = -20;
-    public static final String IMAGE_FILE = "./images/regularRat.jpg";
+    public static final String IMAGE_FILE = "./data/images/regularRat.jpg";
 
     // EFFECTS: Creates a new RegularRat enemy
     public RegularRat() {

@@ -1,28 +1,417 @@
 {
     "stage": {
-        "stageNum": 0,
-        "regularEnemies": [],
+        "stageNum": 2,
+        "regularEnemies": [
+            {
+                "coordX": 600,
+                "coordY": 525,
+                "name": "Rat",
+                "health": 1
+            },
+            {
+                "coordX": 600,
+                "coordY": 675,
+                "name": "Rat",
+                "health": 1
+            },
+            {
+                "coordX": 600,
+                "coordY": 825,
+                "name": "Rat",
+                "health": 1
+            },
+            {
+                "coordX": 740,
+                "coordY": 1575,
+                "name": "Rat",
+                "health": 1
+            },
+            {
+                "coordX": 60,
+                "coordY": 2325,
+                "name": "Rat",
+                "health": 1
+            },
+            {
+                "coordX": 200,
+                "coordY": 2775,
+                "name": "Cat",
+                "health": 1
+            },
+            {
+                "coordX": 400,
+                "coordY": 3525,
+                "name": "Rat",
+                "health": 1
+            },
+            {
+                "coordX": 400,
+                "coordY": 3675,
+                "name": "Rat",
+                "health": 1
+            },
+            {
+                "coordX": 400,
+                "coordY": 3975,
+                "name": "Rat",
+                "health": 1
+            },
+            {
+                "coordX": 400,
+                "coordY": 4125,
+                "name": "Rat",
+                "health": 1
+            },
+            {
+                "coordX": 600,
+                "coordY": 4575,
+                "name": "Cat",
+                "health": 1
+            },
+            {
+                "coordX": 600,
+                "coordY": 4875,
+                "name": "Rat",
+                "health": 1
+            },
+            {
+                "coordX": 200,
+                "coordY": 5475,
+                "name": "Rat",
+                "health": 1
+            },
+            {
+                "coordX": 600,
+                "coordY": 5625,
+                "name": "Rat",
+                "health": 1
+            },
+            {
+                "coordX": 600,
+                "coordY": 5775,
+                "name": "Cat",
+                "health": 1
+            },
+            {
+                "coordX": 400,
+                "coordY": 5925,
+                "name": "Rat",
+                "health": 1
+            }
+        ],
         "bossStage": false,
         "bossEnemies": [],
-        "platforms": []
+        "platforms": [
+            {
+                "coordX": 400,
+                "coordY": 0,
+                "width": 800,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 150,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 300,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 450,
+                "width": 240,
+                "height": 20
+            },
+            {
+                "coordX": 60,
+                "coordY": 600,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 600,
+                "width": 400,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 750,
+                "width": 240,
+                "height": 20
+            },
+            {
+                "coordX": 400,
+                "coordY": 900,
+                "width": 240,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 1050,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 1200,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 60,
+                "coordY": 1350,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 1350,
+                "width": 400,
+                "height": 20
+            },
+            {
+                "coordX": 200,
+                "coordY": 1500,
+                "width": 400,
+                "height": 20
+            },
+            {
+                "coordX": 740,
+                "coordY": 1500,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 1650,
+                "width": 240,
+                "height": 20
+            },
+            {
+                "coordX": 400,
+                "coordY": 1800,
+                "width": 240,
+                "height": 20
+            },
+            {
+                "coordX": 60,
+                "coordY": 1950,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 1950,
+                "width": 400,
+                "height": 20
+            },
+            {
+                "coordX": 60,
+                "coordY": 2100,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 2100,
+                "width": 400,
+                "height": 20
+            },
+            {
+                "coordX": 60,
+                "coordY": 2250,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 2250,
+                "width": 400,
+                "height": 20
+            },
+            {
+                "coordX": 60,
+                "coordY": 2400,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 2400,
+                "width": 400,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 2550,
+                "width": 240,
+                "height": 20
+            },
+            {
+                "coordX": 200,
+                "coordY": 2700,
+                "width": 240,
+                "height": 20
+            },
+            {
+                "coordX": 200,
+                "coordY": 2850,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 3000,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 3150,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 200,
+                "coordY": 3300,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 400,
+                "coordY": 3450,
+                "width": 240,
+                "height": 20
+            },
+            {
+                "coordX": 400,
+                "coordY": 3600,
+                "width": 240,
+                "height": 20
+            },
+            {
+                "coordX": 400,
+                "coordY": 3750,
+                "width": 400,
+                "height": 20
+            },
+            {
+                "coordX": 400,
+                "coordY": 3900,
+                "width": 240,
+                "height": 20
+            },
+            {
+                "coordX": 400,
+                "coordY": 4050,
+                "width": 240,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 4200,
+                "width": 240,
+                "height": 20
+            },
+            {
+                "coordX": 60,
+                "coordY": 4350,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 4350,
+                "width": 400,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 4500,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 400,
+                "coordY": 4650,
+                "width": 240,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 4800,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 120,
+                "coordY": 4950,
+                "width": 240,
+                "height": 20
+            },
+            {
+                "coordX": 680,
+                "coordY": 4950,
+                "width": 240,
+                "height": 20
+            },
+            {
+                "coordX": 400,
+                "coordY": 5100,
+                "width": 400,
+                "height": 20
+            },
+            {
+                "coordX": 200,
+                "coordY": 5250,
+                "width": 240,
+                "height": 20
+            },
+            {
+                "coordX": 200,
+                "coordY": 5400,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 5550,
+                "width": 120,
+                "height": 20
+            },
+            {
+                "coordX": 600,
+                "coordY": 5700,
+                "width": 240,
+                "height": 20
+            },
+            {
+                "coordX": 400,
+                "coordY": 5850,
+                "width": 240,
+                "height": 20
+            }
+        ]
     },
     "account": {
-        "selectedCharacter": "Cheems",
-        "shibaPoints": 0,
+        "selectedCharacter": "Walter",
+        "shibaPoints": 300,
         "nextStageNum": 2,
-        "encounteredEnemies": [
-            "Cat",
-            "Rat"
-        ],
-        "username": "Josh\n"
+        "encounteredEnemies": ["Evil Cat"],
+        "username": "Doge\n"
     },
     "projectiles": [],
     "player": {
         "currentHealth": 4,
-        "coordX": 0,
-        "coordY": 0,
+        "coordX": 400,
+        "coordY": 198,
         "dx": 600,
-        "dy": 869,
-        "name": "Cheems"
+        "dy": -328,
+        "name": "Walter"
     }
 }

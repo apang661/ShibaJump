@@ -91,7 +91,7 @@ public class HomeScreen extends JPanel {
         titlePanel.setBackground(BACKGROUND_COLOR);
 
         try {
-            BufferedImage image = ImageIO.read(new File("./images/homeBackground.png"));
+            BufferedImage image = ImageIO.read(new File("./data/images/homeBackground.png"));
             JLabel imageContainer = new JLabel(new ImageIcon(image));
             titlePanel.add(imageContainer);
         } catch (IOException e) {
@@ -318,23 +318,31 @@ public class HomeScreen extends JPanel {
                         "Would you like to save the game before you leave?");
                 switch (option) {
                     case JOptionPane.YES_OPTION:
-                        JsonWriter writer = new JsonWriter(SAVE_DESTINATION);
                         try {
-                            writer.open();
-                            writer.write(game);
-                            writer.close();
-//                            System.exit(0);
+                            saveGame();
+                            game.printLog();
+                            System.exit(0);
                         } catch (FileNotFoundException exc) {
                             throw new RuntimeException("Could not write to file");
                         }
+                        break;
                     case JOptionPane.NO_OPTION:
+                        game.printLog();
                         System.exit(0);
+                        break;
                     default:
                         // do nothing
                 }
-
             }
         };
+    }
+
+    // EFFECTS: Saves the game into SAVE_DESTINATION JSON file
+    private void saveGame() throws FileNotFoundException {
+        JsonWriter writer = new JsonWriter(SAVE_DESTINATION);
+        writer.open();
+        writer.write(game);
+        writer.close();
     }
 
     // MODIFIES: this

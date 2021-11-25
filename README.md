@@ -28,3 +28,34 @@ Here are two user stories that describe features that should be added in Phase 3
 - As a user, I want to be able to enter the game.
 - As a user, I want to be able to pause the game, and then choose to "resume" or "save and quit".
 - As a user, I want to be able to remove enemy from the list of favorite enemies.
+
+### Phase 4: Task 2
+
+Sample log:
+
+Wed Nov 24 23:25:35 PST 2021  
+Added Evil Cat from the enemy list.  
+Wed Nov 24 23:25:40 PST 2021  
+Added Cat from the enemy list.  
+Wed Nov 24 23:25:42 PST 2021  
+Added Rat from the enemy list.  
+Wed Nov 24 23:25:43 PST 2021  
+Removed Rat to the enemy list.  
+Wed Nov 24 23:25:46 PST 2021  
+Removed Evil Cat to the enemy list.  
+Wed Nov 24 23:25:51 PST 2021  
+Added Evil Cat from the enemy list.  
+Wed Nov 24 23:25:53 PST 2021  
+Removed Evil Cat to the enemy list.  
+
+### Phase 4: Task 3  
+
+Possible design improvements:
+
+- Make SJGame a field of GameWindow instead of a field of both GameScreen and HomeScreen. Then, GameScreen and 
+HomeScreen can access SJGame through GameWindow. This change will ensure that HomeScreen and GameScreen have access to 
+the same SJGame.
+- Apply observer pattern to Account and HomeScreen, so that every time a field of Account changes, 
+HomeScreen is notified and updates the info on the graphical UI.
+- Instead of having a RegularEnemy list and BossEnemy list as fields of Stage, use an Enemy list (which can include
+both RegularEnemy and BossEnemy).

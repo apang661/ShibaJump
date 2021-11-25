@@ -2,6 +2,7 @@ package model;
 
 import model.bossenemies.BossCat;
 import model.bossenemies.BossEnemy;
+import model.logging.Event;
 import model.regularenemies.RegularCat;
 import model.regularenemies.RegularEnemy;
 import model.regularenemies.RegularRat;
@@ -275,5 +276,12 @@ public class SJGame implements Writable {
             listOfBossEnemies.add(enemy.getName());
         }
         return listOfBossEnemies;
+    }
+
+    // EFFECTS: Prints the enemy list log to the console
+    public void printLog() {
+        for (Event next: account.getEncounteredEnemies().getEventLog()) {
+            System.out.println(next.toString());
+        }
     }
 }
